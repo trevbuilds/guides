@@ -17,6 +17,20 @@ Nothing pending.
 
 ---
 
+## [0.7.0] — 2026-06-16
+
+### Added
+- **Companion maturity model — The Scalable BA Practice.** A maturity model for business analysis built on the MVBA framework: the six capability dimensions scored against the CMMI 1–5 ladder, the climb from Author Factory to Architect Practice, and a one-slide sponsor view shaped like a NIST CSF assessment. Lives at `businessanalysis/scale/index.html`.
+- **Scale linked from Field Guide No. 01 (MVBA) footer** as a "Companion maturity model" col-block, beside the existing companion-diagnostic block.
+- **Scale linked from the MVBA Practice Score** as a third resource card so the diagnostic surfaces the maturity model as a natural next step.
+- **Scale listed on the root library index** as a "Companion maturity model" aux entry beside the two scorecards.
+- **Library back-references inside scale's footer**: a six-link library nav and a Field Guides & Working Papers link in the colophon, matching the convention used by the score and explorer pages.
+
+### Fixed
+- **Scale's MVBA link** was `../mvba/index.html` and would 404 on case-sensitive GitHub Pages (the folder is uppercase `MVBA`). Corrected to `../MVBA/index.html`. Same class of bug fixed in 0.5.0 for the score page.
+
+---
+
 ## [0.6.0] — 2026-05-28
 
 ### Added
@@ -97,7 +111,8 @@ Nothing pending.
 
 ---
 
-[Unreleased]: https://github.com/trevbuilds/guides/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/trevbuilds/guides/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/trevbuilds/guides/releases/tag/v0.7.0
 [0.6.0]: https://github.com/trevbuilds/guides/releases/tag/v0.6.0
 [0.5.0]: https://github.com/trevbuilds/guides/releases/tag/v0.5.0
 [0.4.0]: https://github.com/trevbuilds/guides/releases/tag/v0.4.0
