@@ -1,0 +1,2023 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DS33NXD3JT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DS33NXD3JT');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The ERP Operating-Model Score · A diagnostic for leaders accountable for an ERP</title>
+<meta name="description" content="A 15-question diagnostic for leaders accountable for an ERP. Score your core system across five dimensions — decision integrity, data &amp; integration backbone, controls &amp; assurance, delivery &amp; adoption, and lifecycle continuity — and find the one to fix first.">
+
+<meta name="erp-note" content="An ERP is an operating-model decision wearing a software badge.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   The ERP Operating-Model Score
+   Companion diagnostic to The ERP Field Guide
+   Editorial palette: paper · ink · brass
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* Editorial palette — paper, ink, brass */
+  --paper:        #F6F1E7;
+  --paper-warm:   #EFE7D6;
+  --paper-edge:   #E4D9C0;
+  --ink:          #1A1814;
+  --ink-soft:     #2E2A22;
+  --ink-mute:     rgba(26, 24, 20, 0.62);
+  --ink-faint:    rgba(26, 24, 20, 0.35);
+  --rule:         rgba(26, 24, 20, 0.14);
+
+  --brass:        #B8893D;
+  --brass-deep:   #8E6529;
+  --brass-soft:   #C9A164;
+  --brass-tint:   rgba(184, 137, 61, 0.10);
+
+  --crimson:      #9B2C2C;
+  --forest:       #3D5A3D;
+
+  /* Typography */
+  --serif:  "Fraunces", "Georgia", serif;
+  --sans:   "Inter Tight", -apple-system, "Segoe UI", sans-serif;
+  --mono:   "JetBrains Mono", "SF Mono", "Menlo", monospace;
+
+  /* Geometry */
+  --max:    920px;
+  --gutter: clamp(20px, 4vw, 48px);
+}
+
+/* Dark mode palette */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper:        #1A1814;
+    --paper-warm:   #251F15;
+    --paper-edge:   #3A3228;
+    --ink:          #F6F1E7;
+    --ink-soft:     #E8E0D0;
+    --ink-mute:     rgba(246, 241, 231, 0.58);
+    --ink-faint:    rgba(246, 241, 231, 0.32);
+    --rule:         rgba(246, 241, 231, 0.14);
+
+    --brass:        #D4A574;
+    --brass-deep:   #E8B88D;
+    --brass-soft:   #C99F6F;
+    --brass-tint:   rgba(212, 165, 116, 0.12);
+
+    --crimson:      #E85555;
+  }
+}
+
+/* Dark mode background pattern */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image:
+      radial-gradient(rgba(246,241,231,0.04) 1px, transparent 1px),
+      radial-gradient(rgba(246,241,231,0.03) 1px, transparent 1px);
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  /* Subtle paper texture using radial gradient noise feel */
+  background-image:
+    radial-gradient(rgba(26,24,20,0.025) 1px, transparent 1px),
+    radial-gradient(rgba(26,24,20,0.018) 1px, transparent 1px);
+  background-size: 3px 3px, 7px 7px;
+  background-position: 0 0, 1px 2px;
+  min-height: 100vh;
+}
+
+/* ─── Top frame ─────────────────────────────────────────────── */
+.frame {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 32px var(--gutter) 80px;
+  position: relative;
+}
+
+.topstrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.topstrap .left { display: flex; align-items: center; gap: 14px; }
+.topstrap .seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px; height: 22px;
+  border: 1px solid var(--brass);
+  color: var(--brass);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1;
+}
+.topstrap .right { color: var(--ink-faint); }
+
+/* ─── Masthead ──────────────────────────────────────────────── */
+.masthead {
+  padding: 56px 0 36px;
+  border-bottom: 2px solid var(--ink);
+  position: relative;
+}
+.masthead .kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--brass-deep);
+  margin-bottom: 18px;
+}
+.masthead h1 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(38px, 7vw, 64px);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.masthead h1 em {
+  font-style: italic;
+  color: var(--brass-deep);
+  font-weight: 500;
+}
+.masthead .standfirst {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(17px, 2.2vw, 21px);
+  line-height: 1.45;
+  color: var(--ink-soft);
+  margin-top: 22px;
+  max-width: 620px;
+}
+.masthead .byline {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+}
+.masthead .byline span strong {
+  color: var(--ink);
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+/* ─── Preamble ──────────────────────────────────────────────── */
+.preamble {
+  padding: 36px 0 28px;
+  border-bottom: 1px solid var(--rule);
+}
+.preamble p {
+  font-family: var(--serif);
+  font-size: 17.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 640px;
+}
+.preamble p + p { margin-top: 14px; }
+.preamble p strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.preamble .instruct {
+  margin-top: 22px;
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.preamble .instruct span::before {
+  content: "·";
+  color: var(--brass);
+  margin-right: 8px;
+}
+
+/* ─── Dimension blocks ──────────────────────────────────────── */
+.dimension {
+  padding: 56px 0 24px;
+  border-bottom: 1px solid var(--rule);
+}
+.dimension-head {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 20px;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.dimension-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 42px;
+  line-height: 1;
+  color: var(--brass);
+}
+.dimension-meta {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+  margin-bottom: 8px;
+}
+.dimension-head h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(26px, 3.4vw, 34px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.dimension-head h2 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--brass-deep);
+}
+.dimension-stand {
+  grid-column: 2 / 3;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 16.5px;
+  color: var(--ink-mute);
+  margin-top: 8px;
+  max-width: 540px;
+}
+
+/* ─── Questions ─────────────────────────────────────────────── */
+.questions {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.q {
+  padding: 0 0 4px;
+}
+.q-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass-deep);
+  margin-bottom: 10px;
+}
+.q-text {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(19px, 2.3vw, 22px);
+  line-height: 1.35;
+  color: var(--ink);
+  margin-bottom: 18px;
+  max-width: 720px;
+}
+
+.opts {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.opt {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 14px 13px 8px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.15s ease, padding 0.18s ease;
+  position: relative;
+  user-select: none;
+}
+.opt:hover {
+  background: var(--brass-tint);
+  padding-left: 14px;
+}
+.opt::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: transparent;
+  transition: background 0.18s ease;
+}
+.opt:hover::before { background: var(--brass-soft); }
+
+.opt-num {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-faint);
+  text-align: center;
+  transition: color 0.15s ease;
+}
+.opt-text {
+  font-family: var(--sans);
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  transition: color 0.15s ease;
+}
+.opt:hover .opt-num,
+.opt:hover .opt-text { color: var(--ink); }
+
+.opt input { display: none; }
+
+.opt.selected {
+  background: var(--ink);
+  padding-left: 14px;
+}
+.opt.selected::before { background: var(--brass); }
+.opt.selected .opt-num {
+  color: var(--brass-soft);
+  font-weight: 600;
+}
+.opt.selected .opt-text {
+  color: var(--paper);
+  font-weight: 500;
+}
+
+/* ─── Questions Screen (Single Focused Question) ─────────── */
+.questions-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0;
+}
+
+.questions-header {
+  padding: 24px var(--gutter);
+  border-bottom: 1px solid var(--rule);
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  z-index: 10;
+}
+
+.progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: var(--max);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+}
+
+.q-counter {
+  font-weight: 600;
+  color: var(--brass-deep);
+  font-size: 12px;
+}
+
+.progress-bar {
+  height: 3px;
+  background: var(--paper-edge);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--brass);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.question-container {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 32px var(--gutter);
+  max-width: var(--max);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.question-focus {
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.q-num-focus { 
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass-deep);
+  margin-bottom: 18px;
+}
+
+.q-text-focus {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(28px, 5vw, 42px);
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 40px;
+  max-width: 720px;
+}
+
+.opts-focus {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.opt-focus {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 16px 16px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.15s ease, padding 0.18s ease;
+  position: relative;
+  user-select: none;
+}
+
+.opt-focus:hover {
+  background: var(--brass-tint);
+  padding-left: 18px;
+}
+
+.opt-focus::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: transparent;
+  transition: background 0.18s ease;
+}
+
+.opt-focus:hover::before { 
+  background: var(--brass-soft); 
+}
+
+.opt-num-focus {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-faint);
+  text-align: center;
+  transition: color 0.15s ease;
+}
+
+.opt-text-focus {
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  transition: color 0.15s ease;
+}
+
+.opt-focus:hover .opt-num-focus,
+.opt-focus:hover .opt-text-focus { 
+  color: var(--ink); 
+}
+
+.opt-input-focus { 
+  display: none; 
+}
+
+.opt-focus.selected {
+  background: var(--ink);
+  padding-left: 18px;
+}
+
+.opt-focus.selected::before { 
+  background: var(--brass); 
+}
+
+.opt-focus.selected .opt-num-focus {
+  color: var(--brass-soft);
+  font-weight: 600;
+}
+
+.opt-focus.selected .opt-text-focus {
+  color: var(--paper);
+  font-weight: 500;
+}
+
+.questions-nav {
+  display: flex;
+  gap: 12px;
+  padding: 32px var(--gutter);
+  border-top: 1px solid var(--rule);
+  max-width: var(--max);
+  margin: 0 auto;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  transition: all 0.18s ease;
+  border-radius: 0;
+}
+
+.btn-nav:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-1px);
+}
+
+.btn-nav:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-nav .arrow {
+  font-family: var(--sans);
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.btn-back {
+  border-color: var(--brass);
+  color: var(--brass-deep);
+}
+
+.btn-back:hover:not(:disabled) {
+  background: var(--brass-deep);
+  color: var(--paper);
+  border-color: var(--brass-deep);
+}
+
+.btn-next {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  flex: 1;
+  justify-content: center;
+}
+
+.btn-next:hover:not(:disabled) {
+  background: var(--brass-deep);
+  border-color: var(--brass-deep);
+}
+
+/* ─── Intro CTA ──────────────────────────────────────────── */
+.intro-cta {
+  padding: 40px 0 8px;
+}
+
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 40px;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.btn-start:hover {
+  background: var(--brass-deep);
+  border-color: var(--brass-deep);
+  transform: translateY(-1px);
+}
+
+.btn-start .arrow {
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 1;
+}
+
+@media (max-width: 640px) {
+  .btn-start {
+    width: 100%;
+    justify-content: center;
+    font-size: 16px;
+    padding: 16px 28px;
+  }
+}
+
+/* ─── Submit ────────────────────────────────────────────────── */
+.submit-section {
+  padding: 64px 0 40px;
+  text-align: center;
+  border-top: 2px solid var(--ink);
+  margin-top: 56px;
+}
+.submit-progress {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+  margin-bottom: 24px;
+}
+.submit-progress strong {
+  color: var(--brass-deep);
+  font-weight: 600;
+}
+.btn-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 36px;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 19px;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease;
+  border-radius: 0;
+}
+.btn-submit:hover:not(:disabled) {
+  background: var(--brass-deep);
+  transform: translateY(-1px);
+}
+.btn-submit:disabled {
+  background: var(--ink-faint);
+  cursor: not-allowed;
+}
+.btn-submit .arrow {
+  font-family: var(--sans);
+  font-style: normal;
+  font-weight: 300;
+  font-size: 22px;
+  line-height: 1;
+}
+.submit-note {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-faint);
+  margin-top: 22px;
+}
+
+/* ─── Footer ────────────────────────────────────────────────── */
+.colophon {
+  margin-top: 40px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.colophon a { color: var(--brass-deep); text-decoration: none; }
+.colophon a:hover { color: var(--brass); text-decoration: underline; }
+
+/* ─────────────────────────────────────────────────────────────
+   RESULTS SCREEN
+   ───────────────────────────────────────────────────────────── */
+
+.results {
+  display: none;
+}
+.results.active {
+  display: block;
+  animation: fadeUp 0.7s ease-out;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.results-frame {
+  padding: 24px 0 60px;
+}
+
+.results-strap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.results-mast {
+  padding: 48px 0 28px;
+  text-align: center;
+  border-bottom: 1px solid var(--rule);
+}
+.results-mast .kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--brass-deep);
+  margin-bottom: 24px;
+}
+.results-mast .arch-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--ink-mute);
+  margin-bottom: 12px;
+}
+.archetype {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(44px, 8.5vw, 84px);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.archetype-meaning {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(17px, 2.2vw, 20px);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+/* Score readout */
+.score-block {
+  padding: 44px 0 36px;
+  text-align: center;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.score-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+  margin-bottom: 14px;
+}
+.score-readout {
+  font-family: var(--mono);
+  font-size: clamp(64px, 12vw, 110px);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.04em;
+}
+.score-readout .denom {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--brass);
+  font-size: 0.45em;
+  margin-left: 8px;
+  letter-spacing: 0;
+}
+
+/* Dimension bars */
+.dim-breakdown {
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--rule);
+}
+.dim-breakdown-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+  margin-bottom: 22px;
+  text-align: center;
+}
+.dim-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.dim-bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: baseline;
+}
+.dim-bar-label {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--ink);
+}
+.dim-bar-label em {
+  font-style: italic;
+  color: var(--brass-deep);
+  font-weight: 500;
+}
+.dim-bar-score {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+  text-align: right;
+}
+.dim-bar-score .denom {
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+.dim-bar-track {
+  grid-column: 1 / 3;
+  height: 6px;
+  background: var(--paper-edge);
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  margin-top: 6px;
+}
+.dim-bar-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: var(--brass);
+  transform-origin: left;
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: scaleX(0);
+  width: 100%;
+}
+.dim-bar.weakest .dim-bar-fill { background: var(--crimson); }
+.dim-bar.weakest .dim-bar-label::after {
+  content: " · fix first";
+  font-family: var(--mono);
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  color: var(--crimson);
+  margin-left: 6px;
+}
+
+/* Fix-first callout */
+.fix-first {
+  padding: 40px 0 36px;
+  border-bottom: 1px solid var(--rule);
+}
+.fix-first-kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--crimson);
+  margin-bottom: 14px;
+}
+.fix-first-head {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(22px, 3vw, 28px);
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.fix-first-body {
+  font-family: var(--serif);
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 640px;
+}
+
+/* What next */
+.next {
+  padding: 44px 0 24px;
+}
+.next h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 22px;
+  margin-bottom: 18px;
+  color: var(--ink);
+}
+.next h3 em { font-style: italic; color: var(--brass-deep); font-weight: 500; }
+.next-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+.next-card {
+  border: 1px solid var(--rule);
+  padding: 22px 22px 20px;
+  background: var(--paper-warm);
+  position: relative;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+.next-card:hover {
+  border-color: var(--brass);
+  background: var(--paper);
+}
+.next-card .tier {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--brass-deep);
+  margin-bottom: 10px;
+}
+.next-card .name {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.next-card .name em { font-style: italic; }
+.next-card .desc {
+  font-size: 13.5px;
+  color: var(--ink-mute);
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+.next-card .price {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+}
+
+.cta-row {
+  margin-top: 32px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.btn-primary, .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.18s ease;
+  border-radius: 0;
+}
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn-primary:hover {
+  background: var(--brass-deep);
+  transform: translateY(-1px);
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+.btn-secondary:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn-text {
+  background: transparent;
+  border: none;
+  color: var(--ink-mute);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  padding: 14px 8px;
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 4px;
+}
+.btn-text:hover { color: var(--brass-deep); }
+
+.results-colophon {
+  margin-top: 40px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  text-align: center;
+}
+
+/* ─── Mobile refinements ────────────────────────────────────── */
+@media (max-width: 640px) {
+  .frame { padding: 24px 18px 72px; }
+  .topstrap {
+    font-size: 11px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .topstrap .left { flex-direction: column; gap: 6px; }
+  
+  .masthead { padding: 32px 0 24px; }
+  .masthead h1 { font-size: 42px; }
+  .masthead .kicker { font-size: 12px; }
+  .masthead .standfirst { font-size: 16px; }
+  .masthead .byline {
+    font-size: 11px;
+    gap: 16px;
+  }
+  
+  .preamble p { font-size: 16px; }
+  .preamble .instruct { font-size: 11px; }
+  
+  .dimension { padding: 36px 0 18px; }
+  .dimension-head { grid-template-columns: 40px 1fr; gap: 12px; }
+  .dimension-num { font-size: 32px; }
+  .dimension-meta { font-size: 11px; }
+  .dimension-head h2 { font-size: 24px; }
+  .dimension-stand { font-size: 15px; }
+  
+  .q-num { font-size: 11px; }
+  .q-text { font-size: 18px; }
+  .opt { grid-template-columns: 36px 1fr; padding: 14px 10px; }
+  .opt-num { font-size: 13px; }
+  .opt-text { font-size: 14.5px; }
+  
+  .submit-section { padding: 48px 0 32px; }
+  .submit-progress { font-size: 11px; }
+  .btn-submit { font-size: 17px; padding: 16px 32px; }
+  .submit-note { font-size: 11px; }
+  
+  .colophon { font-size: 11px; }
+  
+  /* Results mobile */
+  .results-mast { padding: 32px 0 20px; }
+  .results-mast .kicker { font-size: 11px; }
+  .results-mast .arch-label { font-size: 11px; }
+  .archetype { font-size: 52px; }
+  .archetype-meaning { font-size: 15.5px; }
+  
+  .score-block { padding: 32px 0 28px; }
+  .score-label { font-size: 11px; }
+  .score-readout { font-size: 72px; }
+  
+  .dim-breakdown-title { font-size: 11px; }
+  .dim-bar-label { font-size: 15px; }
+  .dim-bar-score { font-size: 14px; }
+  
+  .fix-first { padding: 32px 0 28px; }
+  .fix-first-kicker { font-size: 11px; }
+  .fix-first-head { font-size: 20px; }
+  .fix-first-body { font-size: 15px; }
+  
+  .next h3 { font-size: 20px; }
+  .next-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .next-card .tier { font-size: 11px; }
+  .next-card .name { font-size: 17px; }
+  .next-card .desc { font-size: 14px; }
+  .next-card .price { font-size: 12px; }
+  
+  .btn-primary, .btn-secondary { font-size: 15px; padding: 14px 24px; }
+  .btn-text { font-size: 11px; }
+  
+  .results-colophon { font-size: 11px; }
+  
+  .cta-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cta-row .btn-primary { width: 100%; }
+  
+  /* Mobile single question screen */
+  .questions-header {
+    padding: 16px 18px;
+  }
+
+  .progress-label {
+    font-size: 11px;
+  }
+
+  .q-counter {
+    font-size: 12px;
+  }
+
+  .question-container {
+    padding: 32px 18px;
+    justify-content: flex-start;
+    padding-top: 28px;
+  }
+
+  .q-text-focus {
+    font-size: 22px;
+    margin-bottom: 28px;
+  }
+
+  .opt-focus {
+    grid-template-columns: 40px 1fr;
+    gap: 12px;
+    padding: 14px 12px 14px 10px;
+  }
+
+  .opt-num-focus {
+    font-size: 13px;
+  }
+
+  .opt-text-focus {
+    font-size: 15px;
+  }
+
+  .questions-nav {
+    padding: 24px 18px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-nav {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+
+  .btn-back, .btn-next {
+    justify-content: center;
+  }
+}
+
+/* ─── Resource cards ──────────────────────────────────────── */
+.resources {
+  margin-top: 48px;
+  padding-top: 36px;
+  border-top: 1px solid var(--rule);
+}
+
+.resources-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 20px;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.resource-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  border: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.resource-card:hover {
+  border-color: var(--brass);
+  background: var(--brass-tint);
+}
+
+.resource-num {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-deep);
+}
+
+.resource-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.resource-desc {
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-mute);
+  flex: 1;
+}
+
+.resource-cta {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--brass-deep);
+  margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .resources-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resource-card {
+    padding: 20px;
+  }
+}
+
+/* ─── Print styles for screenshot/PDF takeaway ──────────────── */
+@media print {
+  body { background: white; background-image: none; }
+  .scorecard { display: none !important; }
+  .topstrap, .colophon, .results-colophon, .cta-row { display: none !important; }
+  .results { display: block !important; }
+  .frame { padding: 0; max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="frame">
+
+<!-- ─── SCORECARD VIEW ─────────────────────────────────────── -->
+<div class="scorecard" id="scorecard">
+
+  <!-- INTRO SCREEN — shown first, hidden once questions begin -->
+  <div id="introScreen">
+    <div class="topstrap">
+      <div class="left">
+        <span class="seal">T</span>
+        <span>Field Guide No. 03 · Companion Diagnostic</span>
+      </div>
+      <div class="right">2026 · Trevin Nimaladasa</div>
+    </div>
+
+    <header class="masthead">
+      <div class="kicker">A Diagnostic for Leaders Accountable for an ERP</div>
+      <h1>The ERP<br>Operating-Model <em>Score.</em></h1>
+      <p class="standfirst">
+        Fifteen questions. Five dimensions. One number that tells you whether
+        you run an operating model — or just bought a system.
+      </p>
+      <div class="byline">
+        <span>Companion to<strong>The ERP Field Guide</strong></span>
+        <span>Spans<strong>Decision → Delivery → Live</strong></span>
+        <span>Duration<strong>~6 minutes</strong></span>
+      </div>
+    </header>
+
+    <section class="preamble">
+      <p>
+        Most ERP maturity models let you lie to yourself. Generic Likert scales,
+        vague language, comforting averages. This one is built to do the opposite.
+      </p>
+      <p>
+        Every question has <strong>anchored answers</strong> describing a concrete picture of how
+        your core system actually runs. Pick the one that's true today — not the one you'd like
+        to be true. The diagnostic finds your <strong>floor</strong>, not your <strong>mean</strong>.
+        The floor is where the next decade of risk is hiding.
+      </p>
+      <div class="instruct">
+        <span>15 questions across 5 dimensions</span>
+        <span>5 anchored answers per question</span>
+        <span>Result reveals an archetype + a fix-first priority</span>
+      </div>
+    </section>
+
+    <div class="intro-cta">
+      <button type="button" class="btn-start" onclick="startDiagnostic()">
+        Begin the diagnostic <span class="arrow">→</span>
+      </button>
+    </div>
+
+    <div class="colophon">
+      <div>The ERP Operating-Model Score · First Edition · 2026</div>
+      <div>Trevin Nimaladasa</div>
+    </div>
+  </div>
+
+  <!-- QUESTIONS SCREEN — hidden until user begins -->
+  <section class="questions-screen" id="questionsScreen" style="display:none;">
+    
+    <!-- Progress bar -->
+    <div class="questions-header">
+      <div class="progress-section">
+        <div class="progress-label">
+          <span class="q-counter"><span id="currentQ">1</span> of <span id="totalQ">15</span></span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Single question display -->
+    <div class="question-container" id="questionContainer">
+      <!-- Question rendered here -->
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="questions-nav">
+      <button type="button" class="btn-nav btn-back" id="backBtn" onclick="previousQuestion()" style="display:none;">
+        <span class="arrow">←</span> Back
+      </button>
+      <button type="button" class="btn-nav btn-next" id="nextBtn" disabled>
+        Next <span class="arrow">→</span>
+      </button>
+    </div>
+
+  </section>
+
+</div>
+
+<!-- ─── RESULTS VIEW ───────────────────────────────────────── -->
+<div class="results" id="results">
+
+  <div class="results-frame">
+
+    <div class="results-strap">
+      <div><span class="seal" style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--brass);color:var(--brass);font-family:var(--serif);font-style:italic;font-weight:500;font-size:12px;margin-right:10px;vertical-align:middle">T</span> Field Guide No. 03 · Companion Diagnostic · Result</div>
+      <div id="resultDate"></div>
+    </div>
+
+    <div class="results-mast">
+      <div class="kicker">Your ERP Archetype</div>
+      <div class="arch-label">— You are the —</div>
+      <h2 class="archetype" id="archName"></h2>
+      <p class="archetype-meaning" id="archDesc"></p>
+    </div>
+
+    <div class="score-block">
+      <div class="score-label">Composite Score</div>
+      <div class="score-readout">
+        <span id="totalScore">0</span><span class="denom">/ 75</span>
+      </div>
+    </div>
+
+    <div class="dim-breakdown">
+      <div class="dim-breakdown-title">By Dimension</div>
+      <div class="dim-bars" id="dimBars"></div>
+    </div>
+
+    <div class="fix-first">
+      <div class="fix-first-kicker">Fix First</div>
+      <h3 class="fix-first-head" id="fixHead"></h3>
+      <p class="fix-first-body" id="fixBody"></p>
+    </div>
+
+    <div class="next">
+      <h3>What <em>next.</em></h3>
+      <p style="color:var(--ink-mute); font-size:14.5px; line-height:1.55; max-width:620px; margin-bottom:32px;">
+        Book a 20-minute call to talk through your score and what it means for your ERP.
+      </p>
+
+      <div class="cta-row">
+        <a href="https://api.leadconnectorhq.com/widget/booking/ZW2GhG8DGwaQV2ls46Tx" target="_blank" rel="noopener" class="btn-primary" id="bookCall">Book a 20-minute fit call <span style="font-size:18px;line-height:1">→</span></a>
+        <button class="btn-text" onclick="restart()">Take it again</button>
+      </div>
+
+      <div class="resources">
+        <div class="resources-label">Explore the field guides</div>
+        <div class="resources-grid">
+          <a href="../index.html" class="resource-card">
+            <div class="resource-num">Field Guide No. 03</div>
+            <div class="resource-title">The ERP Field Guide</div>
+            <div class="resource-desc">The modules and value streams, the integration spine, the master-data model, the controls fabric, the ten-stage lifecycle, and the five decisions that compound for a decade.</div>
+            <div class="resource-cta">Read the guide →</div>
+          </a>
+          <a href="../../businessanalysis/MVBA/index.html" class="resource-card">
+            <div class="resource-num">Field Guide No. 01</div>
+            <div class="resource-title">The Minimum Viable BA Practice</div>
+            <div class="resource-desc">Seven artefacts, four tests, the nine-type requirements taxonomy, dial-ups by context, and the AI prompt library.</div>
+            <div class="resource-cta">Read the guide →</div>
+          </a>
+        </div>
+        <div style="margin-top:18px;font-size:13px">
+          <a href="../../index.html" style="color:var(--brass)">Browse the full library →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-colophon">
+      The ERP Operating-Model Score · 2026 · Trevin Nimaladasa · <a href="../../index.html" style="color:inherit;text-decoration:underline">Field Guides &amp; Working Papers</a>
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────
+   The ERP Operating-Model Score — scoring engine
+   ───────────────────────────────────────────────────────────── */
+
+const DIMENSIONS = [
+  {
+    num: "I",
+    label: "Dimension I",
+    title: "Decision Integrity",
+    em: "Integrity.",
+    stand: "Are the structural choices deliberate and owned — or inherited from a vendor demo?",
+    questions: [
+      {
+        text: "Your chart of accounts and org structure — how were they decided?",
+        options: [
+          "We took the vendor's default or template as-is",
+          "Finance set them up during implementation, under time pressure",
+          "We adapted a template with a few deliberate changes",
+          "Designed deliberately, but the rationale isn't written down",
+          "Designed deliberately, documented, with named owners and a change process"
+        ]
+      },
+      {
+        text: "Pick a major architecture decision (single vs multi-entity, build vs configure). Show why it was made.",
+        options: [
+          "No record — whoever was in the room decided",
+          "It lives in someone's memory or an old email thread",
+          "There are meeting minutes, but no decision rationale",
+          "Most big decisions have a written rationale somewhere",
+          "Every significant decision has an ADR: options, trade-offs, owner, date"
+        ]
+      },
+      {
+        text: "Who holds the decision rights for changing core configuration?",
+        options: [
+          "Whoever raises the loudest ticket — or the SI decides",
+          "IT owns it by default; the business is consulted late",
+          "A steering group exists, but decision rights are fuzzy",
+          "Decision rights are mostly mapped to named roles",
+          "A clear decision-rights map: who decides, is consulted, is informed"
+        ]
+      }
+    ]
+  },
+  {
+    num: "II",
+    label: "Dimension II",
+    title: "Data & Integration Backbone",
+    em: "Backbone.",
+    stand: "Is there one source of truth — or several spreadsheets pretending to agree?",
+    questions: [
+      {
+        text: "Your master data (customers, vendors, items, GL) — where is the authoritative version?",
+        options: [
+          "Multiple systems, none clearly authoritative",
+          "The ERP, but shadow spreadsheets exist everywhere",
+          "The ERP is authoritative for some domains, not others",
+          "The ERP is the source of truth, with some manual reconciliation",
+          "One governed source of truth per domain, with named data owners"
+        ]
+      },
+      {
+        text: "Each master-data domain — does it have a named owner accountable for its quality?",
+        options: [
+          "No — data quality is everyone's problem and no one's job",
+          "Informally, certain people \u201clook after\u201d certain data",
+          "Some domains have owners; others have none",
+          "Most domains have named owners with light governance",
+          "Every domain has an owner, standards, and a stewardship forum"
+        ]
+      },
+      {
+        text: "A sale flows from CRM to fulfilment to invoice to GL. How does the data actually move?",
+        options: [
+          "Re-keyed by hand at each step",
+          "Exports and imports, run manually on a schedule",
+          "Point-to-point integrations, brittle and undocumented",
+          "A documented integration spine, mostly automated",
+          "A governed integration layer: monitored, with error handling and reconciliation"
+        ]
+      }
+    ]
+  },
+  {
+    num: "III",
+    label: "Dimension III",
+    title: "Controls & Assurance",
+    em: "Assurance.",
+    stand: "If the regulator walked in tomorrow, could you produce evidence in days — or months?",
+    questions: [
+      {
+        text: "Segregation of duties (the person who creates a vendor can't also pay it) — how is it enforced?",
+        options: [
+          "We rely on trust; no SoD rules are configured",
+          "SoD exists on paper but not in the system",
+          "Some SoD rules are configured; conflicts aren't monitored",
+          "SoD is configured and reviewed periodically",
+          "SoD is enforced in-system; conflicts are flagged and remediated continuously"
+        ]
+      },
+      {
+        text: "The regulator asks for evidence of three controls across three value streams. How long would it take?",
+        options: [
+          "We couldn't produce it with confidence",
+          "Months of manual evidence-gathering",
+          "Weeks, pulling from several systems",
+          "Days, with some effort",
+          "Days or less — evidence is a standing capability, not a project"
+        ]
+      },
+      {
+        text: "Your controls fabric (approvals, thresholds, audit trails) — when was it designed?",
+        options: [
+          "We retrofit controls after audit findings",
+          "Controls were bolted on after go-live",
+          "Some controls were designed in; others retrofitted",
+          "Controls were largely designed into the implementation",
+          "Designed in from the start and continuously assured"
+        ]
+      }
+    ]
+  },
+  {
+    num: "IV",
+    label: "Dimension IV",
+    title: "Delivery & Adoption",
+    em: "Adoption.",
+    stand: "Did the programme end at the press release — or at the value?",
+    questions: [
+      {
+        text: "Your implementation versus the original design — how much survived contact with go-live?",
+        options: [
+          "We descoped heavily just to go live",
+          "Core went live; much was deferred and never returned to",
+          "Most of the design landed, with notable gaps",
+          "The design landed largely as intended",
+          "It landed, and the deferred items were actually delivered later"
+        ]
+      },
+      {
+        text: "After go-live, how is value — the benefits case — actually tracked?",
+        options: [
+          "We don't — go-live was the goal",
+          "There was a business case, but no one revisits it",
+          "Some benefits are tracked informally",
+          "Benefits are tracked against the case, reviewed occasionally",
+          "A live realisation thread: owned, measured, reviewed on a cadence"
+        ]
+      },
+      {
+        text: "Adoption — are people using the system as designed, or working around it?",
+        options: [
+          "Heavy workarounds; shadow spreadsheets everywhere",
+          "Partial adoption; key groups resist",
+          "Mostly adopted, with persistent pockets of workaround",
+          "Strong adoption, monitored informally",
+          "Adoption is measured, and process discipline is actively maintained"
+        ]
+      }
+    ]
+  },
+  {
+    num: "V",
+    label: "Dimension V",
+    title: "Lifecycle Continuity",
+    em: "Continuity.",
+    stand: "Is the ERP a live discipline — or a finished project waiting to decay?",
+    questions: [
+      {
+        text: "The vendor and SI relationship after go-live — what does it look like?",
+        options: [
+          "We're on our own; the SI left at go-live",
+          "Break-fix only; we call when something breaks",
+          "A support contract, but no roadmap conversation",
+          "A managed relationship with periodic reviews",
+          "A continuous partnership: roadmap, releases and value reviewed together"
+        ]
+      },
+      {
+        text: "Releases and upgrades (lifecycle management) — how do you handle them?",
+        options: [
+          "We're stuck on an old version, afraid to upgrade",
+          "Big-bang upgrades, painful and rare",
+          "We upgrade reactively, only when forced",
+          "A planned upgrade cadence with regression testing",
+          "Continuous release management: small, tested, regular, low-drama"
+        ]
+      },
+      {
+        text: "AI in your ERP — where are you?",
+        options: [
+          "Not on the radar, or banned outright",
+          "Individuals experimenting, with no data-readiness check",
+          "Using vendor-embedded AI features ad hoc",
+          "Deliberate use, with attention to data quality",
+          "A clear posture across the three layers, gated on data readiness and governance"
+        ]
+      }
+    ]
+  }
+];
+
+const ARCHETYPES = [
+  {
+    min: 15, max: 30,
+    name: "Software Buyer",
+    desc: "You bought a system and hoped it would fix the business. The structural decisions were made by the vendor, the real data lives in spreadsheets, and the controls arrived after the audit. This isn't an ERP — it's expensive middleware wrapped around your existing chaos."
+  },
+  {
+    min: 31, max: 45,
+    name: "Project Survivor",
+    desc: "You went live, and that was the goal. The programme ended at the press release, not the value. Pockets work; the rest is held together by the people who remember why. When they leave, the rationale leaves with them."
+  },
+  {
+    min: 46, max: 60,
+    name: "Operating System",
+    desc: "The ERP is starting to behave like an operating model. Decisions are owned, data has stewards, controls were designed in. The risk now is plateau — treating \u201cgood enough\u201d as done, and letting the lifecycle quietly decay."
+  },
+  {
+    min: 61, max: 75,
+    name: "Compounding Core",
+    desc: "The software was the smaller decision, and you understood that. Structural choices are recorded, data is governed, controls are a standing capability, and the lifecycle runs as a live discipline. The ERP compounds value instead of slowly eroding it."
+  }
+];
+
+const FIX_FIRST = {
+  0: {
+    head: "Make the structural decisions explicit — and owned.",
+    body: "An ERP is an operating-model decision wearing a software badge. If your chart of accounts, org structure and master-data model were inherited from a vendor template or set under go-live pressure, you've locked in someone else's operating model for the next decade. The fix isn't more configuration — it's recording the significant choices as decisions (options, trade-offs, owner, date) and mapping who actually holds the decision rights. Choices that aren't written down don't survive the people who made them."
+  },
+  1: {
+    head: "Establish one governed source of truth.",
+    body: "When master data lives across several systems and shadow spreadsheets, every report becomes a negotiation and every integration becomes a guess. Start by naming an owner for each domain — customers, vendors, items, GL — and giving them the authority and a forum to enforce standards. Then harden the spine the data moves along: documented, monitored, with error handling and reconciliation. Integration brittleness is usually just ungoverned data wearing a technical costume."
+  },
+  2: {
+    head: "Design the controls fabric in — don't retrofit it.",
+    body: "Controls bolted on after an audit finding are scar tissue, not architecture. If you can't produce evidence of a handful of controls across a handful of value streams in days, you don't have assurance — you have hope and a lot of manual evidence-gathering. Configure segregation of duties in-system, monitor conflicts continuously, and treat evidence-on-demand as a standing capability. The regulator's question — could I answer in days, or would I need months? — is the test that matters."
+  },
+  3: {
+    head: "Treat go-live as the start line, not the finish.",
+    body: "Go-live is where the press release lives. The value lives in the months after — and most programmes stop paying attention the moment the system is up. Reconnect the work to the business case: name owners for the benefits, measure them on a cadence, and watch adoption as closely as you watched the cutover. A system people work around is a system that's quietly failing, however clean the go-live looked."
+  },
+  4: {
+    head: "Run the ERP as a living discipline.",
+    body: "The programme ends at hypercare; the lifecycle doesn't. If your SI left at go-live, you're stranded on an old version, and AI is either banned or a free-for-all, you're letting a decade-long asset decay. Build a managed vendor partnership with a real roadmap, adopt a low-drama release cadence so upgrades stop being terrifying, and take a deliberate posture on AI — gated on data readiness, not hype. The ERP that compounds is the one whose owners treat every stage as live."
+  }
+};
+
+/* ─── State ──────────────────────────────────────────────── */
+const state = {
+  answers: {} // key: "dim-q" → 1..5
+};
+
+/* ─── Render ─────────────────────────────────────────────── */
+/* ─── State and Navigation ──────────────────────────────── */
+let currentQuestionIndex = 0;
+
+function getAllQuestions() {
+  let allQuestions = [];
+  DIMENSIONS.forEach((dim, di) => {
+    dim.questions.forEach((q, qi) => {
+      allQuestions.push({ dim, di, q, qi, qNum: di * 3 + qi + 1 });
+    });
+  });
+  return allQuestions;
+}
+
+function startDiagnostic() {
+  document.getElementById('introScreen').style.display = 'none';
+  document.getElementById('questionsScreen').style.display = 'flex';
+  renderCurrentQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderCurrentQuestion() {
+  const allQuestions = getAllQuestions();
+  const current = allQuestions[currentQuestionIndex];
+  const container = document.getElementById('questionContainer');
+  
+  const answerKey = `d${current.di}q${current.qi}`;
+  const selectedValue = state.answers[answerKey];
+  
+  // Use divs NOT label+input — labels synthesize a second click on the nested
+  // input which bubbles back to the label, causing every click to fire twice
+  // and advance two questions at once.
+  let optsHtml = '';
+  current.q.options.forEach((opt, oi) => {
+    const val = oi + 1;
+    const sel = selectedValue === val ? 'selected' : '';
+    optsHtml += `<div class="opt-focus ${sel}" data-val="${val}" role="radio" aria-checked="${selectedValue === val}">
+      <span class="opt-num-focus">${val}</span>
+      <span class="opt-text-focus">${opt}</span>
+    </div>`;
+  });
+  
+  container.innerHTML = `<div class="question-focus">
+    <div class="q-num-focus">Q${String(current.qNum).padStart(2, '0')}</div>
+    <div class="q-text-focus">${current.q.text}</div>
+    <div class="opts-focus" role="radiogroup">${optsHtml}</div>
+  </div>`;
+  
+  // Wire click — one handler per option, one advance per click, guaranteed
+  container.querySelectorAll('.opt-focus').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const val = parseInt(opt.dataset.val);
+      
+      // Update selection visuals
+      container.querySelectorAll('.opt-focus').forEach(o => {
+        o.classList.remove('selected');
+        o.setAttribute('aria-checked', 'false');
+      });
+      opt.classList.add('selected');
+      opt.setAttribute('aria-checked', 'true');
+      
+      // Save answer
+      state.answers[answerKey] = val;
+      updateNavigationButtons();
+      
+      // Auto-advance after brief delay
+      setTimeout(() => {
+        const allQs = getAllQuestions();
+        if (currentQuestionIndex < allQs.length - 1) {
+          nextQuestion();
+        } else {
+          reveal();
+        }
+      }, 350);
+    });
+  });
+  
+  updateProgressIndicator();
+  updateNavigationButtons();
+}
+
+function updateProgressIndicator() {
+  const allQuestions = getAllQuestions();
+  const totalQ = allQuestions.length;
+  document.getElementById('currentQ').textContent = currentQuestionIndex + 1;
+  document.getElementById('totalQ').textContent = totalQ;
+  
+  const progress = ((currentQuestionIndex + 1) / totalQ) * 100;
+  document.getElementById('progressFill').style.width = progress + '%';
+}
+
+function updateNavigationButtons() {
+  const allQuestions = getAllQuestions();
+  const current = allQuestions[currentQuestionIndex];
+  const answerKey = `d${current.di}q${current.qi}`;
+  const isAnswered = state.answers[answerKey] !== undefined;
+  
+  // Back button visibility
+  const backBtn = document.getElementById('backBtn');
+  backBtn.style.display = currentQuestionIndex > 0 ? 'inline-flex' : 'none';
+  
+  // Next button state
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentQuestionIndex === allQuestions.length - 1) {
+    nextBtn.textContent = 'Reveal my ERP score ';
+    nextBtn.innerHTML = 'Reveal my ERP score <span class="arrow">→</span>';
+    nextBtn.disabled = !isAnswered;
+    nextBtn.onclick = () => {
+      if (isAnswered) reveal();
+    };
+  } else {
+    nextBtn.textContent = 'Next ';
+    nextBtn.innerHTML = 'Next <span class="arrow">→</span>';
+    nextBtn.disabled = !isAnswered;
+    nextBtn.onclick = () => {
+      if (isAnswered) nextQuestion();
+    };
+  }
+}
+
+function nextQuestion() {
+  const allQuestions = getAllQuestions();
+  if (currentQuestionIndex < allQuestions.length - 1) {
+    currentQuestionIndex++;
+    renderCurrentQuestion();
+    document.querySelector('.question-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function previousQuestion() {
+  if (currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+    renderCurrentQuestion();
+    document.querySelector('.question-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+/* ─── Scoring ────────────────────────────────────────────── */
+function calculateScores() {
+  const dimScores = DIMENSIONS.map(() => 0);
+  DIMENSIONS.forEach((dim, di) => {
+    dim.questions.forEach((q, qi) => {
+      dimScores[di] += state.answers[`d${di}q${qi}`] || 0;
+    });
+  });
+  const total = dimScores.reduce((a, b) => a + b, 0);
+  return { dimScores, total };
+}
+
+function getArchetype(total) {
+  return ARCHETYPES.find(a => total >= a.min && total <= a.max) || ARCHETYPES[0];
+}
+
+function getWeakestDimension(dimScores) {
+  let minIdx = 0;
+  let minScore = dimScores[0];
+  for (let i = 1; i < dimScores.length; i++) {
+    if (dimScores[i] < minScore) {
+      minScore = dimScores[i];
+      minIdx = i;
+    }
+  }
+  return minIdx;
+}
+
+/* ─── Reveal results ─────────────────────────────────────── */
+function reveal() {
+  if (Object.keys(state.answers).length !== getAllQuestions().length) return;
+
+  const { dimScores, total } = calculateScores();
+  const archetype = getArchetype(total);
+  const weakestIdx = getWeakestDimension(dimScores);
+
+  // Set archetype
+  document.getElementById('archName').textContent = archetype.name + '.';
+  document.getElementById('archDesc').textContent = archetype.desc;
+
+  // Animate total score count-up
+  const scoreEl = document.getElementById('totalScore');
+  animateCount(scoreEl, 0, total, 1100);
+
+  // Render dimension bars
+  const barsRoot = document.getElementById('dimBars');
+  let bars = '';
+  DIMENSIONS.forEach((dim, di) => {
+    const score = dimScores[di];
+    const pct = (score / 15) * 100;
+    const weak = di === weakestIdx ? 'weakest' : '';
+    bars += `
+      <div class="dim-bar ${weak}">
+        <div class="dim-bar-label">${dim.num}. ${dim.title.replace(dim.em.replace('.', ''), `<em>${dim.em.replace('.', '')}</em>`)}</div>
+        <div class="dim-bar-score">${score}<span class="denom"> / 15</span></div>
+        <div class="dim-bar-track"><div class="dim-bar-fill" data-pct="${pct}"></div></div>
+      </div>
+    `;
+  });
+  barsRoot.innerHTML = bars;
+
+  // Animate bars
+  setTimeout(() => {
+    barsRoot.querySelectorAll('.dim-bar-fill').forEach(fill => {
+      const pct = parseFloat(fill.dataset.pct);
+      fill.style.transform = `scaleX(${pct / 100})`;
+    });
+  }, 250);
+
+  // Fix-first content
+  document.getElementById('fixHead').innerHTML = FIX_FIRST[weakestIdx].head;
+  document.getElementById('fixBody').textContent = FIX_FIRST[weakestIdx].body;
+
+  // Result date
+  const now = new Date();
+  const d = now.toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' });
+  document.getElementById('resultDate').textContent = d.toUpperCase();
+
+  // Swap views
+  document.getElementById('scorecard').style.display = 'none';
+  document.getElementById('questionsScreen').style.display = 'none';
+  document.getElementById('results').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function animateCount(el, from, to, duration) {
+  const start = performance.now();
+  function frame(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease-out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const value = Math.round(from + (to - from) * eased);
+    el.textContent = value;
+    if (progress < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function restart() {
+  state.answers = {};
+  currentQuestionIndex = 0;
+  document.getElementById('results').classList.remove('active');
+  document.getElementById('scorecard').style.display = 'block';
+  document.getElementById('introScreen').style.display = 'block';
+  document.getElementById('questionsScreen').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ─── Init — questions hidden; user taps Begin to start ──── */
+</script>
+
+</body>
+</html>

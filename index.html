@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DS33NXD3JT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DS33NXD3JT');
+</script>
+  
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Trevin Nimaladasa · Field Guides &amp; Working Papers</title>
+<meta name="description" content="A small library of working papers and field guides on business analysis, decision quality, and operating practice." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     Cover · Library index
+     Slate + brass + paper, kept quiet. by  Trevin
+     ───────────────────────────────────────────────────────────── */
+  :root{
+    --navy:#1B2A4A;
+    --navy-deep:#0F1A30;
+    --ice:#D4DCEA;
+    --paper:#F8F4EC;
+    --paper-2:#F1ECDF;
+    --rule:#D6CFBC;
+    --ink:#1A1F2E;
+    --muted:#5C6584;
+    --soft:#828AA8;
+    --brass:#B8902E;
+    --brass-soft:#DDB667;
+    --brass-fade:rgba(184,144,46,0.10);
+    --shadow-md:0 8px 24px rgba(15,26,48,.08);
+    --shadow-lg:0 22px 60px rgba(15,26,48,.14);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Inter Tight",-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size:15px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    pointer-events:none;
+    z-index:1;
+    opacity:.35;
+    mix-blend-mode:multiply;
+    background-image:
+      radial-gradient(rgba(60,40,10,.05) 1px, transparent 1px),
+      radial-gradient(rgba(60,40,10,.04) 1px, transparent 1px);
+    background-size:3px 3px, 7px 7px;
+    background-position:0 0, 1px 1px;
+  }
+  ::selection{background:var(--navy);color:var(--brass-soft)}
+
+  h1,h2,h3{
+    font-family:"Fraunces",Georgia,serif;
+    font-weight:500;
+    letter-spacing:-0.015em;
+    color:var(--ink);
+    margin:0;
+  }
+  a{color:var(--navy);text-decoration:none}
+  a:hover{color:var(--brass)}
+
+  /* ─── Page shell ─── */
+  .page{
+    max-width:980px;
+    margin:0 auto;
+    padding:72px 56px 96px;
+    position:relative;
+    z-index:2;
+  }
+
+  /* ─── Brand row ─── */
+  .brand{
+    display:flex;align-items:center;gap:14px;
+    padding-bottom:32px;
+    border-bottom:1px solid var(--rule);
+    margin-bottom:48px;
+  }
+  .brand-mark{
+    width:44px;height:44px;
+    border-radius:50%;
+    background:var(--navy-deep);
+    display:grid;place-items:center;
+    font-family:"Fraunces",serif;
+    font-weight:600;
+    color:var(--brass-soft);
+    font-size:19px;
+    box-shadow:0 4px 14px rgba(15,26,48,.18);
+  }
+  .brand-text .label{
+    font-size:9px;
+    letter-spacing:.24em;
+    color:var(--brass);
+    font-weight:600;
+    text-transform:uppercase;
+    margin-bottom:2px;
+  }
+  .brand-text .name{
+    font-family:"Fraunces",serif;
+    font-size:18px;
+    color:var(--ink);
+    line-height:1.1;
+  }
+
+  /* ─── Masthead ─── */
+  .masthead .meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:10px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:24px;
+  }
+  .masthead .meta .vol{color:var(--brass);font-weight:600}
+
+  .masthead h1{
+    font-size:clamp(44px,6vw,80px);
+    line-height:0.98;
+    font-weight:400;
+  }
+  .masthead h1 em{
+    font-style:italic;
+    color:var(--navy);
+    font-weight:400;
+  }
+  .masthead .lede{
+    font-family:"Fraunces",serif;
+    font-size:19px;
+    line-height:1.55;
+    color:var(--muted);
+    max-width:760px;
+    font-style:italic;
+    font-weight:400;
+    margin-top:28px;
+  }
+
+  /* ─── Section header ─── */
+  .sec-head{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:24px;
+    align-items:start;
+    margin:80px 0 32px;
+  }
+  .sec-num{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--brass);
+    font-size:54px;
+    line-height:1;
+    font-weight:500;
+  }
+  .sec-title .kicker{
+    font-size:10px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .sec-title h2{
+    font-size:36px;
+    line-height:1.1;
+    font-weight:500;
+  }
+  .sec-title h2 em{font-style:italic;color:var(--navy)}
+  .sec-title .stand{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--muted);
+    margin-top:10px;
+    font-size:16px;
+    max-width:640px;
+  }
+
+  /* ─── Index list ─── */
+  .index{
+    display:grid;
+    gap:0;
+    border-top:1px solid var(--rule);
+  }
+  .entry{
+    display:grid;
+    grid-template-columns:60px 1fr auto;
+    gap:24px;
+    align-items:start;
+    padding:28px 0;
+    border-bottom:1px solid var(--rule);
+    text-decoration:none;
+    color:var(--ink);
+    transition:background .25s ease, padding .25s ease;
+  }
+  .entry:hover{
+    background:rgba(184,144,46,.05);
+    padding-left:12px;
+    padding-right:12px;
+  }
+  .entry:hover .arrow{
+    color:var(--brass);
+    transform:translateX(4px);
+  }
+  .entry:hover .entry-title{
+    color:var(--navy);
+  }
+
+  .entry-num{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--brass);
+    font-size:22px;
+    font-weight:500;
+    padding-top:4px;
+  }
+
+  .entry-body .kicker{
+    font-size:10px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:600;
+    margin-bottom:6px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .entry-body .kicker .dot{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--brass);
+    display:inline-block;
+  }
+  .entry-body .kicker .path{
+    font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:10px;
+    color:var(--soft);
+    letter-spacing:.04em;
+    text-transform:none;
+  }
+  .entry-title{
+    font-family:"Fraunces",serif;
+    font-size:26px;
+    line-height:1.2;
+    font-weight:500;
+    color:var(--ink);
+    transition:color .2s ease;
+  }
+  .entry-title em{font-style:italic;color:var(--navy)}
+  .entry-stand{
+    color:var(--muted);
+    margin-top:8px;
+    max-width:620px;
+    font-size:14.5px;
+  }
+
+  .entry-meta{
+    text-align:right;
+    padding-top:8px;
+    min-width:120px;
+  }
+  .entry-meta .tag{
+    display:inline-block;
+    font-size:9px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+    padding:4px 10px;
+    border:1px solid var(--brass);
+    border-radius:999px;
+    background:var(--brass-fade);
+    margin-bottom:8px;
+  }
+  .entry-meta .arrow{
+    display:block;
+    font-family:"Fraunces",serif;
+    font-size:30px;
+    color:var(--soft);
+    line-height:1;
+    transition:transform .25s ease, color .25s ease;
+  }
+
+  /* aux entry (license, etc.) */
+  .entry.aux .entry-title{font-size:18px;font-family:"Inter Tight",sans-serif;font-weight:500}
+  .entry.aux .entry-num{font-size:16px}
+
+  /* ─── Footer ─── */
+  footer{
+    margin-top:72px;
+    padding-top:28px;
+    border-top:1px solid var(--rule);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--soft);
+  }
+  footer a{color:var(--soft)}
+  footer a:hover{color:var(--brass)}
+
+  /* ─── Mobile ─── */
+  @media (max-width: 720px){
+    .page{padding:48px 24px 64px}
+    .brand{margin-bottom:32px;padding-bottom:24px}
+    .sec-head{grid-template-columns:1fr;gap:8px;margin:56px 0 20px}
+    .sec-num{font-size:42px}
+    .sec-title h2{font-size:28px}
+    .entry{grid-template-columns:36px 1fr;gap:14px;padding:22px 0}
+    .entry-meta{grid-column:1 / -1;text-align:left;padding-top:0}
+    .entry-meta .arrow{display:none}
+    .entry-title{font-size:20px}
+    .masthead h1{font-size:42px}
+    .masthead .lede{font-size:16px}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Brand row -->
+  <div class="brand">
+    <div class="brand-mark">T</div>
+    <div class="brand-text">
+      <div class="label">The working library</div>
+      <div class="name">Trevin Nimaladasa</div>
+    </div>
+  </div>
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <div class="meta">
+      <span><span class="vol">REPOSITORY</span> &nbsp;·&nbsp; PUBLIC INDEX</span>
+      <span>2026</span>
+    </div>
+    <h1>Field Guides</h1>
+    <h1 style="margin-top:-6px"><em>&amp; Working Papers.</em></h1>
+    <p class="lede">A small, evolving library of practitioner notes — written to be used in real work, not admired on a shelf. Each entry below opens a self-contained reference. New volumes are added here as they're written.</p>
+  </header>
+
+  <!-- ─── Section: Field Guides ─── -->
+  <div class="sec-head">
+    <div class="sec-num">i</div>
+    <div class="sec-title">
+      <div class="kicker">Volume listing · What's inside</div>
+      <h2>In this <em>repository.</em></h2>
+      <p class="stand">Each item is published as a static page. Click through to read the full reference.</p>
+    </div>
+  </div>
+
+  <div class="index">
+
+    <!-- 01 — The Minimum Viable BA Practice -->
+    <a class="entry" href="businessanalysis/MVBA/index.html">
+      <div class="entry-num">01</div>
+      <div class="entry-body">
+        <div class="kicker">
+          <span>Field Guide No. 01</span>
+          <span class="dot"></span>
+          <span>First Edition · 2026</span>
+          <span class="dot"></span>
+          <span class="path">/businessanalysis/MVBA/</span>
+        </div>
+        <div class="entry-title">The Minimum Viable <em>BA Practice.</em></div>
+        <div class="entry-stand">A working field guide for what a world-class business analysis practice looks like — the standards, templates, methods, and operating rhythm that separate documentation work from decision quality. Aligned to the IIBA BABOK<sup>®</sup> Guide v3.</div>
+      </div>
+      <div class="entry-meta">
+        <span class="tag">Read</span>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <!-- 02 — The Transformation Leader's Field Guide -->
+    <a class="entry" href="transformation/leader/index.html">
+      <div class="entry-num">02</div>
+      <div class="entry-body">
+        <div class="kicker">
+          <span>Field Guide No. 02</span>
+          <span class="dot"></span>
+          <span>First Edition · 2026</span>
+          <span class="dot"></span>
+          <span class="path">/transformation/leader/</span>
+        </div>
+        <div class="entry-title">The Transformation Leader's <em>Field Guide.</em></div>
+        <div class="entry-stand">A working reference for the senior leader accountable for whether a transformation programme actually pays back — the postures, artefacts, governance discipline, and benefits rhythm that separate a programme that ships from one that compounds. Aligned to PMI Program Management and PMI Benefits Realization Management. Parallel reference · Axelos MoP/MSP.</div>
+      </div>
+      <div class="entry-meta">
+        <span class="tag">Read</span>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <!-- 03 — The ERP Field Guide -->
+    <a class="entry" href="erp/index.html">
+      <div class="entry-num">03</div>
+      <div class="entry-body">
+        <div class="kicker">
+          <span>Field Guide No. 03</span>
+          <span class="dot"></span>
+          <span>First Edition · 2026</span>
+          <span class="dot"></span>
+          <span class="path">/erp/</span>
+        </div>
+        <div class="entry-title">The ERP <em>Field Guide.</em></div>
+        <div class="entry-stand">A working reference for the leader accountable for an ERP decision — the modules, value streams, integration spine, master data model, controls fabric, roles, and industry dial-ups. ERP is not a software selection; it is a structural commitment to how the business runs for the next seven to ten years.</div>
+      </div>
+      <div class="entry-meta">
+        <span class="tag">Read</span>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <!-- 04 — Requirements Engineering -->
+    <a class="entry" href="businessanalysis/Requirements/index.html">
+      <div class="entry-num">04</div>
+      <div class="entry-body">
+        <div class="kicker">
+          <span>Field Guide No. 04</span>
+          <span class="dot"></span>
+          <span>First Edition · 2026</span>
+          <span class="dot"></span>
+          <span class="path">/businessanalysis/Requirements/</span>
+        </div>
+        <div class="entry-title">Requirements <em>Engineering.</em></div>
+        <div class="entry-stand">The discipline of producing requirements that hold up to scrutiny — a hierarchy, naming convention, work-type templates, traceability model, workflow per type, and AI-augmented prompt chain. Picks up where Field Guide No. 01 (MVBA) ends. Aligned to BABOK<sup>®</sup> Requirements Analysis &amp; Design Definition and IEEE 29148. Ships with a companion explorer over a 426-item Core HR worked dataset.</div>
+      </div>
+      <div class="entry-meta">
+        <span class="tag">Read</span>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <!-- Companion · The Scalable BA Practice (Maturity Model) -->
+    <a class="entry aux" href="businessanalysis/scale/index.html">
+      <div class="entry-num">·</div>
+      <div class="entry-body">
+        <div class="kicker">
+          <span>Companion maturity model</span>
+          <span class="dot"></span>
+          <span>To Field Guide No. 01</span>
+          <span class="dot"></span>
+          <span class="path">/businessanalysis/scale/</span>
+        </div>
+        <div class="entry-title">The Scalable BA <em>Practice.</em></div>
+        <div class="entry-stand">A maturity model for business analysis — the six MVBA capability dimensions scored against the CMMI 1–5 ladder, with the climb from Author Factory to Architect Practice. The shared yardstick the profession has been borrowing from cyber.</div>
+      </div>
+      <div class="entry-meta">
+        <span class="tag">Read</span>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <!-- Companion · MVBA Practice Score -->
+    <a class="entry aux" href="businessanalysis/score/index.html">
+      <div class="entry-num">·</div>
+      <div class="entry-body">
+        <div class="kicker">
+          <span>Companion diagnostic</span>
+          <span class="dot"></span>
+          <span>To Field Guide No. 01</span>
+          <span class="dot"></span>
+          <span class="path">/businessanalysis/score/</span>
+        </div>
+        <div class="entry-title">The Minimum Viable BA Practice <em>Score.</em></div>
+        <div class="entry-stand">A 12-question diagnostic for BA practice leaders, scoring across system-of-work maturity, traceability, stakeholder co-production, and AI governance. Returns a practice archetype and the one dimension to fix first.</div>
+      </div>
+      <div class="entry-meta">
+        <span class="tag">Take</span>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <!-- Companion · ERP Operating-Model Score -->
+    <a class="entry aux" href="erp/score/index.html">
+      <div class="entry-num">·</div>
+      <div class="entry-body">
+        <div class="kicker">
+          <span>Companion diagnostic</span>
+          <span class="dot"></span>
+          <span>To Field Guide No. 03</span>
+          <span class="dot"></span>
+          <span class="path">/erp/score/</span>
+        </div>
+        <div class="entry-title">The ERP Operating-Model <em>Score.</em></div>
+        <div class="entry-stand">A 15-question diagnostic for leaders accountable for an ERP, scoring across decision integrity, data &amp; integration backbone, controls &amp; assurance, delivery &amp; adoption, and lifecycle continuity. Find the one dimension to fix first.</div>
+      </div>
+      <div class="entry-meta">
+        <span class="tag">Take</span>
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <!-- CHANGELOG -->
+    <a class="entry aux" href="CHANGELOG.md">
+      <div class="entry-num">·</div>
+      <div class="entry-body">
+        <div class="kicker">
+          <span>Repository</span>
+          <span class="dot"></span>
+          <span class="path">/CHANGELOG.md</span>
+        </div>
+        <div class="entry-title">Changelog</div>
+        <div class="entry-stand">Release notes for the library — what was added, changed, fixed. Follows the Keep a Changelog convention.</div>
+      </div>
+      <div class="entry-meta">
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <!-- README -->
+    <a class="entry aux" href="README.md">
+      <div class="entry-num">·</div>
+      <div class="entry-body">
+        <div class="kicker">
+          <span>Repository</span>
+          <span class="dot"></span>
+          <span class="path">/README.md</span>
+        </div>
+        <div class="entry-title">Readme</div>
+        <div class="entry-stand">What this library is, the guides at a glance, how to read, conventions, and license.</div>
+      </div>
+      <div class="entry-meta">
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+    <!-- LICENSE -->
+    <a class="entry aux" href="LICENSE">
+      <div class="entry-num">·</div>
+      <div class="entry-body">
+        <div class="kicker">
+          <span>Repository</span>
+          <span class="dot"></span>
+          <span class="path">/LICENSE</span>
+        </div>
+        <div class="entry-title">License</div>
+        <div class="entry-stand">Terms under which the contents of this repository are published.</div>
+      </div>
+      <div class="entry-meta">
+        <span class="arrow">›</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <span>© 2026 Trevin Nimaladasa</span>
+    <span>Edition i · The working library</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
