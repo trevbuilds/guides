@@ -1,0 +1,4352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>The Minimum Viable BA Practice · A Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     The Minimum Viable BA Practice — A Field Guide
+     Editorial reference work. Slate + brass + paper.
+     ───────────────────────────────────────────────────────────── */
+
+  :root{
+    --navy:#1B2A4A;
+    --navy-deep:#0F1A30;
+    --navy-700:#283A5E;
+    --ice:#D4DCEA;
+    --ice-soft:#EAEFF7;
+    --paper:#F8F4EC;
+    --paper-2:#F1ECDF;
+    --rule:#D6CFBC;
+    --ink:#1A1F2E;
+    --muted:#5C6584;
+    --soft:#828AA8;
+    --brass:#B8902E;
+    --brass-soft:#DDB667;
+    --brass-fade:rgba(184,144,46,0.10);
+    --moss:#3F6E4A;
+    --rust:#A14F2C;
+    --shadow-sm:0 1px 2px rgba(15,26,48,.06);
+    --shadow-md:0 8px 24px rgba(15,26,48,.08);
+    --shadow-lg:0 22px 60px rgba(15,26,48,.14);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Inter Tight",-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size:15px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  /* paper grain */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    pointer-events:none;
+    z-index:1;
+    opacity:.35;
+    mix-blend-mode:multiply;
+    background-image:
+      radial-gradient(rgba(60,40,10,.05) 1px, transparent 1px),
+      radial-gradient(rgba(60,40,10,.04) 1px, transparent 1px);
+    background-size:3px 3px, 7px 7px;
+    background-position:0 0, 1px 1px;
+  }
+
+  ::selection{background:var(--navy);color:var(--brass-soft)}
+
+  h1,h2,h3,h4{
+    font-family:"Fraunces",Georgia,serif;
+    font-weight:500;
+    letter-spacing:-0.015em;
+    color:var(--ink);
+    margin:0;
+  }
+
+  a{color:var(--navy);text-decoration:none}
+  a:hover{color:var(--brass)}
+
+  /* ─── Layout shell ─────────────────────────────────────────── */
+  .shell{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    min-height:100vh;
+    position:relative;
+    z-index:2;
+  }
+
+  /* ─── Sidebar ──────────────────────────────────────────────── */
+  aside{
+    background:var(--navy-deep);
+    color:var(--ice);
+    padding:32px 28px 32px;
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+    border-right:1px solid rgba(255,255,255,.06);
+  }
+  aside::-webkit-scrollbar{width:6px}
+  aside::-webkit-scrollbar-track{background:transparent}
+  aside::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    padding-bottom:24px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    margin-bottom:24px;
+  }
+  .brand-mark{
+    width:40px;height:40px;
+    border-radius:50%;
+    background:var(--brass);
+    display:grid;place-items:center;
+    font-family:"Fraunces",serif;
+    font-weight:600;
+    color:var(--navy-deep);
+    font-size:18px;
+    box-shadow:0 4px 14px rgba(200,147,42,.35);
+  }
+  .brand-text .label{
+    font-size:9px;
+    letter-spacing:.22em;
+    color:var(--brass);
+    font-weight:600;
+    margin-bottom:2px;
+  }
+  .brand-text .name{
+    font-family:"Fraunces",serif;
+    font-size:17px;
+    color:#fff;
+    line-height:1.1;
+  }
+
+  .search{
+    margin-bottom:24px;
+    position:relative;
+  }
+  .search input{
+    width:100%;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:6px;
+    padding:10px 12px 10px 34px;
+    color:#fff;
+    font-family:inherit;
+    font-size:13px;
+    transition:.2s;
+  }
+  .search input::placeholder{color:rgba(255,255,255,.4)}
+  .search input:focus{
+    outline:none;
+    border-color:var(--brass);
+    background:rgba(255,255,255,.10);
+  }
+  .search svg{
+    position:absolute;
+    left:11px;top:50%;
+    transform:translateY(-50%);
+    color:rgba(255,255,255,.4);
+    width:14px;height:14px;
+  }
+
+  .nav-section{
+    margin-bottom:24px;
+  }
+  .nav-section h4{
+    font-family:"Inter Tight",sans-serif;
+    font-size:9px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.4);
+    margin-bottom:10px;
+    font-weight:600;
+  }
+  .nav-section ul{list-style:none;padding:0;margin:0}
+  .nav-section a{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:7px 10px;
+    color:rgba(255,255,255,.78);
+    border-radius:5px;
+    font-size:13.5px;
+    transition:.15s;
+    border-left:2px solid transparent;
+    margin:1px 0;
+  }
+  .nav-section a:hover{
+    color:#fff;
+    background:rgba(255,255,255,.04);
+  }
+  .nav-section a.active{
+    color:var(--brass-soft);
+    background:rgba(200,147,42,.08);
+    border-left-color:var(--brass);
+  }
+  .nav-section a .num{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--brass);
+    font-size:12px;
+    min-width:16px;
+  }
+
+  .signature{
+    padding-top:18px;
+    margin-top:18px;
+    border-top:1px solid rgba(255,255,255,.08);
+    font-size:11px;
+    color:rgba(255,255,255,.4);
+    line-height:1.5;
+  }
+  .signature em{color:var(--brass-soft);font-style:italic;font-family:"Fraunces",serif;font-size:12px}
+
+  /* ─── Main column ──────────────────────────────────────────── */
+  main{
+    padding:0 0 80px;
+    max-width:none;
+    overflow-x:hidden;
+  }
+
+  .masthead{
+    padding:80px 80px 60px;
+    border-bottom:1px solid var(--rule);
+    background:
+      linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%);
+    position:relative;
+  }
+  .masthead::before{
+    content:"";
+    position:absolute;
+    top:0;left:0;right:0;
+    height:6px;
+    background:linear-gradient(90deg,
+      var(--navy) 0%, var(--navy) 35%,
+      var(--brass) 35%, var(--brass) 50%,
+      var(--navy) 50%);
+  }
+  .masthead .meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:10px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:32px;
+    padding-top:8px;
+  }
+  .masthead .meta .vol{color:var(--brass);font-weight:600}
+  .masthead h1{
+    font-size:clamp(40px,5.5vw,72px);
+    line-height:0.98;
+    margin-bottom:6px;
+    font-weight:400;
+  }
+  .masthead h1 em{
+    font-style:italic;
+    color:var(--navy);
+    font-weight:400;
+  }
+  .masthead .lede{
+    font-family:"Fraunces",serif;
+    font-size:19px;
+    line-height:1.5;
+    color:var(--muted);
+    max-width:820px;
+    font-style:italic;
+    font-weight:400;
+    margin-top:24px;
+  }
+  .byline{
+    margin-top:36px;
+    padding:20px 24px;
+    background:rgba(15,26,48,.04);
+    border-left:3px solid var(--brass);
+    border-radius:0 4px 4px 0;
+    max-width:680px;
+  }
+  .byline-row{
+    display:grid;
+    grid-template-columns:90px 1fr;
+    gap:16px;
+    align-items:baseline;
+    padding:4px 0;
+  }
+  .byline-row + .byline-row{
+    border-top:1px solid rgba(15,26,48,.06);
+  }
+  .byline .b-label{
+    font-size:9px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+  }
+  .byline .b-value{
+    font-family:"Fraunces",serif;
+    font-size:15px;
+    color:var(--ink);
+    font-weight:500;
+  }
+  .byline .b-tag{
+    font-style:italic;
+    color:var(--navy);
+    font-weight:400;
+  }
+  .masthead .stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    margin-top:48px;
+    padding-top:32px;
+    border-top:1px solid var(--rule);
+  }
+  .masthead .stat{
+    padding-right:24px;
+    border-right:1px solid var(--rule);
+    text-decoration:none;
+    color:inherit;
+    display:block;
+    transition:transform .15s, opacity .15s;
+    cursor:pointer;
+    position:relative;
+  }
+  .masthead .stat:hover{
+    transform:translateY(-1px);
+  }
+  .masthead .stat:hover .n{
+    color:var(--brass);
+  }
+  .masthead .stat:hover .l{
+    color:var(--navy);
+  }
+  .masthead .stat:last-child{border-right:none}
+  .masthead .stat .n{
+    font-family:"Fraunces",serif;
+    font-size:38px;
+    color:var(--navy);
+    line-height:1;
+    font-weight:500;
+    transition:color .15s;
+  }
+  .masthead .stat .n em{color:var(--brass);font-style:normal}
+  .masthead .stat .l{
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    margin-top:8px;
+    font-weight:500;
+    transition:color .15s;
+  }
+
+  /* ─── Section ──────────────────────────────────────────────── */
+  section{
+    padding:80px 80px 60px;
+    border-bottom:1px solid var(--rule);
+    scroll-margin-top:0;
+    position:relative;
+  }
+  section:nth-of-type(odd){background:transparent}
+  section:nth-of-type(even){background:var(--paper-2)}
+
+  .sec-head{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:32px;
+    align-items:start;
+    margin-bottom:56px;
+  }
+  .sec-num{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--brass);
+    font-size:64px;
+    line-height:0.85;
+    font-weight:400;
+    padding-top:6px;
+  }
+  .sec-title h2{
+    font-size:46px;
+    line-height:1.0;
+    margin-bottom:16px;
+    font-weight:400;
+  }
+  .sec-title h2 em{font-style:italic;color:var(--navy)}
+  .sec-title .kicker{
+    font-family:"Inter Tight",sans-serif;
+    font-size:10px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+    margin-bottom:12px;
+  }
+  .sec-title .stand{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    font-size:19px;
+    color:var(--muted);
+    line-height:1.5;
+    max-width:780px;
+  }
+
+  /* ─── Cards & blocks ───────────────────────────────────────── */
+  .card{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:28px 32px;
+    box-shadow:var(--shadow-sm);
+    margin-bottom:24px;
+    transition:.2s;
+  }
+  .card:hover{
+    box-shadow:var(--shadow-md);
+  }
+  .card h3{
+    font-size:24px;
+    margin-bottom:12px;
+    font-weight:500;
+  }
+
+  /* ─── Floor: 7 artefacts grid ──────────────────────────────── */
+  .grid-7{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+  }
+  .artefact{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:0;
+    overflow:hidden;
+    transition:.2s;
+    box-shadow:var(--shadow-sm);
+    cursor:pointer;
+  }
+  .artefact[open]{
+    grid-column:1 / -1;
+    box-shadow:var(--shadow-md);
+  }
+  .artefact:hover{
+    box-shadow:var(--shadow-md);
+    transform:translateY(-1px);
+  }
+  .artefact summary{
+    list-style:none;
+    cursor:pointer;
+    padding:22px 26px;
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:18px;
+    align-items:center;
+    transition:background .15s;
+  }
+  .artefact summary:hover{
+    background:linear-gradient(180deg, var(--paper) 0%, transparent 100%);
+  }
+  .artefact summary:hover .chev{
+    background:var(--navy);
+    color:#fff;
+    border-color:var(--navy);
+  }
+  .artefact summary:hover .chev .label{
+    color:#fff;
+  }
+  .artefact summary::-webkit-details-marker{display:none}
+  .artefact .num{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--brass);
+    font-size:30px;
+    line-height:0.9;
+    font-weight:500;
+    min-width:30px;
+  }
+  .artefact .h{
+    font-family:"Fraunces",serif;
+    font-size:19px;
+    color:var(--ink);
+    line-height:1.2;
+    margin-bottom:4px;
+    font-weight:500;
+  }
+  .artefact .d{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.5;
+  }
+  /* The chevron is now a proper button-style affordance */
+  .artefact .chev{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 14px;
+    background:#fff;
+    border:1px solid var(--navy);
+    border-radius:4px;
+    color:var(--navy);
+    font-family:"Inter Tight",sans-serif;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    transition:.2s;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .artefact .chev .label{
+    transition:color .2s;
+  }
+  .artefact .chev .arrow{
+    display:inline-block;
+    transition:transform .25s;
+    font-size:14px;
+    line-height:1;
+  }
+  .artefact[open] .chev{
+    background:var(--navy);
+    color:#fff;
+    border-color:var(--navy);
+  }
+  .artefact[open] .chev .label{color:#fff}
+  .artefact[open] .chev .arrow{transform:rotate(180deg)}
+  .artefact .body{
+    padding:0 26px 26px 74px;
+    border-top:1px dashed var(--rule);
+    margin-top:0;
+    padding-top:22px;
+  }
+  .artefact .body h4{
+    font-family:"Inter Tight",sans-serif;
+    font-size:10px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+    margin:18px 0 8px;
+  }
+  .artefact .body h4:first-child{margin-top:0}
+  .artefact .body p, .artefact .body li{
+    font-size:13.5px;
+    color:var(--ink);
+    line-height:1.6;
+  }
+  .artefact .body ul{padding-left:18px;margin:0}
+  .artefact .body li{margin-bottom:4px}
+
+  /* ─── Requirement type cards (Classification §03) ─────────── */
+  .types-tier{
+    margin-bottom:36px;
+  }
+  .types-tier-header{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:14px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--rule);
+  }
+  .types-tier-num{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--brass);
+    font-size:24px;
+    font-weight:500;
+    line-height:1;
+  }
+  .types-tier-title{
+    font-family:"Fraunces",serif;
+    font-size:20px;
+    font-weight:500;
+    color:var(--ink);
+  }
+  .types-tier-desc{
+    font-size:12.5px;
+    color:var(--muted);
+    margin-left:auto;
+    font-style:italic;
+    font-family:"Fraunces",serif;
+  }
+  .types-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+  }
+  .type-card{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:0;
+    overflow:hidden;
+    transition:.2s;
+    box-shadow:var(--shadow-sm);
+    cursor:pointer;
+  }
+  .type-card[open]{
+    grid-column:1 / -1;
+    box-shadow:var(--shadow-md);
+  }
+  .type-card:hover{
+    box-shadow:var(--shadow-md);
+    transform:translateY(-1px);
+  }
+  .type-card summary{
+    list-style:none;
+    cursor:pointer;
+    padding:18px 22px;
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:16px;
+    align-items:center;
+    transition:background .15s;
+  }
+  .type-card summary:hover{
+    background:linear-gradient(180deg, var(--paper) 0%, transparent 100%);
+  }
+  .type-card summary::-webkit-details-marker{display:none}
+  .type-card .tcode{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:3px;
+    font-size:11px;
+    font-weight:700;
+    background:var(--navy);
+    color:#fff;
+    font-family:"JetBrains Mono",monospace;
+    letter-spacing:.02em;
+    min-width:48px;
+    text-align:center;
+  }
+  .type-card .tname{
+    font-family:"Fraunces",serif;
+    font-size:17px;
+    color:var(--ink);
+    line-height:1.2;
+    margin-bottom:3px;
+    font-weight:500;
+  }
+  .type-card .tdesc{
+    font-size:12.5px;
+    color:var(--muted);
+    line-height:1.45;
+  }
+  .type-card .chev{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 13px;
+    background:#fff;
+    border:1px solid var(--navy);
+    border-radius:4px;
+    color:var(--navy);
+    font-family:"Inter Tight",sans-serif;
+    font-size:10.5px;
+    font-weight:600;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    transition:.2s;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .type-card summary:hover .chev{
+    background:var(--navy);
+    color:#fff;
+  }
+  .type-card[open] .chev{
+    background:var(--navy);
+    color:#fff;
+  }
+  .type-card .body{
+    padding:8px 26px 26px;
+    border-top:1px dashed var(--rule);
+  }
+  .type-card .body h4{
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+    margin:18px 0 8px;
+    font-family:"Inter Tight",sans-serif;
+  }
+  .type-card .body h4:first-child{margin-top:14px}
+  .type-card .body p, .type-card .body li{
+    font-size:13px;
+    color:var(--ink);
+    line-height:1.6;
+  }
+  .type-card .body ul{padding-left:18px;margin:0}
+  .type-card .body li{margin-bottom:5px}
+  .type-card .when-strip{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:14px;
+  }
+  .type-card .when-block{
+    padding:12px 14px;
+    border-radius:4px;
+    font-size:12.5px;
+    line-height:1.5;
+  }
+  .type-card .when-use{
+    background:rgba(63,110,74,.08);
+    border-left:3px solid var(--moss);
+  }
+  .type-card .when-avoid{
+    background:rgba(161,79,44,.08);
+    border-left:3px solid var(--rust);
+  }
+  .type-card .when-block .label{
+    font-size:9px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    font-weight:700;
+    margin-bottom:4px;
+    font-family:"Inter Tight",sans-serif;
+  }
+  .type-card .when-use .label{color:var(--moss)}
+  .type-card .when-avoid .label{color:var(--rust)}
+
+  .ex{
+    background:var(--ice-soft);
+    border-left:3px solid var(--navy);
+    padding:14px 18px;
+    margin:12px 0 4px;
+    border-radius:0 4px 4px 0;
+    font-size:13px;
+  }
+  .ex .label{
+    font-size:9px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--navy);
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .ex code, .ex .mono{
+    font-family:"JetBrains Mono",monospace;
+    font-size:12px;
+    color:var(--navy-deep);
+    background:rgba(30,39,97,.06);
+    padding:2px 5px;
+    border-radius:3px;
+  }
+  .ex .emph{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--rust);
+    font-weight:500;
+  }
+
+  .template{
+    background:var(--paper);
+    border:1px dashed var(--rule);
+    border-radius:5px;
+    padding:18px 20px;
+    margin:8px 0 4px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:12.5px;
+    line-height:1.7;
+    color:var(--ink);
+    white-space:pre-wrap;
+  }
+
+  /* ─── Template tables (replaces code-block templates) ────── */
+  .tmpl-table{
+    background:var(--paper);
+    border:1px dashed var(--rule);
+    border-radius:5px;
+    margin:10px 0 4px;
+    overflow:hidden;
+  }
+  .tmpl-table table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12.5px;
+  }
+  .tmpl-table th{
+    background:var(--navy);
+    color:#fff;
+    padding:9px 12px;
+    text-align:left;
+    font-size:10px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:600;
+    font-family:"Inter Tight",sans-serif;
+    border-right:1px solid rgba(255,255,255,.08);
+  }
+  .tmpl-table th:last-child{border-right:none}
+  .tmpl-table td{
+    padding:8px 12px;
+    border-top:1px solid var(--rule);
+    border-right:1px dashed var(--rule);
+    color:var(--muted);
+    font-style:italic;
+    font-family:"Fraunces",serif;
+    font-size:12.5px;
+    vertical-align:top;
+  }
+  .tmpl-table td:last-child{border-right:none}
+  .tmpl-table tr:nth-child(even) td{background:rgba(0,0,0,.015)}
+  .tmpl-table caption{
+    text-align:left;
+    font-size:10px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+    padding:10px 12px 0;
+    font-family:"Inter Tight",sans-serif;
+  }
+  .tmpl-note{
+    font-size:12px;
+    color:var(--muted);
+    margin:10px 0 4px;
+    padding:10px 14px;
+    background:var(--paper-2);
+    border-left:2px solid var(--brass);
+    border-radius:0 4px 4px 0;
+    font-family:"Fraunces",serif;
+    font-style:italic;
+  }
+  .tmpl-note strong{
+    font-style:normal;
+    font-family:"Inter Tight",sans-serif;
+    font-weight:600;
+    color:var(--navy);
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    display:inline-block;
+    margin-right:6px;
+  }
+
+  /* ─── Industry context expandable cards (mirror .artefact) ── */
+  .industries{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:14px;
+    margin-top:12px;
+  }
+  .industry{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:0;
+    overflow:hidden;
+    transition:.2s;
+    box-shadow:var(--shadow-sm);
+    cursor:pointer;
+  }
+  .industry[open]{
+    grid-column:1 / -1;
+    box-shadow:var(--shadow-md);
+  }
+  .industry:hover{
+    box-shadow:var(--shadow-md);
+    transform:translateY(-1px);
+  }
+  .industry summary{
+    list-style:none;
+    cursor:pointer;
+    padding:22px 26px;
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:18px;
+    align-items:center;
+    transition:background .15s;
+  }
+  .industry summary:hover{
+    background:linear-gradient(180deg, var(--paper) 0%, transparent 100%);
+  }
+  .industry summary:hover .chev{
+    background:var(--navy);
+    color:#fff;
+    border-color:var(--navy);
+  }
+  .industry summary:hover .chev .label{
+    color:#fff;
+  }
+  .industry summary::-webkit-details-marker{display:none}
+  .industry .num{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--brass);
+    font-size:30px;
+    line-height:0.9;
+    font-weight:500;
+    min-width:30px;
+  }
+  .industry .h{
+    font-family:"Fraunces",serif;
+    font-size:19px;
+    color:var(--ink);
+    line-height:1.2;
+    margin-bottom:4px;
+    font-weight:500;
+  }
+  .industry .d{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.5;
+    font-family:"Fraunces",serif;
+    font-style:italic;
+  }
+  .industry[open] .chev{
+    background:var(--navy);
+    color:#fff;
+    border-color:var(--navy);
+  }
+  .industry[open] .chev .label{color:#fff}
+  .industry[open] .chev .arrow{transform:rotate(180deg)}
+  .industry .body{
+    padding:0 26px 26px;
+    border-top:1px dashed var(--rule);
+    margin:0 26px;
+    padding-top:22px;
+  }
+  .industry .ind-block{
+    margin-bottom:18px;
+    padding-bottom:18px;
+    border-bottom:1px dashed var(--rule);
+  }
+  .industry .ind-block:last-child{
+    margin-bottom:0;
+    padding-bottom:0;
+    border-bottom:none;
+  }
+  .industry .ind-label{
+    font-size:9px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:700;
+    margin-bottom:8px;
+    font-family:"Inter Tight",sans-serif;
+  }
+  .industry .ind-content{
+    font-size:14px;
+    line-height:1.6;
+    color:var(--ink);
+    font-family:"Fraunces",serif;
+  }
+  .industry .ind-content strong{
+    color:var(--navy);
+    font-weight:600;
+  }
+  .industry .ind-pills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:4px;
+  }
+  .industry .ind-pill{
+    display:inline-block;
+    padding:3px 9px;
+    background:var(--ice-soft);
+    color:var(--navy);
+    border:1px solid var(--ice);
+    border-radius:3px;
+    font-size:11px;
+    font-family:"JetBrains Mono",monospace;
+    font-weight:500;
+  }
+
+  /* ─── Editor's note callout (e.g. "this is not the CBAP version") ── */
+  .not-cbap{
+    margin:24px 0 0;
+    padding:24px 28px 22px;
+    background:#fff;
+    border:1px solid var(--rule);
+    border-left:3px solid var(--rust);
+    border-radius:0 4px 4px 0;
+    max-width:820px;
+    box-shadow:var(--shadow-sm);
+  }
+  .not-cbap-label{
+    font-size:10px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--rust);
+    font-weight:700;
+    margin-bottom:10px;
+    font-family:"Inter Tight",sans-serif;
+  }
+  .not-cbap p{
+    font-family:"Fraunces",serif;
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:0;
+    font-weight:400;
+  }
+  .not-cbap p strong{
+    font-weight:600;
+    color:var(--rust);
+  }
+
+  /* ─── BABOK reference badges & strip ─────────────────────── */  .babok-strip{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:center;
+    margin:6px 0 18px;
+    padding:12px 16px;
+    background:linear-gradient(180deg, rgba(30,39,97,.04) 0%, transparent 100%);
+    border-left:3px solid var(--navy);
+    border-radius:0 4px 4px 0;
+    font-size:12px;
+  }
+  .babok-strip .babok-label{
+    font-size:9px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--navy);
+    font-weight:700;
+    margin-right:6px;
+    font-family:"Inter Tight",sans-serif;
+  }
+  .babok-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    padding:3px 9px;
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:3px;
+    font-size:11px;
+    color:var(--navy);
+    font-family:"JetBrains Mono",monospace;
+    font-weight:500;
+    cursor:default;
+    transition:.15s;
+  }
+  .babok-tag:hover{
+    background:var(--navy);
+    color:#fff;
+    border-color:var(--navy);
+  }
+  .babok-tag .ka{
+    font-weight:700;
+    color:var(--brass);
+  }
+  .babok-tag:hover .ka{color:var(--brass-soft)}
+  .babok-tag .desc{
+    color:var(--muted);
+    font-family:"Inter Tight",sans-serif;
+    font-size:10.5px;
+  }
+  .babok-tag:hover .desc{color:var(--ice)}
+
+  /* Inline BABOK reference inside artefact body */
+  .babok-inline{
+    display:inline-block;
+    padding:1px 6px;
+    background:var(--ice-soft);
+    color:var(--navy);
+    border:1px solid var(--ice);
+    border-radius:3px;
+    font-size:10.5px;
+    font-family:"JetBrains Mono",monospace;
+    font-weight:500;
+    margin:0 2px;
+    letter-spacing:0;
+  }
+
+  /* ─── Four tests ───────────────────────────────────────────── */
+  .tests{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+  }
+  .test{
+    background:var(--navy);
+    color:#fff;
+    border-radius:6px;
+    padding:26px 28px;
+    position:relative;
+    overflow:hidden;
+  }
+  .test::before{
+    content:"";
+    position:absolute;top:0;left:0;
+    width:60px;height:4px;
+    background:var(--brass);
+  }
+  .test .n{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--brass);
+    font-size:13px;
+    margin-bottom:6px;
+  }
+  .test h3{
+    color:#fff;
+    font-size:22px;
+    margin-bottom:8px;
+  }
+  .test .q{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--brass-soft);
+    font-size:15px;
+    line-height:1.4;
+    margin-bottom:14px;
+  }
+  .test .e{
+    font-size:13px;
+    color:var(--ice);
+    line-height:1.55;
+  }
+
+  /* ─── Classification taxonomy ──────────────────────────────── */
+  .taxo{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .taxo table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13.5px;
+  }
+  .taxo th{
+    text-align:left;
+    padding:14px 20px;
+    font-size:10px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:600;
+    background:var(--paper-2);
+    border-bottom:1px solid var(--rule);
+  }
+  .taxo td{
+    padding:14px 20px;
+    border-bottom:1px solid var(--rule);
+    vertical-align:top;
+  }
+  .taxo tr:last-child td{border-bottom:none}
+  .taxo tr:hover td{background:var(--paper)}
+  .taxo .tag{
+    display:inline-block;
+    padding:3px 9px;
+    border-radius:3px;
+    font-size:11px;
+    font-weight:600;
+    background:var(--navy);
+    color:#fff;
+    font-family:"JetBrains Mono",monospace;
+    letter-spacing:0;
+  }
+  .taxo td.eg{
+    color:var(--muted);
+    font-style:italic;
+    font-family:"Fraunces",serif;
+  }
+
+  /* ─── Naming convention block ─────────────────────────────── */
+  .naming{
+    background:var(--navy-deep);
+    color:#fff;
+    border-radius:6px;
+    padding:32px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:14px;
+  }
+  .naming .header{
+    font-family:"Inter Tight",sans-serif;
+    font-size:10px;
+    letter-spacing:.22em;
+    color:var(--brass);
+    margin-bottom:18px;
+    font-weight:600;
+  }
+  .naming .pattern{
+    font-size:18px;
+    color:var(--brass-soft);
+    margin-bottom:8px;
+  }
+  .naming .pattern span{color:#fff;font-weight:500}
+  .naming .ex-line{
+    color:var(--ice);
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px solid rgba(255,255,255,.08);
+    font-size:13px;
+  }
+  .naming .ex-line .v{color:var(--brass)}
+  .prefixes{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:10px;
+    margin-top:20px;
+    padding-top:20px;
+    border-top:1px solid rgba(255,255,255,.08);
+  }
+  .prefix{
+    font-family:"JetBrains Mono",monospace;
+  }
+  .prefix .p{
+    color:var(--brass);
+    font-weight:600;
+    font-size:14px;
+  }
+  .prefix .l{
+    color:rgba(255,255,255,.6);
+    font-size:11px;
+    font-family:"Inter Tight",sans-serif;
+    margin-top:2px;
+  }
+
+  /* ─── DoR/DoD ─────────────────────────────────────────────── */
+  .dor-dod{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .checklist{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:24px 28px;
+  }
+  .checklist h4{
+    font-family:"Fraunces",serif;
+    font-size:20px;
+    margin-bottom:4px;
+    font-weight:500;
+  }
+  .checklist .sub{
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    margin-bottom:18px;
+    font-weight:600;
+  }
+  .checklist ul{list-style:none;padding:0;margin:0}
+  .checklist li{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:12px;
+    padding:10px 0;
+    border-bottom:1px solid var(--paper-2);
+    font-size:13.5px;
+    line-height:1.5;
+  }
+  .checklist li:last-child{border-bottom:none}
+  .checklist li::before{
+    content:"";
+    width:14px;height:14px;
+    border:1.5px solid var(--brass);
+    border-radius:3px;
+    margin-top:3px;
+  }
+
+  /* ─── Dial-ups ────────────────────────────────────────────── */
+  .dialups{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+  }
+  .dial{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:26px 28px;
+    position:relative;
+    overflow:hidden;
+    transition:.2s;
+  }
+  .dial:hover{
+    box-shadow:var(--shadow-md);
+    border-color:var(--brass);
+  }
+  .dial .ctx{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .dial .ctx .dot{
+    width:8px;height:8px;
+    border-radius:50%;
+    background:var(--brass);
+  }
+  .dial .ctx .label{
+    font-size:10px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+  }
+  .dial h3{
+    font-size:22px;
+    margin-bottom:14px;
+    font-weight:500;
+  }
+  .dial ul{
+    list-style:none;
+    padding:0;
+    margin:0;
+  }
+  .dial li{
+    padding:8px 0 8px 22px;
+    font-size:13.5px;
+    color:var(--ink);
+    line-height:1.5;
+    position:relative;
+    border-bottom:1px solid var(--paper-2);
+  }
+  .dial li:last-child{border-bottom:none}
+  .dial li::before{
+    content:"+";
+    position:absolute;
+    left:0;top:8px;
+    color:var(--brass);
+    font-weight:700;
+    font-family:"Fraunces",serif;
+    font-size:16px;
+  }
+
+  /* ─── Prompt library ──────────────────────────────────────── */
+  .prompt{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .prompt summary{
+    list-style:none;
+    cursor:pointer;
+    padding:18px 24px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:16px;
+    align-items:center;
+    background:var(--paper);
+    transition:.2s;
+  }
+  .prompt summary::-webkit-details-marker{display:none}
+  .prompt summary:hover{background:var(--paper-2)}
+  .prompt[open] summary{
+    background:var(--navy);
+    color:#fff;
+  }
+  .prompt[open] summary .pname,
+  .prompt[open] summary .pdesc{color:#fff}
+  .prompt[open] summary .ptag{
+    background:var(--brass);
+    color:var(--navy-deep);
+  }
+  .prompt .pname{
+    font-family:"Fraunces",serif;
+    font-size:17px;
+    color:var(--ink);
+    margin-bottom:3px;
+    font-weight:500;
+  }
+  .prompt .pdesc{
+    font-size:12.5px;
+    color:var(--muted);
+    line-height:1.4;
+  }
+  .prompt .ptag{
+    display:inline-block;
+    padding:3px 8px;
+    border-radius:3px;
+    font-size:10px;
+    font-weight:600;
+    background:var(--ice);
+    color:var(--navy);
+    font-family:"JetBrains Mono",monospace;
+    letter-spacing:.05em;
+    margin-right:6px;
+  }
+  .prompt .meta-line{
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .prompt .chev{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 12px;
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:4px;
+    color:var(--navy);
+    font-family:"Inter Tight",sans-serif;
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    transition:.2s;
+    white-space:nowrap;
+    flex-shrink:0;
+    margin-left:8px;
+  }
+  .prompt .chev .label{
+    transition:color .2s;
+  }
+  .prompt .chev .arrow{
+    display:inline-block;
+    transition:transform .25s;
+    font-size:13px;
+    line-height:1;
+  }
+  .prompt summary:hover .chev{
+    background:var(--navy);
+    color:#fff;
+    border-color:var(--navy);
+  }
+  .prompt summary:hover .chev .label{color:#fff}
+  .prompt[open] .chev{
+    background:var(--brass);
+    color:var(--navy-deep);
+    border-color:var(--brass);
+  }
+  .prompt[open] .chev .label{color:var(--navy-deep)}
+  .prompt[open] .chev .arrow{transform:rotate(180deg)}
+  .prompt .pbody{
+    padding:24px;
+    border-top:1px solid var(--rule);
+  }
+  .prompt-text{
+    background:var(--paper-2);
+    border:1px solid var(--rule);
+    border-radius:5px;
+    padding:18px 22px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:12.5px;
+    line-height:1.7;
+    color:var(--ink);
+    white-space:pre-wrap;
+    position:relative;
+  }
+  .copy-btn{
+    position:absolute;
+    top:10px;right:10px;
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    padding:6px 12px;
+    border-radius:4px;
+    font-size:10px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    cursor:pointer;
+    font-weight:600;
+    font-family:inherit;
+    transition:.15s;
+  }
+  .copy-btn:hover{background:var(--brass);color:var(--navy-deep)}
+  .copy-btn.ok{background:var(--moss);color:#fff}
+  .pbody h5{
+    font-family:"Inter Tight",sans-serif;
+    font-size:10px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+    margin:18px 0 8px;
+  }
+  .pbody h5:first-child{margin-top:0}
+  .pbody p{font-size:13.5px;color:var(--ink);margin:0}
+
+  /* ─── Methods (operating sequence) ─────────────────────────── */
+  .sequence{
+    display:grid;
+    grid-template-columns:repeat(8,1fr);
+    gap:0;
+    margin-bottom:32px;
+    align-items:stretch;
+  }
+  .seq-step{
+    background:#fff;
+    border:1px solid var(--rule);
+    padding:18px 16px;
+    text-align:center;
+    position:relative;
+    border-right:none;
+  }
+  .seq-step:last-child{border-right:1px solid var(--rule)}
+  .seq-step:not(:last-child)::after{
+    content:"→";
+    position:absolute;
+    right:-8px;top:50%;
+    transform:translateY(-50%);
+    color:var(--brass);
+    font-size:14px;
+    background:var(--paper);
+    width:16px;height:16px;
+    display:grid;place-items:center;
+    border-radius:50%;
+    z-index:1;
+  }
+  .seq-step .n{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--brass);
+    font-size:11px;
+    margin-bottom:4px;
+  }
+  .seq-step .l{
+    font-family:"Fraunces",serif;
+    font-size:13px;
+    line-height:1.2;
+    color:var(--ink);
+    font-weight:500;
+  }
+
+  /* ─── Operating rhythm ─────────────────────────────────────── */
+  .rhythm{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+  }
+  .beat{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:24px 22px;
+    border-top:3px solid var(--brass);
+  }
+  .beat .cad{
+    font-family:"Inter Tight",sans-serif;
+    font-size:10px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .beat h4{
+    font-size:18px;
+    margin-bottom:10px;
+    font-weight:500;
+  }
+  .beat .who{
+    font-size:11px;
+    color:var(--muted);
+    margin-bottom:14px;
+    font-family:"JetBrains Mono",monospace;
+  }
+  .beat p{font-size:13px;color:var(--ink);line-height:1.5;margin:0}
+
+  /* ─── Methods cards ────────────────────────────────────────── */
+  .methods-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+  }
+  .method{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:22px 26px;
+  }
+  .method h4{
+    font-size:18px;
+    margin-bottom:6px;
+    font-weight:500;
+  }
+  .method .when{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--brass);
+    font-size:13px;
+    margin-bottom:10px;
+  }
+  .method p{font-size:13px;color:var(--muted);margin:0;line-height:1.5}
+
+  /* ─── Values ──────────────────────────────────────────────── */
+  .values{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+  }
+  .value{
+    background:linear-gradient(135deg, #fff 0%, var(--paper) 100%);
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:30px 32px;
+    position:relative;
+    overflow:hidden;
+  }
+  .value .num{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    color:var(--brass-fade);
+    font-size:90px;
+    line-height:1;
+    position:absolute;
+    top:8px;right:18px;
+    font-weight:500;
+  }
+  .value h3{
+    font-size:24px;
+    margin-bottom:10px;
+    position:relative;
+    z-index:1;
+    font-weight:500;
+  }
+  .value p{
+    font-size:14px;
+    color:var(--muted);
+    line-height:1.55;
+    margin:0 0 12px;
+    position:relative;
+    z-index:1;
+  }
+  .value .check{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    font-size:14px;
+    color:var(--navy);
+    line-height:1.4;
+    padding-top:12px;
+    border-top:1px solid var(--rule);
+    position:relative;
+    z-index:1;
+  }
+  .value .check::before{
+    content:"Check ";
+    font-style:normal;
+    font-family:"Inter Tight",sans-serif;
+    font-size:9px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+    display:block;
+    margin-bottom:4px;
+  }
+
+  /* ─── Mindset standards ───────────────────────────────────── */
+  .mindset{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+    gap:12px;
+    margin-top:24px;
+  }
+  .mind{
+    padding:18px 20px;
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:5px;
+    border-left:3px solid var(--navy);
+    font-size:13.5px;
+    line-height:1.5;
+  }
+  .mind strong{
+    display:block;
+    color:var(--navy);
+    font-family:"Fraunces",serif;
+    font-size:15px;
+    font-weight:500;
+    margin-bottom:4px;
+  }
+
+  /* ─── Footer / Colophon ────────────────────────────────────── */
+  footer{
+    padding:80px 80px 60px;
+    background:var(--navy-deep);
+    color:var(--ice);
+    position:relative;
+    z-index:2;
+  }
+  footer::before{
+    content:"";
+    position:absolute;
+    top:0;left:0;right:0;
+    height:4px;
+    background:linear-gradient(90deg,
+      var(--brass) 0%, var(--brass) 22%,
+      var(--navy) 22%);
+  }
+  .col-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    max-width:1100px;
+    margin:0 auto;
+    align-items:start;
+  }
+  .col-left .col-eyebrow{
+    font-size:10px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+    margin-bottom:18px;
+  }
+  .col-left h3{
+    font-family:"Fraunces",serif;
+    font-size:42px;
+    line-height:1.05;
+    color:#fff;
+    font-weight:400;
+    margin-bottom:14px;
+  }
+  .col-left h3 em{
+    font-style:italic;
+    color:var(--brass-soft);
+  }
+  .col-left .col-lede{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    font-size:17px;
+    color:var(--ice);
+    line-height:1.5;
+    margin-bottom:28px;
+  }
+  .col-cta{
+    display:inline-block;
+    padding:14px 26px;
+    background:var(--brass);
+    color:var(--navy-deep);
+    border:none;
+    border-radius:4px;
+    font-family:"Inter Tight",sans-serif;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    text-decoration:none;
+    transition:.2s;
+    cursor:pointer;
+  }
+  .col-cta:hover{
+    background:var(--brass-soft);
+    color:var(--navy-deep);
+    transform:translateY(-1px);
+    box-shadow:0 6px 20px rgba(184,144,46,.4);
+  }
+  .col-cta-row{
+    display:flex;
+    gap:14px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .col-cta-secondary{
+    color:var(--brass-soft);
+    font-size:13px;
+    text-decoration:underline;
+    text-decoration-color:rgba(221,182,103,.3);
+    text-underline-offset:4px;
+  }
+  .col-cta-secondary:hover{
+    color:#fff;
+    text-decoration-color:var(--brass);
+  }
+
+  .col-right{
+    border-left:1px solid rgba(255,255,255,.1);
+    padding-left:60px;
+  }
+  .col-block{
+    margin-bottom:28px;
+  }
+  .col-block:last-child{margin-bottom:0}
+  .col-block .label{
+    font-size:9px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+    margin-bottom:8px;
+    font-family:"Inter Tight",sans-serif;
+  }
+  .col-block .col-value{
+    font-family:"Fraunces",serif;
+    font-size:15px;
+    color:#fff;
+    line-height:1.5;
+    font-weight:400;
+  }
+  .col-block .col-value em{
+    font-style:italic;
+    color:var(--brass-soft);
+  }
+  .col-block .col-value a{
+    color:#fff;
+    border-bottom:1px solid rgba(255,255,255,.2);
+    transition:.15s;
+  }
+  .col-block .col-value a:hover{
+    color:var(--brass-soft);
+    border-bottom-color:var(--brass);
+  }
+
+  .col-baseline{
+    margin-top:60px;
+    padding-top:32px;
+    border-top:1px solid rgba(255,255,255,.08);
+    max-width:1100px;
+    margin-left:auto;
+    margin-right:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:10px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.4);
+    font-weight:500;
+  }
+  .col-baseline .seal-mini{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .col-baseline .seal-mini-mark{
+    width:24px;height:24px;
+    border-radius:50%;
+    background:var(--brass);
+    display:grid;place-items:center;
+    color:var(--navy-deep);
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:14px;
+  }
+
+  /* ─── Hidden state for search ──────────────────────────────── */
+  .hidden{display:none!important}
+
+  /* ─── Pull quote ──────────────────────────────────────────── */
+  .pull{
+    font-family:"Fraunces",serif;
+    font-style:italic;
+    font-size:32px;
+    line-height:1.3;
+    color:var(--navy);
+    padding:36px 60px;
+    border-left:3px solid var(--brass);
+    margin:32px 0;
+    font-weight:400;
+  }
+  .pull cite{
+    display:block;
+    font-style:normal;
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+    margin-top:18px;
+    font-family:"Inter Tight",sans-serif;
+  }
+
+  /* ─── Responsive ──────────────────────────────────────────── */
+  @media (max-width: 1100px){
+    .shell{grid-template-columns:1fr}
+    aside{
+      position:relative;
+      height:auto;
+      padding:24px;
+    }
+    .masthead{padding:48px 32px 40px}
+    .masthead .stats{grid-template-columns:repeat(2,1fr);gap:24px}
+    .masthead .stat{border-right:none;border-bottom:1px solid var(--rule);padding-bottom:16px}
+    section{padding:48px 32px 40px}
+    .grid-7,.tests,.dor-dod,.dialups,.values,.methods-grid,.rhythm,.types-grid{
+      grid-template-columns:1fr;
+    }
+    .type-card .when-strip{grid-template-columns:1fr}
+    .sequence{grid-template-columns:repeat(2,1fr);gap:8px}
+    .seq-step::after{display:none}
+    .sec-head{grid-template-columns:1fr;gap:12px}
+    .sec-num{font-size:48px}
+    .sec-title h2{font-size:34px}
+    .pull{font-size:22px;padding:24px 28px}
+    footer{padding:48px 32px}
+    .col-grid{grid-template-columns:1fr;gap:48px}
+    .industries{grid-template-columns:1fr}
+    .col-right{border-left:none;border-top:1px solid rgba(255,255,255,.1);padding-left:0;padding-top:32px}
+    .col-left h3{font-size:30px}
+    .col-baseline{flex-direction:column;gap:14px;text-align:center}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ─────────────── SIDEBAR ─────────────── -->
+<aside>
+  <div class="brand">
+    <div class="brand-mark">T</div>
+    <div class="brand-text">
+      <div class="label">FIELD GUIDE</div>
+      <div class="name">Minimum Viable BA</div>
+    </div>
+  </div>
+
+  <div class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+    <input id="search" type="search" placeholder="Search library…" autocomplete="off" />
+  </div>
+
+  <div class="nav-section">
+    <h4>The Field Guide</h4>
+    <ul id="nav">
+      <li><a href="#values" data-section="values"><span class="num">i</span>Values & Mindset</a></li>
+      <li><a href="#delivery" data-section="delivery"><span class="num">ii</span>Delivery Is Not Value</a></li>
+      <li><a href="#babok" data-section="babok"><span class="num">iii</span>BABOK Alignment</a></li>
+      <li><a href="#floor" data-section="floor"><span class="num">01</span>The Floor</a></li>
+      <li><a href="#tests" data-section="tests"><span class="num">02</span>Axe-Sharpening Before BRD</a></li>
+      <li><a href="#taxonomy" data-section="taxonomy"><span class="num">03</span>Classification & Naming</a></li>
+      <li><a href="#dor-dod" data-section="dor-dod"><span class="num">04</span>DoR / DoD</a></li>
+      <li><a href="#dialups" data-section="dialups"><span class="num">05</span>Dial-ups by Context</a></li>
+      <li><a href="#industry" data-section="industry"><span class="num">06</span>Dial-ups by Industry</a></li>
+      <li><a href="#methods" data-section="methods"><span class="num">07</span>Methods & Sequence</a></li>
+      <li><a href="#prompts" data-section="prompts"><span class="num">08</span>Prompt Library</a></li>
+      <li><a href="#rhythm" data-section="rhythm"><span class="num">09</span>Operating Rhythm</a></li>
+    </ul>
+  </div>
+
+  <div class="signature">
+    <em>What world-class</em><br>
+    looks like.
+  </div>
+</aside>
+
+<!-- ─────────────── MAIN ─────────────── -->
+<main>
+
+<!-- Masthead -->
+<header class="masthead">
+  <div class="meta">
+    <span><span class="vol">FIELD GUIDE NO. 01</span> &nbsp;·&nbsp; FIRST EDITION</span>
+    <span>2026</span>
+  </div>
+  <h1>The Minimum Viable</h1>
+  <h1 style="margin-top:-6px"><em>BA Practice.</em></h1>
+  <p class="lede">A working field guide for what a world-class business analysis practice looks like — the standards, templates, methods, and operating rhythm that separate documentation work from decision quality. Built on the IIBA BABOK® Guide v3. Tested in live transformation programs across utilities, financial services, and government.</p>
+
+  <div class="byline">
+    <div class="byline-row">
+      <span class="b-label">By</span>
+      <span class="b-value">Trevin Nimaladasa</span>
+    </div>
+    <div class="byline-row">
+      <span class="b-label">Edition</span>
+      <span class="b-value">Vol. I &nbsp;·&nbsp; First Edition &nbsp;·&nbsp; 2026</span>
+    </div>
+    <div class="byline-row">
+      <span class="b-label">Standard</span>
+      <span class="b-value">Aligned to the IIBA BABOK<sup>®</sup> Guide v3</span>
+    </div>
+  </div>
+
+  <div class="stats">
+    <a class="stat" href="#floor"><div class="n">7<em>+</em>8</div><div class="l">Artefacts &amp; Techniques</div></a>
+    <a class="stat" href="#taxonomy"><div class="n">9<em>×</em></div><div class="l">Requirement Types</div></a>
+    <a class="stat" href="#industry"><div class="n">8<em>×</em></div><div class="l">Industries Calibrated</div></a>
+    <a class="stat" href="#prompts"><div class="n">12<em>+</em></div><div class="l">Prompt Templates</div></a>
+  </div>
+</header>
+
+<!-- ─── VALUES & MINDSET ─── -->
+<section id="values" data-search>
+  <div class="sec-head">
+    <div class="sec-num">i</div>
+    <div class="sec-title">
+      <div class="kicker">Preamble · Operating posture</div>
+      <h2>Values <em>&amp;</em> Mindset</h2>
+      <p class="stand">Six values that hold up. Written so they can be used as a check during real work — not a poster on a wall.</p>
+    </div>
+  </div>
+
+  <div class="babok-strip">
+    <span class="babok-label">BABOK</span>
+    <span class="babok-tag"><span class="ka">UC 9.1</span> <span class="desc">· Analytical Thinking &amp; Problem Solving</span></span>
+    <span class="babok-tag"><span class="ka">UC 9.2</span> <span class="desc">· Behavioural Characteristics</span></span>
+    <span class="babok-tag"><span class="ka">UC 9.4</span> <span class="desc">· Communication Skills</span></span>
+    <span class="babok-tag"><span class="ka">UC 9.5</span> <span class="desc">· Interaction Skills</span></span>
+  </div>
+
+  <div class="values">
+    <div class="value"><div class="num">01</div><h3>Decisions before delivery</h3><p>We don't write requirements into a vacuum. Every BRD answers a decision someone has actually made — or names the decision still missing.</p><div class="check">"What decision is this work enabling, and who owns it?"</div></div>
+    <div class="value"><div class="num">02</div><h3>Problem before solution</h3><p>We hold the line, even when stakeholders want to jump ahead. The BA's first job is to slow the rush to "build."</p><div class="check">"Are we sure we've understood the problem?"</div></div>
+    <div class="value"><div class="num">03</div><h3>Evidence over opinion</h3><p>Every requirement has a why. Every assumption has an owner. Every "the business needs…" has a person and a source.</p><div class="check">"Where did this requirement come from?"</div></div>
+    <div class="value"><div class="num">04</div><h3>Build the system that builds the system</h3><p>We invest in structure that compounds. The standard: a stakeholder team writing BA-quality requirements inside a system the BA designed — not the BA writing them in isolation.</p><div class="check">"Could a stakeholder produce this without me?"</div></div>
+    <div class="value"><div class="num">05</div><h3>Candour over comfort</h3><p>We tell stakeholders what they need to hear, not what is easy to say. We push back on scope, on premature solutions, on undefined outcomes.</p><div class="check">"Have I told them the uncomfortable thing?"</div></div>
+    <div class="value"><div class="num">06</div><h3>Outcomes over outputs</h3><p>We measure ourselves by what changed in the business, not what we produced. Documents are scaffolding; the building is the outcome.</p><div class="check">"What benefit will this requirement realise?"</div></div>
+  </div>
+
+  <div class="pull">
+    A good BA does not just produce requirements. A good BA builds the structure that lets the right requirements be produced — by themselves, by stakeholders, and increasingly by AI — at consistent quality, repeatably, without heroics.
+    <cite>The practice philosophy</cite>
+  </div>
+
+  <div class="card" data-search>
+    <h3>Mindset standards</h3>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:8px">Five postures that distinguish a senior BA from a documentation clerk.</p>
+    <div class="mindset">
+      <div class="mind"><strong>Hold the line.</strong>The BA is the fence between problem and solution. Pulling the team back to the problem is the BA's job, not a side activity.</div>
+      <div class="mind"><strong>Decision quality, not document quantity.</strong>The BA is accountable for what gets decided well — not what gets written prolifically.</div>
+      <div class="mind"><strong>Write for the next person.</strong>Artefacts must survive handover. If only you can read it, it isn't an artefact.</div>
+      <div class="mind"><strong>Question before refining.</strong>The BA questions whether the requirement should exist before writing it well.</div>
+      <div class="mind"><strong>"We shouldn't build this."</strong>The BA is comfortable saying it when the evidence supports it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DELIVERY IS NOT VALUE ─── -->
+<section id="delivery" data-search>
+  <div class="sec-head">
+    <div class="sec-num">ii</div>
+    <div class="sec-title">
+      <div class="kicker">The thesis · Why this practice exists</div>
+      <h2>Delivery Is <em>Not Value.</em></h2>
+      <p class="stand">A BA practice that produces excellent requirements for the wrong work is a practice doing harm at scale. Before any of the standards in this guide make sense, one truth has to land: delivery is not value. Value is operational leverage — what changes in how the enterprise actually works, after the project closes. The BA's most important contribution is upstream of the requirements, not in their fluency.</p>
+    </div>
+  </div>
+
+  <div class="pull">
+    There is nothing so useless as doing efficiently that which should not be done at all.
+    <cite>Peter Drucker</cite>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:24px;margin:36px 0 14px;font-weight:500">The Delivery Trap</h3>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:18px;max-width:820px">Practices optimised for delivery focus on velocity and output. Features shipped. Story points completed. Sprint goals met. Release frequency increased. These metrics create the illusion of progress while the organisation moves sideways — or in the wrong direction entirely. In enterprise settings the trap shows up as: portfolios full of "completed" initiatives with no measurable operational lift; business teams stretched thinner after delivery, not relieved by it; new systems layered on top of old processes, roles, controls, and spreadsheets; benefits registers written once to secure funding, then ignored; AI bolted onto workflows that were never simplified or owned. The BA is the first profession in the chain that can stop this — or perpetuate it.</p>
+
+  <div class="values">
+    <div class="value"><div class="num">01</div><h3>Feature factories</h3><p>Teams continuously output features without validating impact or usage. The BA writes well — for work that didn't deserve to ship.</p><div class="check">"What stops, retires, or simplifies as a result of this work?"</div></div>
+    <div class="value"><div class="num">02</div><h3>As-is replication</h3><p>The current process gets perfectly preserved into the new system. Manual work is digitised instead of eliminated. Workarounds harden into "business rules."</p><div class="check">"Are we transforming, or migrating dysfunction with better packaging?"</div></div>
+    <div class="value"><div class="num">03</div><h3>Benefits theatre</h3><p>The business case names benefits to secure funding. The benefits register goes into a drawer at go-live. No one tracks whether the change actually compounded.</p><div class="check">"Who owns the benefit twelve months after go-live?"</div></div>
+    <div class="value"><div class="num">04</div><h3>Success at go-live</h3><p>The launch is celebrated. The town-hall email goes out. Operations quietly absorb more work. By the time anyone asks whether it worked, the team has moved on.</p><div class="check">"What evidence — six months from now — would say this paid off?"</div></div>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:24px;margin:36px 0 14px;font-weight:500">The Illusion Stack</h3>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:18px;max-width:820px">In most enterprises the illusion starts long before delivery. The sequence is predictable, and each step creates a different illusion. By the time delivery begins, assumptions have hardened into commercial commitments. The BA is often handed the BRD task at step 2 — which is the moment to push back, not comply.</p>
+
+  <div class="taxo">
+    <table>
+      <thead><tr><th style="width:22%">Step</th><th style="width:38%">What it produces</th><th>The illusion it creates</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Business Case</strong></td><td class="eg">A funded narrative of value.</td><td>The appearance of value before leverage exists.</td></tr>
+        <tr><td><strong>BRD</strong></td><td class="eg">A documented set of requirements.</td><td>The appearance of certainty before the problem is understood.</td></tr>
+        <tr><td><strong>RFx</strong></td><td class="eg">A market test of vendors against the BRD.</td><td>The appearance of choice before trade-offs are owned.</td></tr>
+        <tr><td><strong>Vendor responses</strong></td><td class="eg">Detailed proposals matching the RFx.</td><td>The appearance of capability before the problem is sharpened.</td></tr>
+        <tr><td><strong>Contractual scope</strong></td><td class="eg">A signed scope, schedule, and price.</td><td>The appearance of control. Scope is now contractually locked, not strategically chosen.</td></tr>
+        <tr><td><strong>Delivery</strong></td><td class="eg">A go-live, a launch, a closure report.</td><td>The appearance of success before anything in the operating model has actually changed.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="not-cbap" style="border-left-color:var(--brass)">
+    <div class="not-cbap-label" style="color:var(--brass)">The BA's leverage point</div>
+    <p>The earliest the BA usually enters is at the BRD step. By then, three illusions are already in place. The senior BA's job is not to write a polished BRD on top of a flawed business case — it's to surface the gap. Section §02 (the eight techniques) is the toolkit for doing that without becoming the obstacle the project routes around.</p>
+  </div>
+</section>
+
+<!-- ─── BABOK ALIGNMENT ─── -->
+<section id="babok" data-search>
+  <div class="sec-head">
+    <div class="sec-num">iii</div>
+    <div class="sec-title">
+      <div class="kicker">Standard alignment · IIBA BABOK® Guide v3</div>
+      <h2>BABOK <em>Alignment.</em></h2>
+      <p class="stand">A world-class BA practice doesn't replace BABOK — it operationalises it. Six knowledge areas, fifty techniques, the requirements classification schema, and the agile / IT / business architecture perspectives all sit beneath the practice. We follow the standard. Vocabulary, tools, and right-sizing are layered on top. Every section of this guide carries a BABOK reference strip so the alignment is visible at a glance — without requiring the reader to consult the standard separately.</p>
+
+      <div class="not-cbap">
+        <div class="not-cbap-label">A note on what this is</div>
+        <p>This is <strong>not</strong> the CBAP study guide. It's not a textbook, a glossary, or a certification primer. It's a working reference for what a senior practitioner does day-to-day — informed by BABOK, but written for the operator, not the exam candidate. If you're CBAP-trained, the alignment will be obvious. If you're not, you don't need to be: the BABOK references are signposts, not prerequisites.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:24px;margin-bottom:14px;font-weight:500">Six knowledge areas</h3>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:18px;max-width:780px">Tasks may be performed sequentially, iteratively, or simultaneously — BABOK does not prescribe order, only that necessary inputs are present. The practice operating sequence (§06) is the prescribed order on top of BABOK.</p>
+
+  <div class="taxo">
+    <table>
+      <thead><tr><th style="width:8%">KA</th><th style="width:32%">Knowledge Area</th><th>Purpose &amp; tasks</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag">BAPM</span></td><td><strong>Business Analysis Planning &amp; Monitoring</strong></td><td class="eg">Plan BA approach · Plan stakeholder engagement · Plan governance · Plan information management · Identify performance improvements.</td></tr>
+        <tr><td><span class="tag">EC</span></td><td><strong>Elicitation &amp; Collaboration</strong></td><td class="eg">Prepare for elicitation · Conduct elicitation · Confirm results · Communicate BA information · Manage stakeholder collaboration.</td></tr>
+        <tr><td><span class="tag">RLCM</span></td><td><strong>Requirements Life Cycle Management</strong></td><td class="eg">Trace requirements · Maintain · Prioritise · Assess changes · Approve requirements.</td></tr>
+        <tr><td><span class="tag">SA</span></td><td><strong>Strategy Analysis</strong></td><td class="eg">Analyse current state · Define future state · Assess risks · Define change strategy.</td></tr>
+        <tr><td><span class="tag">RADD</span></td><td><strong>Requirements Analysis &amp; Design Definition</strong></td><td class="eg">Specify &amp; model requirements · Verify · Validate · Define architecture · Define design options · Analyse potential value.</td></tr>
+        <tr><td><span class="tag">SE</span></td><td><strong>Solution Evaluation</strong></td><td class="eg">Measure solution performance · Analyse performance measures · Assess solution limitations · Assess enterprise limitations · Recommend actions.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:24px;margin:36px 0 14px;font-weight:500">Perspectives we apply</h3>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:18px;max-width:780px">BABOK perspectives are lenses for adapting the standard to context. A world-class practice spans all five — plus AI, which BABOK doesn't yet name as a perspective but which now shapes how the work gets done. The BA chooses the right lens for the project class.</p>
+
+  <div class="values">
+    <div class="value"><div class="num">01</div><h3>Agile</h3><p>Continuous elicitation, iterative refinement, backlog as living requirements register, acceptance criteria written at story level.</p><div class="check">Anchors story-level requirements work, sprint-by-sprint refinement.</div></div>
+
+    <div class="value"><div class="num">02</div><h3>Information Technology</h3><p>System interfaces, data, NFRs, security. Architecture-aware specification. Applies to most enterprise transformation work.</p><div class="check">Anchors the FUN / DAT / INT / SEC / NFR types.</div></div>
+
+    <div class="value"><div class="num">03</div><h3>Business Process Management</h3><p>As-is / to-be modelling, BPMN, service journey decomposition, stage gates and enterprise delivery framework logic.</p><div class="check">Anchors the WFL type and the process inventory artefact.</div></div>
+
+    <div class="value"><div class="num">04</div><h3>Business Architecture</h3><p>Capability maps, value streams, strategic intent &amp; portfolio sequencing. The lens for cross-program decision packs.</p><div class="check">Anchors Strategy Analysis on portfolio &amp; modernisation programmes.</div></div>
+
+    <div class="value"><div class="num">05</div><h3>Business Intelligence</h3><p>Reporting, dashboards, analytics. Data quality and lineage requirements. The reporting lens for traceability and outcome dashboards.</p><div class="check">Anchors the RPT type and the outcome dashboard.</div></div>
+
+    <div class="value"><div class="num">06</div><h3>AI</h3><p>Generative AI for elicitation scaffolding and requirement drafting. AI-assisted workflows for refinement, classification, and traceability. Agentic AI for downstream automation — ticket creation, test case drafting, register audits.</p><div class="check">Anchors the prompt library (§07) and the AI-augmented BA standards.</div></div>
+
+    <div class="value"><div class="num">07</div><h3>Techniques in heaviest use</h3><p>Workshops · Interviews · Observation. Process Modelling · Process Analysis. Stakeholder List, Map &amp; Personas · RACI. Acceptance &amp; Evaluation Criteria · Scope Modelling. Decision Analysis · Risk Analysis &amp; Management.</p><div class="check">The default toolkit — used on virtually every engagement.</div></div>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:24px;margin:36px 0 14px;font-weight:500">BABOK Requirements Classification Schema (§2.3)</h3>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:18px;max-width:780px">BABOK defines four canonical levels. The nine-type taxonomy in this guide (§03 Classification &amp; Naming) sits inside the <strong>Solution Requirements</strong> level — it does not replace the schema, it operationalises it.</p>
+
+  <div class="taxo">
+    <table>
+      <thead><tr><th style="width:24%">BABOK Level</th><th style="width:38%">Definition</th><th>Where it lives in the practice</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Business Requirements</strong></td><td class="eg">Higher-level statements of goals, objectives, needs of the enterprise.</td><td>Problem Statement (Artefact 1) · Decision pack · Outcome statement.</td></tr>
+        <tr><td><strong>Stakeholder Requirements</strong></td><td class="eg">Needs of stakeholders that must be met to achieve business requirements.</td><td>Stakeholder &amp; Decision-rights Map (Artefact 2) · Service / Process Inventory (Artefact 3).</td></tr>
+        <tr><td><strong>Solution Requirements</strong> — Functional</td><td class="eg">Capabilities the solution must have — behaviour, information, interactions.</td><td>Practice types: <span class="babok-inline">FUN</span> <span class="babok-inline">BIZ</span> <span class="babok-inline">DAT</span> <span class="babok-inline">INT</span> <span class="babok-inline">WFL</span> <span class="babok-inline">EXC</span> <span class="babok-inline">RPT</span></td></tr>
+        <tr><td><strong>Solution Requirements</strong> — Non-functional</td><td class="eg">Conditions under which the solution must remain effective — performance, availability, usability, security, compliance.</td><td>Practice types: <span class="babok-inline">PRF</span> <span class="babok-inline">AVL</span> <span class="babok-inline">USB</span> <span class="babok-inline">SEC</span> <span class="babok-inline">CMP</span> <span class="babok-inline">AUD</span></td></tr>
+        <tr><td><strong>Transition Requirements</strong></td><td class="eg">Capabilities needed only for transition from current state to future state.</td><td>Practice types: <span class="babok-inline">MIG</span> <span class="babok-inline">CFG</span> · Cutover criteria · Decommissioning.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pull">
+    BABOK is the standard. The practice is the operating discipline. The standard tells us what to do; the practice tells us how it gets done in real organisations.
+    <cite>The relationship</cite>
+  </div>
+</section>
+<!-- ─── THE FLOOR (7 artefacts) ─── -->
+<section id="floor" data-search>
+  <div class="sec-head">
+    <div class="sec-num">01</div>
+    <div class="sec-title">
+      <div class="kicker">The minimum · Non-negotiable</div>
+      <h2>The Floor — <em>seven artefacts</em></h2>
+      <p class="stand">Every project. Right-sized to context, but never absent. Each artefact carries its purpose, a working template, and a worked example drawn from real transformation programmes.</p>
+    </div>
+  </div>
+
+  <div class="grid-7">
+
+    <!-- 1. Problem Statement -->
+    <details class="artefact" data-search>
+      <summary>
+        <div class="num">1</div>
+        <div>
+          <div class="h">Problem Statement</div>
+          <div class="d">One page. The business problem in the operator's language, with evidence, owner, and what fails if we do nothing.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+        <div class="babok-strip">
+          <span class="babok-label">BABOK</span>
+          <span class="babok-tag"><span class="ka">SA</span> <span class="desc">· Strategy Analysis</span></span>
+          <span class="babok-tag"><span class="ka">SA 6.1</span> <span class="desc">· Analyse Current State</span></span>
+          <span class="babok-tag"><span class="ka">SA 6.2</span> <span class="desc">· Define Future State</span></span>
+          <span class="babok-tag"><span class="ka">Tech</span> <span class="desc">· Business Cases · Root Cause Analysis</span></span>
+        </div>
+        <h4>Purpose</h4>
+        <p>Frames the problem before any solution conversation. Names the decision the BA is enabling. Surfaces evidence and owner. Anchors the BABOK Business Requirement before any Stakeholder or Solution Requirement is written.</p>
+
+        <h4>Template</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>Problem Statement · sections</caption>
+            <thead><tr><th style="width:24%">Section</th><th>Content</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Problem</strong></td><td>What is the actual business problem, in the customer's or operator's language?</td></tr>
+              <tr><td><strong>Evidence</strong></td><td>What tells us this is a real problem (not a symptom)? — tickets, complaints, audit findings, time studies, cost data.</td></tr>
+              <tr><td><strong>Consequence of inaction</strong></td><td>What happens if we do nothing in 6 / 12 / 24 months?</td></tr>
+              <tr><td><strong>Problem owner</strong></td><td>Who owns this problem? Who decides when it's solved?</td></tr>
+              <tr><td><strong>Decision this work enables</strong></td><td>What decision is this initiative answering? Who is the decision owner? What constraints bind the decision?</td></tr>
+              <tr><td><strong>Outcome expected</strong></td><td>Measurable change we expect (cycle time, error rate, FTE, $, risk). How will we know it worked? When?</td></tr>
+              <tr><td><strong>Project accountability</strong></td><td>Which outcomes is the project on the hook for? Which outcomes does the business unit own post go-live?</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tmpl-note"><strong>Format</strong>One page maximum. If it can't fit, the problem isn't framed yet.</div>
+
+        <h4>Worked example — Project &amp; Portfolio Management implementation</h4>
+        <div class="ex">
+          <div class="label">Problem · PPM rollout (utility sector)</div>
+          Project actuals are reconciled <span class="emph">manually across the data warehouse and the finance system</span>, with inconsistent historical data and integration build gaps causing master data discrepancies in the new platform. Project managers cannot see live financial position and rely on finance for monthly snapshots.
+        </div>
+        <div class="ex">
+          <div class="label">Decision enabled</div>
+          Whether to standardise on the new PPM platform as single source of truth for project actuals, with finance system integration as the authoritative feed — or continue parallel reconciliation. <strong>Decision owner:</strong> Head of Delivery + Finance Lead.
+        </div>
+      </div>
+    </details>
+
+    <!-- 2. Stakeholder & Decision-rights Map -->
+    <details class="artefact" data-search>
+      <summary>
+        <div class="num">2</div>
+        <div>
+          <div class="h">Stakeholder &amp; Decision-rights Map</div>
+          <div class="d">Who decides, who signs off, who escalates. The map that prevents committee paralysis.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+        <div class="babok-strip">
+          <span class="babok-label">BABOK</span>
+          <span class="babok-tag"><span class="ka">BAPM</span> <span class="desc">· Planning &amp; Monitoring</span></span>
+          <span class="babok-tag"><span class="ka">BAPM 3.2</span> <span class="desc">· Plan Stakeholder Engagement</span></span>
+          <span class="babok-tag"><span class="ka">Tech</span> <span class="desc">· Stakeholder List, Map &amp; Personas · RACI</span></span>
+        </div>
+        <h4>Purpose</h4>
+        <p>Names accountability for every decision class the project will encounter. Replaces "the steering committee" with a person. The BABOK technique here is RACI extended with a constraints column — every stakeholder represents a binding constraint the BA must surface.</p>
+
+        <h4>Template — Decision rights matrix</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>Decision rights · per decision class</caption>
+            <thead><tr><th>Decision class</th><th>Accountable</th><th>Consulted</th><th>Informed</th><th>Escalation</th></tr></thead>
+            <tbody>
+              <tr><td>Scope</td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td></tr>
+              <tr><td>Schedule</td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td></tr>
+              <tr><td>Budget</td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td></tr>
+              <tr><td>Solution design</td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td></tr>
+              <tr><td>Data &amp; integration</td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td></tr>
+              <tr><td>Change &amp; adoption</td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td></tr>
+              <tr><td>Sign-off / UAT</td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td></tr>
+              <tr><td>Go-live</td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td><td><em>name</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Template — Stakeholder constraints map</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>What each stakeholder represents</caption>
+            <thead><tr><th style="width:22%">Stakeholder</th><th style="width:18%">Role</th><th style="width:14%">Influence</th><th style="width:14%">Interest</th><th>Binding constraint they bring</th></tr></thead>
+            <tbody>
+              <tr><td><em>name</em></td><td><em>role</em></td><td><em>H / M / L</em></td><td><em>H / M / L</em></td><td><em>regulatory · financial · capability · time · risk appetite</em></td></tr>
+              <tr><td><em>name</em></td><td><em>role</em></td><td><em>H / M / L</em></td><td><em>H / M / L</em></td><td><em>…</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tmpl-note"><strong>Disagreement protocol</strong>What do we do when stakeholders disagree? Default escalation path. Time-box for unresolved disputes (e.g. 5 working days, then escalate to programme governance).</div>
+
+        <h4>Worked example — HR transformation programme</h4>
+        <div class="ex">
+          <div class="label">Decision rights · HRIS implementation</div>
+          <strong>Position management design</strong> — Accountable: HR domain lead. Consulted: product owner, current-state SME. Informed: business unit leaders. Escalation: programme control group.<br>
+          <strong>Requirements quality bar</strong> — Accountable: BA. Consulted: product owner. Informed: workstream leads.
+        </div>
+      </div>
+    </details>
+
+    <!-- 3. Service / Process Inventory -->
+    <details class="artefact" data-search>
+      <summary>
+        <div class="num">3</div>
+        <div>
+          <div class="h">Service / Process Inventory</div>
+          <div class="d">What journeys and processes are in scope, with owners and current pain points anchored in evidence.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+        <div class="babok-strip">
+          <span class="babok-label">BABOK</span>
+          <span class="babok-tag"><span class="ka">SA</span> <span class="desc">· Strategy Analysis</span></span>
+          <span class="babok-tag"><span class="ka">RADD</span> <span class="desc">· Requirements Analysis &amp; Design Definition</span></span>
+          <span class="babok-tag"><span class="ka">Tech</span> <span class="desc">· Scope Modelling · Process Modelling · Functional Decomposition</span></span>
+          <span class="babok-tag"><span class="ka">Persp.</span> <span class="desc">· BPM</span></span>
+        </div>
+        <h4>Purpose</h4>
+        <p>Sets the scope at the journey level before drilling into requirements. Bounded by what's in, with paired stops naming what's explicitly out. BABOK technique: Scope Modelling combined with Functional Decomposition — a world-class practice always pairs in-scope with explicit out-of-scope.</p>
+
+        <h4>Template — Process inventory</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>Service journeys &amp; processes in scope</caption>
+            <thead><tr><th>Journey / Process</th><th>Owner</th><th>In scope?</th><th>Out of scope</th><th>Current pain</th></tr></thead>
+            <tbody>
+              <tr><td><em>journey name</em></td><td><em>name</em></td><td><em>Y / N</em></td><td><em>what's out</em></td><td><em>evidence-based</em></td></tr>
+              <tr><td><em>process under journey</em></td><td><em>name</em></td><td><em>Y / N</em></td><td><em>what's out</em></td><td><em>evidence-based</em></td></tr>
+              <tr><td><em>process under journey</em></td><td><em>name</em></td><td><em>Y / N</em></td><td><em>what's out</em></td><td><em>evidence-based</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Template — Paired stops</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>For every "in" — what's explicitly out, or what stops?</caption>
+            <thead><tr><th style="width:48%">In scope (new)</th><th style="width:52%">Out of scope / Stop / Replace</th></tr></thead>
+            <tbody>
+              <tr><td><em>new capability</em></td><td><em>legacy or alternative being retired</em></td></tr>
+              <tr><td><em>new capability</em></td><td><em>process being decommissioned</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Worked example — HR transformation programme</h4>
+        <div class="ex">
+          <div class="label">Service journey decomposition</div>
+          13 epics → 59 business processes. Each journey broken into phases, each phase into requirements. <span class="emph">A single Higher Duties journey</span> alone produced 4 phases and ~30 requirements with full traceability through to test cases — written largely by the business inside the structure the BA designed.
+        </div>
+      </div>
+    </details>
+
+    <!-- 4. Requirements Register -->
+    <details class="artefact" data-search>
+      <summary>
+        <div class="num">4</div>
+        <div>
+          <div class="h">Requirements Register</div>
+          <div class="d">The single source of truth — for example a Confluence requirements table or a Jira backlog. Traceable end-to-end. Every line testable.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+        <div class="babok-strip">
+          <span class="babok-label">BABOK</span>
+          <span class="babok-tag"><span class="ka">RLCM</span> <span class="desc">· Requirements Life Cycle Mgmt</span></span>
+          <span class="babok-tag"><span class="ka">RADD</span> <span class="desc">· Requirements Analysis &amp; Design Definition</span></span>
+          <span class="babok-tag"><span class="ka">RLCM 5.1</span> <span class="desc">· Trace Requirements</span></span>
+          <span class="babok-tag"><span class="ka">RLCM 5.2</span> <span class="desc">· Maintain Requirements</span></span>
+          <span class="babok-tag"><span class="ka">Tech</span> <span class="desc">· Acceptance &amp; Evaluation Criteria · User Stories</span></span>
+        </div>
+        <h4>Purpose</h4>
+        <p>The traceability spine. Every requirement classified, owned, linked to acceptance criteria and test cases. This artefact is the BABOK Requirements Repository — the practice's commitment to <em>Trace</em> and <em>Maintain</em> as ongoing tasks, not one-off events.</p>
+
+        <h4>Required fields</h4>
+        <ul>
+          <li><strong>ID</strong> — using practice naming convention (see §03)</li>
+          <li><strong>Type</strong> — functional, data, integration, workflow, reporting, NFR, compliance, migration, security</li>
+          <li><strong>Epic / Phase / Process</strong> — full traceability up</li>
+          <li><strong>Description</strong> — clear, testable, single-purpose</li>
+          <li><strong>Acceptance criteria</strong> — Given / When / Then</li>
+          <li><strong>Source</strong> — workshop, document, observation, regulation</li>
+          <li><strong>Owner</strong> — single name (not "the team")</li>
+          <li><strong>Outcome it serves</strong> — link to outcome in problem statement</li>
+          <li><strong>Test case ID(s)</strong> — link down to verification</li>
+          <li><strong>Status</strong> — Draft / Refined / Approved / Built / Tested / Live</li>
+        </ul>
+
+        <h4>Template — Register row</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>Requirements register · canonical fields</caption>
+            <thead><tr><th>ID</th><th>Type</th><th>Epic / Phase / Process</th><th>Description</th><th>Acceptance Criteria</th><th>Source</th><th>Owner</th><th>Outcome</th><th>Test ID</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><em>HR-FUN-…</em></td><td><em>FUN</em></td><td><em>EP / PH / BP</em></td><td><em>single behaviour</em></td><td><em>Given / When / Then</em></td><td><em>workshop · doc · regulation</em></td><td><em>name</em></td><td><em>link</em></td><td><em>TC-…</em></td><td><em>Draft → Live</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Worked example — requirements stack architecture</h4>
+        <div class="ex">
+          <div class="label">Architecture · enterprise-grade requirements stack</div>
+          Requirements table = plan / source of truth (for example in Confluence).<br>
+          Tickets generated from the requirements table with AI-assisted prompts (for example into Jira).<br>
+          Each ticket: <span class="mono">PRJ-379</span> with full structure — Summary, Requirement Type, Value Stream, Workstream, Acceptance Criteria, DoR, DoD, Traceability, Systems Impacted, Subtasks.
+        </div>
+      </div>
+    </details>
+
+    <!-- 5. Decision Log -->
+    <details class="artefact" data-search>
+      <summary>
+        <div class="num">5</div>
+        <div>
+          <div class="h">Decision Log</div>
+          <div class="d">Every binding decision — date, owner, rationale, constraints. Not "we agreed in standup."</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+        <div class="babok-strip">
+          <span class="babok-label">BABOK</span>
+          <span class="babok-tag"><span class="ka">RLCM 5.5</span> <span class="desc">· Approve Requirements</span></span>
+          <span class="babok-tag"><span class="ka">BAPM 3.4</span> <span class="desc">· Plan BA Information Management</span></span>
+          <span class="babok-tag"><span class="ka">Tech</span> <span class="desc">· Decision Analysis · Decision Modelling</span></span>
+        </div>
+        <h4>Purpose</h4>
+        <p>Decisions are logged, not remembered. Survives team changes, disputes, audits. Operationalises the BABOK Decision Analysis technique — every binding decision captured with the alternatives considered and the constraints that bound the choice.</p>
+
+        <h4>Template — Decision log entries</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>Decision log · per binding decision</caption>
+            <thead><tr><th style="width:11%">Date</th><th>Decision</th><th>Owner</th><th>Rationale</th><th>Constraints binding</th><th>Revisit?</th></tr></thead>
+            <tbody>
+              <tr><td><em>yyyy/mm/dd</em></td><td><em>decision in one line</em></td><td><em>name</em></td><td><em>why this option</em></td><td><em>reg · cost · time · data</em></td><td><em>Y / N — when</em></td></tr>
+              <tr><td><em>yyyy/mm/dd</em></td><td><em>…</em></td><td><em>…</em></td><td><em>…</em></td><td><em>…</em></td><td><em>…</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Template — Alternatives considered</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>For each decision · alternatives &amp; why not chosen</caption>
+            <thead><tr><th style="width:24%">Option</th><th>Why not chosen</th><th style="width:24%">Evidence reviewed</th></tr></thead>
+            <tbody>
+              <tr><td><em>Option A</em></td><td><em>specific reason</em></td><td><em>link to source</em></td></tr>
+              <tr><td><em>Option B</em></td><td><em>specific reason</em></td><td><em>link to source</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Worked example — PPM rollout</h4>
+        <div class="ex">
+          <div class="label">Decision · MVP scope realignment</div>
+          <strong>Decision:</strong> Realign MVP scope to 7 Must-Have backlog items, target single go-live with a fallback option for one division.<br>
+          <strong>Owner:</strong> Programme Control Group (chaired by Head of Delivery).<br>
+          <strong>Rationale:</strong> Vendor capacity constraints made full scope unviable; split go-live considered and rejected due to data integrity risk.<br>
+          <strong>Revisit:</strong> Yes — at next governance gate.
+        </div>
+      </div>
+    </details>
+
+    <!-- 6. Assumptions, Constraints, Open Questions -->
+    <details class="artefact" data-search>
+      <summary>
+        <div class="num">6</div>
+        <div>
+          <div class="h">Assumptions, Constraints &amp; Open Questions</div>
+          <div class="d">Live, dated, owned. Open questions have a due-by date — never a parking lot.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+        <div class="babok-strip">
+          <span class="babok-label">BABOK</span>
+          <span class="babok-tag"><span class="ka">BAPM</span> <span class="desc">· Planning &amp; Monitoring</span></span>
+          <span class="babok-tag"><span class="ka">RADD</span> <span class="desc">· Requirements Analysis &amp; Design Definition</span></span>
+          <span class="babok-tag"><span class="ka">Tech</span> <span class="desc">· Risk Analysis · Item Tracking · Assumptions Log</span></span>
+        </div>
+        <h4>Purpose</h4>
+        <p>Surfaces what we're assuming, what binds us, and what we still don't know — with named owners and dates so nothing rots. Pairs the BABOK Risk Analysis technique with Item Tracking; every entry has an owner and a due-by-date.</p>
+
+        <h4>Template — Assumptions</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>Assumptions · what we're treating as true (until proven)</caption>
+            <thead><tr><th style="width:9%">ID</th><th>Assumption</th><th>If wrong, impact</th><th style="width:14%">Owner</th><th style="width:14%">Validate by</th></tr></thead>
+            <tbody>
+              <tr><td>AS001</td><td><em>statement</em></td><td><em>impact</em></td><td><em>name</em></td><td><em>yyyy/mm/dd</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Template — Constraints</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>Constraints · what binds us</caption>
+            <thead><tr><th style="width:9%">ID</th><th>Constraint</th><th>Source</th><th style="width:14%">Workaround?</th><th style="width:18%">Binding for</th></tr></thead>
+            <tbody>
+              <tr><td>CN001</td><td><em>statement</em></td><td><em>regulation · contract · technical</em></td><td><em>Y / N</em></td><td><em>decision class</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Template — Open questions</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>Open questions · what we still don't know (with due-by)</caption>
+            <thead><tr><th style="width:9%">ID</th><th>Question</th><th style="width:14%">Owner</th><th style="width:14%">Due</th><th>Blocking what?</th></tr></thead>
+            <tbody>
+              <tr><td>OQ001</td><td><em>question</em></td><td><em>name</em></td><td><em>yyyy/mm/dd</em></td><td><em>decision · work item</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Worked example — integration programme</h4>
+        <div class="ex">
+          <div class="label">Open question · master data design</div>
+          <strong>OQ:</strong> Is team code currently used as a unique key in the integration or staging tables?<br>
+          <strong>Owner:</strong> solution architect.<br>
+          <strong>Blocking:</strong> rewrite of the data model backlog item. Cannot proceed with reuse of inactive team codes until validated.
+        </div>
+      </div>
+    </details>
+
+    <!-- 7. Traceability Matrix -->
+    <details class="artefact" data-search>
+      <summary>
+        <div class="num">7</div>
+        <div>
+          <div class="h">Traceability Matrix (RTM)</div>
+          <div class="d">Requirement → Test → Outcome. Auto-generated where possible. The proof the practice did its job.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+        <div class="babok-strip">
+          <span class="babok-label">BABOK</span>
+          <span class="babok-tag"><span class="ka">RLCM 5.1</span> <span class="desc">· Trace Requirements</span></span>
+          <span class="babok-tag"><span class="ka">SE</span> <span class="desc">· Solution Evaluation</span></span>
+          <span class="babok-tag"><span class="ka">SE 8.1</span> <span class="desc">· Measure Solution Performance</span></span>
+          <span class="babok-tag"><span class="ka">Tech</span> <span class="desc">· Acceptance Criteria · Item Tracking</span></span>
+        </div>
+        <h4>Purpose</h4>
+        <p>Closes the loop. Every requirement traces to a test that proves it, and back to the outcome it serves. The single artefact most BA practices skip — and the one that separates output from accountability. Operationalises BABOK's <em>Trace Requirements</em> as a continuous live discipline, not a one-off compliance document.</p>
+
+        <h4>Template — Traceability matrix</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>Requirement → Test → Outcome (the spine)</caption>
+            <thead><tr><th>Req ID</th><th>Epic</th><th>Phase</th><th>Description</th><th>Test ID</th><th>Result</th><th>Outcome served</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><em>HR-FUN-…</em></td><td><em>EP</em></td><td><em>PH</em></td><td><em>text</em></td><td><em>TC-…</em></td><td><em>Pass / Fail</em></td><td><em>link</em></td><td><em>status</em></td></tr>
+              <tr><td><em>PPM-INT-…</em></td><td><em>EP</em></td><td><em>PH</em></td><td><em>text</em></td><td><em>TC-…</em></td><td><em>Pass / Fail</em></td><td><em>link</em></td><td><em>status</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Standard views the BA must be able to produce</h4>
+        <div class="tmpl-table">
+          <table>
+            <caption>RTM views · pre-built filters</caption>
+            <thead><tr><th style="width:24%">View</th><th>Question it answers</th></tr></thead>
+            <tbody>
+              <tr><td><strong>By outcome</strong></td><td>Which requirements serve this outcome? Are they all tested?</td></tr>
+              <tr><td><strong>By epic</strong></td><td>Coverage % of epic — which requirements still in Draft?</td></tr>
+              <tr><td><strong>By NFR</strong></td><td>Are non-functional requirements (NFR / SEC / CMP) actually being tested?</td></tr>
+              <tr><td><strong>Failed tests</strong></td><td>Which outcomes are at risk because tests are failing?</td></tr>
+              <tr><td><strong>Orphans</strong></td><td>Requirements with no linked test, no linked outcome, or no owner.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Where this lives</h4>
+        <div class="ex">
+          <div class="label">Tooling</div>
+          Generated from the requirements stack (for example Jira → Confluence) using AI tooling and a BI layer. The dashboard is the artefact: live req-to-test-to-outcome status, visible to PMs, BAs, testers, and the steering group. <span class="emph">No more spreadsheets.</span>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<!-- ─── FOUR TESTS BEFORE BRD ─── -->
+<section id="tests" data-search>
+  <div class="sec-head">
+    <div class="sec-num">02</div>
+    <div class="sec-title">
+      <div class="kicker">Decision hygiene · Before the BRD opens</div>
+      <h2>Axe-Sharpening <em>Before BRD.</em></h2>
+      <p class="stand">If you have five hours to cut down a tree, spend the first four sharpening the axe. Eight techniques that must be applied before a single requirement is written — not because the BA owns the decisions, but because the BA is responsible for surfacing whether they've been made. Skip these and the BRD will document symptoms, freeze the wrong solution, and lock in low-leverage work.</p>
+    </div>
+  </div>
+
+  <div class="babok-strip">
+    <span class="babok-label">BABOK</span>
+    <span class="babok-tag"><span class="ka">SA</span> <span class="desc">· Strategy Analysis</span></span>
+    <span class="babok-tag"><span class="ka">SA 6.4</span> <span class="desc">· Define Change Strategy</span></span>
+    <span class="babok-tag"><span class="ka">BAPM 3.1</span> <span class="desc">· Plan BA Approach</span></span>
+    <span class="babok-tag"><span class="ka">Tech</span> <span class="desc">· Decision Analysis · Risk Analysis · Business Cases · SWOT · Pre-mortem</span></span>
+  </div>
+
+  <div class="values">
+    <div class="value"><div class="num">01</div><h3>Decision framing</h3><p>Make the decision explicit before solutioning begins. What decision is being made? What outcome should it create? What trade-off is being accepted? Who owns it?</p><div class="check">If the decision isn't clear, a BRD will simply add false precision.</div></div>
+
+    <div class="value"><div class="num">02</div><h3>Problem shaping</h3><p>Define the problem before defining features. Who is affected? What effort, delay, or risk exists today? Why is this worth solving now?</p><div class="check">If teams argue about solutions, the problem isn't sharp enough.</div></div>
+
+    <div class="value"><div class="num">03</div><h3>Leverage mapping</h3><p>Force the compounding question early. What effort disappears permanently? What decision becomes faster? What capability becomes reusable?</p><div class="check">If nothing compounds, a BRD will only help deliver waste efficiently.</div></div>
+
+    <div class="value"><div class="num">04</div><h3>Trade-off declaration</h3><p>Kill ambiguity upfront. What are we explicitly <em>not</em> optimising for? Speed vs correctness? Flexibility vs simplicity? Local benefit vs enterprise reuse?</p><div class="check">Unstated trade-offs always reappear as scope creep.</div></div>
+
+    <div class="value"><div class="num">05</div><h3>Outcome-first success criteria</h3><p>Define success in operational terms, not delivery terms. What changes in behaviour? What effort is removed? What would prove this was a bad investment?</p><div class="check">If failure isn't defined, the BRD becomes the definition of success.</div></div>
+
+    <div class="value"><div class="num">06</div><h3>Option bounding</h3><p>Prevent over-engineering. Surface at least three options: do nothing · minimal viable change · structural fix. Compare them by leverage, not elegance.</p><div class="check">If only one option is on the table, the work isn't a decision — it's a delivery.</div></div>
+
+    <div class="value"><div class="num">07</div><h3>Kill criteria</h3><p>Make stopping safe. What evidence would cause us to stop? When do we reassess? Without kill criteria, sunk cost runs the project.</p><div class="check">If there's no defined way to stop, the project will only ever be paused.</div></div>
+
+    <div class="value"><div class="num">08</div><h3>Value pre-mortem</h3><p>Assume value failed twelve months from now — and ask why. Ownership gaps. Behaviour not changing. Extra work introduced. Most value failures are visible before delivery starts.</p><div class="check">If you can't think of a way it might fail, you haven't looked.</div></div>
+  </div>
+
+  <div class="card" style="margin-top:24px" data-search>
+    <h3>Three scripts BAs can safely use</h3>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:16px">Phrases that reposition the BA as a decision facilitator, not a delivery obstacle — without provoking defensiveness.</p>
+    <div style="display:grid;grid-template-columns:1fr;gap:10px">
+      <div class="ex"><div class="label">Script 1 · Decision rules first</div>"I can document requirements, but first I need the decision rules — what do we optimise for when trade-offs appear?"</div>
+      <div class="ex"><div class="label">Script 2 · Ownership transparency</div>"If we can't name an owner for the benefit twelve months out, I'll document ownership as 'unassigned' and flag it as a value risk."</div>
+      <div class="ex"><div class="label">Script 3 · Capacity transparency</div>"If we don't confirm capacity, I'll treat dates as assumptions, not commitments."</div>
+    </div>
+  </div>
+
+  <div class="pull" style="margin-top:32px">
+    Delivery teams finish work. Leaders decide what is worth finishing. The BA is the bridge — the practitioner who makes the difference visible before scope hardens into contract.
+    <cite>The BA's role in axe-sharpening</cite>
+  </div>
+</section>
+
+<!-- ─── CLASSIFICATION & NAMING ─── -->
+<section id="taxonomy" data-search>
+  <div class="sec-head">
+    <div class="sec-num">03</div>
+    <div class="sec-title">
+      <div class="kicker">Vocabulary · Shared language</div>
+      <h2>Classification <em>&amp;</em> Naming.</h2>
+      <p class="stand">Every requirement is one of these. Every ID follows this pattern. A world-class practice uses one shared vocabulary so reviews become craft conversations against a standard, not opinion contests.</p>
+    </div>
+  </div>
+
+  <div class="babok-strip">
+    <span class="babok-label">BABOK</span>
+    <span class="babok-tag"><span class="ka">§2.3</span> <span class="desc">· Requirements Classification Schema</span></span>
+    <span class="babok-tag"><span class="ka">RADD</span> <span class="desc">· Specify &amp; Model Requirements</span></span>
+    <span class="babok-tag"><span class="ka">Tech</span> <span class="desc">· Functional Decomposition · Non-Functional Requirements Analysis</span></span>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:24px;margin-bottom:8px;font-weight:500">Requirement types</h3>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:28px;max-width:820px">Fifteen types organised into three tiers. The seven Core types cover the bulk of any requirements register. The five Quality Attributes split out the non-functional dimensions that often get crammed into a single "NFR" bucket and lose specificity. The three Lifecycle types cover one-time work that doesn't survive into steady state. Click any type to see the must-have components, when to use it, when not to.</p>
+
+  <!-- Tier 1: Core -->
+  <div class="types-tier">
+    <div class="types-tier-header">
+      <span class="types-tier-num">i</span>
+      <span class="types-tier-title">Core</span>
+      <span class="types-tier-desc">Seven types that cover most of any register</span>
+    </div>
+
+    <div class="types-grid">
+
+      <!-- FUN -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">FUN</span>
+          <div>
+            <div class="tname">Functional</div>
+            <div class="tdesc">What the system does — the behaviour, feature, or capability the user or system invokes.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>A capability the solution must provide. Expressed as a single observable behaviour with a clear trigger, action, and outcome. The most numerous type in any register.</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Actor</strong> — who or what initiates the behaviour (user role, system, schedule, event)</li>
+            <li><strong>Trigger</strong> — what causes the behaviour to occur</li>
+            <li><strong>Action</strong> — what the system does, in plain language</li>
+            <li><strong>Outcome</strong> — what state has changed, or what data has been produced</li>
+            <li><strong>Acceptance criteria</strong> — Given / When / Then, written so a tester can verify pass/fail without ambiguity</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">FUN · scheduled posting</div>The PPM platform posts project actuals from the finance system on the 1st of each month at 02:00. <strong>AC:</strong> Given approved actuals exist for the prior month, when the schedule fires, then the platform posts entries against each project's posting account.</div>
+          <div class="ex"><div class="label">FUN · user-initiated action</div>An approver can return a leave request to the requester with mandatory comments. <strong>AC:</strong> Given a pending leave request, when the approver selects "Return," then the system requires a comment of ≥10 characters before submission.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use FUN when</div>The behaviour is observable, has a single clear trigger, and produces a definable outcome.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid FUN when</div>The behaviour is really a workflow (use WFL), a calculation rule (use BIZ), or a non-functional quality (split into NFR/PRF/AVL).</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- BIZ -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">BIZ</span>
+          <div>
+            <div class="tname">Business Rule</div>
+            <div class="tdesc">A constraint, calculation, or policy the business enforces — independent of which system implements it.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>A statement of policy, calculation, or constraint that the business commits to. Lives independently of any specific system or workflow — multiple FUN or WFL requirements may enforce the same BIZ rule.</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Rule statement</strong> — the constraint or formula in plain language</li>
+            <li><strong>Source</strong> — policy doc, regulation, contract, or named owner who set it</li>
+            <li><strong>Conditions</strong> — when the rule applies (and any explicit exceptions)</li>
+            <li><strong>Owner</strong> — who can change the rule (not who implements it)</li>
+            <li><strong>Linked enforcement</strong> — which FUN, WFL, or DAT requirements operationalise it</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">BIZ · calculation</div>Higher duties allowance = (target classification base rate − employee's current base rate) × hours acted. Source: EBA clause 14.3. Owner: HR Policy Lead.</div>
+          <div class="ex"><div class="label">BIZ · constraint</div>A purchase order over $50,000 requires two approvers, neither of whom may be the requester's direct manager. Source: Finance Delegations Policy v4.2.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use BIZ when</div>The rule outlives the system, is policy-owned, and may be enforced in multiple places.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid BIZ when</div>It's really a single-system behaviour (use FUN) or a one-off configuration value (use CFG).</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- DAT -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">DAT</span>
+          <div>
+            <div class="tname">Data</div>
+            <div class="tdesc">What data is captured, structured, stored, retained — and the rules around its lifecycle.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>A statement about a data element, entity, or class — its structure, attributes, validation rules, retention, and relationship to other data. Distinct from how it gets in (INT) or what's done with it (FUN).</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Data class / entity</strong> — the named concept (e.g. Project, Forecast, Employee)</li>
+            <li><strong>Attributes</strong> — fields, types, mandatory/optional, allowed values</li>
+            <li><strong>Cardinality &amp; relationships</strong> — links to other entities (1:1, 1:many, many:many)</li>
+            <li><strong>Validation rules</strong> — format, range, uniqueness, referential integrity</li>
+            <li><strong>Retention</strong> — how long, where, under what conditions destroyed or archived</li>
+            <li><strong>Source of truth</strong> — which system owns the master record</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">DAT · entity definition</div>Forecast data class includes: forecast_id (UUID, mandatory), project_id (FK to Project, mandatory), version (enum: baseline / working / approved), period (YYYY-MM), amount (decimal, ≥ 0), created_by, created_at. Master: PPM platform.</div>
+          <div class="ex"><div class="label">DAT · retention</div>Closed project records are retained for 7 years post-closure, then archived to cold storage. Audit trail entries are retained for 10 years and not archivable.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use DAT when</div>Defining what data exists, its structure, validation, or retention.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid DAT when</div>The requirement is really about how data moves between systems (use INT) or how a report displays it (use RPT).</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- INT -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">INT</span>
+          <div>
+            <div class="tname">Integration</div>
+            <div class="tdesc">Interface to or from another system — the contract, the trigger, the failure mode.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>An interface between two systems. Specifies direction, payload, trigger, frequency, error handling, and idempotency. Most projects under-specify integrations — they document the happy path and leave failure modes implicit.</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Direction</strong> — source system → target system (and whether bidirectional)</li>
+            <li><strong>Trigger</strong> — event-driven, scheduled, on-demand, or polling</li>
+            <li><strong>Payload</strong> — fields, mandatory/optional, format (JSON, XML, CSV, EDI)</li>
+            <li><strong>Frequency &amp; volume</strong> — how often, expected message size, peak load</li>
+            <li><strong>Idempotency</strong> — can the same message be safely retried?</li>
+            <li><strong>Error handling</strong> — retry policy, dead-letter queue, alert thresholds, manual recovery</li>
+            <li><strong>Routing</strong> — direct, via integration platform, via message broker</li>
+            <li><strong>Auth</strong> — how the systems authenticate (linked to SEC)</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">INT · scheduled batch</div>Finance system → Data warehouse. Trigger: nightly 01:00. Payload: prior day's posted journal entries (JSON). Volume: ~50k records / night, peak 200k month-end. Idempotent on journal_id. Failure: 3 retries at 15-min intervals, then DLQ + alert to ops.</div>
+          <div class="ex"><div class="label">INT · event-driven</div>HRIS → Payroll. Trigger: employee status change event. Payload: employee_id, change_type, effective_date, new_values. Routed via integration platform — no direct point-to-point.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use INT when</div>Two systems exchange data and the interface needs an explicit contract.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid INT when</div>It's really a one-off data load (use MIG) or a UI embed (use FUN with the embed as a behaviour).</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- WFL -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">WFL</span>
+          <div>
+            <div class="tname">Workflow</div>
+            <div class="tdesc">Process logic — the routing, stage gates, approvals, and state transitions that connect functional behaviours.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>The logic that orchestrates a process across multiple actors, systems, or steps. WFL covers what FUN cannot — the "and then what" between behaviours, including approvals, escalations, and state transitions.</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>States</strong> — the named statuses an item moves through (e.g. Draft → Submitted → Approved → Live)</li>
+            <li><strong>Transitions</strong> — what triggers each move, what role can perform it</li>
+            <li><strong>Routing rules</strong> — who gets it next, based on what attributes (amount, region, complexity)</li>
+            <li><strong>SLA / time-box</strong> — how long can a state hold before escalation</li>
+            <li><strong>Escalation path</strong> — who picks it up if SLA breached</li>
+            <li><strong>Audit trail</strong> — what's logged at each transition (linked to AUD)</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">WFL · approval routing</div>Purchase requests follow a routing tree: ≤$5k → cost centre manager; $5k–$50k → manager + finance partner; &gt;$50k → manager + finance partner + delegated approver. SLA: 3 business days per approver, then auto-escalate to next level.</div>
+          <div class="ex"><div class="label">WFL · stage gates</div>Project stages: Initiate → Plan → Deliver → Close. Each transition requires the prior stage's deliverables marked complete and a named accountable owner. Stage gate progression auto-creates governance deliverables.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use WFL when</div>The work involves states, transitions, routing decisions, or multi-actor approvals.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid WFL when</div>It's a single-actor behaviour (use FUN) or really a calculation (use BIZ).</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- EXC -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">EXC</span>
+          <div>
+            <div class="tname">Exception</div>
+            <div class="tdesc">Edge cases, error conditions, and recovery paths — the requirements that catch what the happy path misses.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>How the system behaves when the happy path doesn't apply — invalid data, missing inputs, downstream system unavailable, business rule violated. Most defects in production are EXC requirements that were never written.</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Trigger condition</strong> — exactly what makes this an exception</li>
+            <li><strong>System response</strong> — reject, queue, fall back, degrade gracefully, halt</li>
+            <li><strong>User feedback</strong> — what the user sees (and doesn't see — security)</li>
+            <li><strong>Logging</strong> — what gets recorded, at what level (linked to AUD)</li>
+            <li><strong>Recovery path</strong> — manual fix, automatic retry, escalation, or terminal</li>
+            <li><strong>Linked happy path</strong> — which FUN / WFL / INT this is the exception for</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">EXC · invalid input</div>If a purchase order is submitted with a closed cost centre, the system rejects the submission and displays "Cost centre [code] is closed. Select an active cost centre." The PO remains in Draft. No notification is sent to approvers.</div>
+          <div class="ex"><div class="label">EXC · downstream unavailable</div>If the finance system is unavailable when the nightly posting runs, the platform queues entries to the staging table and retries every 30 minutes for up to 6 hours, then alerts ops. No partial posts are committed.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use EXC when</div>Defining what happens when the happy path can't be followed — invalid data, system unavailable, business rule violated.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid EXC when</div>It's a normal alternate path (write it as FUN) or a non-functional concern like uptime (use AVL).</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- RPT -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">RPT</span>
+          <div>
+            <div class="tname">Reporting</div>
+            <div class="tdesc">Outputs — dashboards, scheduled reports, regulatory returns, ad-hoc analytics.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>Information presented to a consumer for a decision or obligation. Specifies what's shown, who sees it, when, in what format, and what data feeds it.</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Audience</strong> — named role(s) who consume it</li>
+            <li><strong>Decision or obligation served</strong> — what action the report enables</li>
+            <li><strong>Fields &amp; calculations</strong> — what's shown, how derived</li>
+            <li><strong>Filters &amp; parameters</strong> — what the user can slice by</li>
+            <li><strong>Cadence</strong> — real-time, scheduled (daily/weekly/monthly), on-demand</li>
+            <li><strong>Format</strong> — dashboard, exportable file, regulatory submission</li>
+            <li><strong>Source data</strong> — which DAT entities, which system of record</li>
+            <li><strong>Refresh latency</strong> — how recent must the data be</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">RPT · operational dashboard</div>Live portfolio RAG view replaces the manual senior management tracker. Audience: ELT + portfolio leads. Refresh: every 15 min. Filters: division, programme, RAG status, owner. Source: PPM platform (live).</div>
+          <div class="ex"><div class="label">RPT · regulatory return</div>Monthly water quality submission to regulator. Format: prescribed XML schema. Cadence: by the 7th business day of the following month. Source: SCADA + lab data. Submission requires compliance officer sign-off.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use RPT when</div>Information is being assembled and presented to a consumer for a decision or obligation.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid RPT when</div>It's really a UI screen with system data (use FUN) or a data extract for another system (use INT).</div>
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Tier 2: Quality Attributes -->
+  <div class="types-tier">
+    <div class="types-tier-header">
+      <span class="types-tier-num">ii</span>
+      <span class="types-tier-title">Quality attributes</span>
+      <span class="types-tier-desc">Five types that often hide inside a single "NFR" bucket</span>
+    </div>
+
+    <div class="types-grid">
+
+      <!-- PRF -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">PRF</span>
+          <div>
+            <div class="tname">Performance</div>
+            <div class="tdesc">Speed, throughput, response time. The how-fast dimension.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>How quickly the system responds, how much it can process, under what load. Always measurable, always anchored to a percentile and a load condition — never just "fast."</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Metric</strong> — response time, throughput, latency, queue depth</li>
+            <li><strong>Target</strong> — quantitative (e.g. ≤ 2s, ≥ 1000 tx/min)</li>
+            <li><strong>Percentile</strong> — p50, p95, p99 — never an average alone</li>
+            <li><strong>Load condition</strong> — at what concurrent users, message rate, data volume</li>
+            <li><strong>Measurement point</strong> — server-side, network edge, browser</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">PRF · response time</div>Status report renders within 5 seconds at p95 for 100+ active projects, measured server-side, under a load of 50 concurrent users.</div>
+          <div class="ex"><div class="label">PRF · throughput</div>Integration platform processes ≥ 500 messages per second sustained for 1 hour at p99 latency ≤ 200ms.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use PRF when</div>Setting a numeric speed or throughput target.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid PRF when</div>The concern is uptime (use AVL) or scaling under growth (still PRF, but specify the growth condition).</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- AVL -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">AVL</span>
+          <div>
+            <div class="tname">Availability</div>
+            <div class="tdesc">Uptime, recovery, business continuity. The how-often-it's-there dimension.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>The proportion of time the service is reachable and functioning correctly, plus how it recovers when it isn't. Frequently confused with PRF — performance is how fast, availability is how often.</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Uptime target</strong> — a number of nines (99.9%, 99.95%, 99.99%) and the measurement window</li>
+            <li><strong>Service hours</strong> — 24×7, business hours, batch window</li>
+            <li><strong>Planned downtime</strong> — windows excluded from the SLA</li>
+            <li><strong>RTO</strong> (Recovery Time Objective) — how fast must it come back</li>
+            <li><strong>RPO</strong> (Recovery Point Objective) — how much data loss is acceptable</li>
+            <li><strong>Failover behaviour</strong> — automatic, manual, degraded mode</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">AVL · uptime SLA</div>Customer-facing portal: 99.95% uptime measured monthly, 24×7 service hours, excluding planned maintenance windows on the 2nd Sunday 02:00–06:00 local time.</div>
+          <div class="ex"><div class="label">AVL · recovery</div>Billing system: RTO 4 hours, RPO 15 minutes. Automatic failover to secondary region on regional outage detected for &gt; 5 minutes.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use AVL when</div>Setting uptime, recovery, or business continuity expectations.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid AVL when</div>The concern is response speed (use PRF) or graceful degradation under load (mix of PRF + EXC).</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- USB -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">USB</span>
+          <div>
+            <div class="tname">Usability &amp; Accessibility</div>
+            <div class="tdesc">How learnable, efficient, and inclusive the experience is for the intended users.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>The quality of the human interaction — how quickly users learn the system, how efficiently they complete tasks, how few errors they make, and how inclusive the experience is across abilities. Tested against real users, not opinion.</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>User group</strong> — named persona, expertise level, frequency of use</li>
+            <li><strong>Task</strong> — the specific user journey being measured</li>
+            <li><strong>Success metric</strong> — completion rate, time-on-task, error rate, SUS score</li>
+            <li><strong>Accessibility standard</strong> — WCAG 2.2 AA is the typical baseline</li>
+            <li><strong>Validation method</strong> — usability test, heuristic evaluation, automated audit</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">USB · task efficiency</div>An infrequent user (uses the system &lt; once a month) can submit a leave request in ≤ 90 seconds with ≥ 90% completion rate on first attempt, validated by moderated usability testing with 5+ users.</div>
+          <div class="ex"><div class="label">USB · accessibility</div>All public-facing screens conform to WCAG 2.2 Level AA. Validated by automated audit (axe / Lighthouse) plus manual review with keyboard-only and screen reader users at sign-off.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use USB when</div>The requirement is about the human's experience — learnability, efficiency, error rate, inclusion.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid USB when</div>It's a visual design preference without a user-success metric (those belong in design specs, not requirements).</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- SEC -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">SEC</span>
+          <div>
+            <div class="tname">Security</div>
+            <div class="tdesc">Authentication, authorisation, data protection, threat mitigation.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>How the system protects information, identities, and operations from unauthorised access, modification, or disclosure. Always written against a named threat model and a control framework — never as generic "must be secure."</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Asset being protected</strong> — data class, transaction, identity, capability</li>
+            <li><strong>Threat</strong> — what attack or misuse this requirement defends against</li>
+            <li><strong>Control</strong> — auth, authorisation, encryption, monitoring, segregation of duties</li>
+            <li><strong>Standard / framework</strong> — ISO 27001, SOC 2, NIST, internal IS policy</li>
+            <li><strong>Verification</strong> — pen test, control audit, automated scan</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">SEC · access control</div>Role-based access aligned to AD/SSO group membership. The "Finance Approver" role grants permission to approve POs ≤ delegation limit; permissions are reconciled to AD groups daily, with deviations alerted to IS.</div>
+          <div class="ex"><div class="label">SEC · data protection</div>Customer PII is encrypted at rest (AES-256) and in transit (TLS 1.3+). Decryption keys are managed by the enterprise KMS with quarterly rotation. No PII is logged in application logs.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use SEC when</div>Specifying a control that protects an asset against a defined threat.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid SEC when</div>It's really an audit trail (use AUD) or a compliance obligation that drives the control (use CMP — let SEC follow).</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- CMP -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">CMP</span>
+          <div>
+            <div class="tname">Compliance</div>
+            <div class="tdesc">Regulatory, audit, contractual, or standards obligations the system must meet.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>An obligation external to the project — regulatory, contractual, or standards-based — that the solution must satisfy. Compliance requirements drive other types (often SEC, AUD, DAT retention) but are documented separately so the obligation is traceable to its source.</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Source</strong> — named regulation, contract clause, or standard</li>
+            <li><strong>Obligation</strong> — exactly what must be done or demonstrated</li>
+            <li><strong>Penalty / consequence</strong> — what happens if not met (often a clue to priority)</li>
+            <li><strong>Evidence required</strong> — what auditors will ask to see</li>
+            <li><strong>Linked enforcement</strong> — which SEC / AUD / DAT requirements operationalise it</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">CMP · regulatory</div>RAID register fields aligned to ISO 31000 risk categories. Source: ISO 31000:2018. Evidence: register schema mapped to ISO categories, available for audit on request.</div>
+          <div class="ex"><div class="label">CMP · contractual</div>Customer data residency: all customer PII processed and stored within the same jurisdiction as the customer. Source: master services agreement clause 8.4. Evidence: data-flow map and quarterly attestation.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use CMP when</div>The driver is an external obligation (regulation, contract, standard) the system must demonstrably meet.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid CMP when</div>It's an internal policy choice (write that as BIZ) or the operational control itself (use SEC / AUD).</div>
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- Tier 3: Lifecycle -->
+  <div class="types-tier">
+    <div class="types-tier-header">
+      <span class="types-tier-num">iii</span>
+      <span class="types-tier-title">Lifecycle</span>
+      <span class="types-tier-desc">Three types for one-time work that doesn't survive into steady state</span>
+    </div>
+
+    <div class="types-grid">
+
+      <!-- MIG -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">MIG</span>
+          <div>
+            <div class="tname">Migration</div>
+            <div class="tdesc">One-time data transition from a source system or legacy state to the new target.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>The one-time movement of data from a source system into the new target. Distinct from INT (which is steady-state). Migration requirements are retired at go-live + n weeks — they should never live in the steady-state register.</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Source &amp; target</strong> — which system, which entity, which fields</li>
+            <li><strong>Field mapping</strong> — source field → target field, with transformation rules</li>
+            <li><strong>Reconciliation rules</strong> — what counts as success (record count, hash, business-rule check)</li>
+            <li><strong>Cutover sequence</strong> — what loads first, what depends on what</li>
+            <li><strong>Rollback plan</strong> — how to revert if validation fails</li>
+            <li><strong>Decommission criteria</strong> — when can the source be turned off</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">MIG · master data mapping</div>Source-to-target posting account mapping, respecting the legacy system's 100-character code-length restriction by truncating with a documented suffix scheme. Reconciled by record count + sample of 1% manually verified.</div>
+          <div class="ex"><div class="label">MIG · cutover sequencing</div>Reference data loads first, then open transactions, then closed transactions for the prior 7 years. Each stage gates on reconciliation pass before the next begins.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use MIG when</div>Moving data from a source/legacy system into the target as a one-off transition activity.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid MIG when</div>The interface persists post go-live (use INT) or it's a structural data design (use DAT).</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- CFG -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">CFG</span>
+          <div>
+            <div class="tname">Configuration</div>
+            <div class="tdesc">Setup values, parameters, and reference data that bring the system to its operational state.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>The one-time setup of parameters, reference data, lookup tables, and configurable values that the system needs to operate. Often misclassified as FUN — but the behaviour is generic, only the configuration is project-specific.</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Configuration item</strong> — the named parameter, table, or value</li>
+            <li><strong>Initial value(s)</strong> — what gets set at go-live</li>
+            <li><strong>Owner</strong> — who can change it post go-live</li>
+            <li><strong>Change process</strong> — how it gets changed (admin UI, request, deployment)</li>
+            <li><strong>Linked dependencies</strong> — what behaviour or rule references the value</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">CFG · reference data</div>Cost centre hierarchy: 4-level structure loaded from finance master, refreshed weekly. Owner post go-live: Finance Master Data team. Change process: ServiceNow request with 48-hour SLA.</div>
+          <div class="ex"><div class="label">CFG · system parameter</div>Approval delegation limits per role: stored as a configurable table, editable by the System Admin role through the admin UI without a code change. Change requires a peer review entry in the audit log.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use CFG when</div>Setting up parameters, reference data, or configurable values that bring the system to operational state.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid CFG when</div>The configuration encodes a business policy that outlives the system (use BIZ instead).</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- AUD -->
+      <details class="type-card" data-search>
+        <summary>
+          <span class="tcode">AUD</span>
+          <div>
+            <div class="tname">Audit &amp; Logging</div>
+            <div class="tdesc">What gets recorded, retained, and made available for forensic review or regulatory inspection.</div>
+          </div>
+          <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+        </summary>
+        <div class="body">
+          <h4>Definition</h4>
+          <p>The trail of who did what, when, and to which record — captured for forensic review, regulatory inspection, or operational troubleshooting. Distinct from RPT (which is for active decisions) — AUD is for reconstruction after the fact.</p>
+          <h4>Must-have components</h4>
+          <ul>
+            <li><strong>Events captured</strong> — which actions trigger an audit entry</li>
+            <li><strong>Fields per entry</strong> — actor, action, target, before/after, timestamp, source IP, session</li>
+            <li><strong>Retention period</strong> — how long, where stored, immutability requirements</li>
+            <li><strong>Access control</strong> — who can read the audit log (and who can't)</li>
+            <li><strong>Tamper resistance</strong> — append-only, hash-chained, signed</li>
+            <li><strong>Search &amp; export</strong> — how an auditor retrieves a slice</li>
+          </ul>
+          <h4>Worked examples</h4>
+          <div class="ex"><div class="label">AUD · transaction log</div>Every approval action logs: actor (user_id + role), action (approve/reject/return), target (request_id + version), before-state, after-state, timestamp (UTC), session_id, source_ip. Retained 10 years, append-only, accessible to the Audit role via search by date range, actor, or target.</div>
+          <div class="ex"><div class="label">AUD · admin actions</div>All admin actions on configuration tables are logged with the configuration item changed, prior value, new value, justification field (mandatory, ≥ 20 chars). Retained 7 years.</div>
+          <div class="when-strip">
+            <div class="when-block when-use"><div class="label">Use AUD when</div>Defining what actions get logged, what's retained, and how the trail is protected and queried.</div>
+            <div class="when-block when-avoid"><div class="label">Avoid AUD when</div>It's an operational dashboard (use RPT) or application-level logging for debugging (use NFR / observability).</div>
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:24px;margin:36px 0 18px;font-weight:500">Naming convention</h3>
+
+  <div class="naming">
+    <div class="header">PATTERN</div>
+    <div class="pattern"><span>[SYSTEM]</span>-<span>[TYPE]</span>-<span>[SCENARIO]</span>-<span>[USE-CASE]</span>-<span>[STORY-ID]</span></div>
+    <div class="ex-line">Example: <span class="v">HR-FUN-SJ1-HD-014</span> — HRIS · Functional · Service Journey 1 · Higher Duties · Story 014</div>
+    <div class="ex-line">Example: <span class="v">PPM-INT-DW-FIN-007</span> — PPM · Integration · Data Warehouse / Finance interface · Story 007</div>
+    <div class="ex-line">Example: <span class="v">EAM-WFL-WO-CLOSE-022</span> — Asset Management · Workflow · Work Order Close · Story 022</div>
+
+    <div class="prefixes">
+      <div class="prefix"><div class="p">HR</div><div class="l">HRIS / Core HR</div></div>
+      <div class="prefix"><div class="p">PPM</div><div class="l">Project &amp; Portfolio</div></div>
+      <div class="prefix"><div class="p">EAM</div><div class="l">Enterprise Asset</div></div>
+      <div class="prefix"><div class="p">WFM</div><div class="l">Workforce Mgmt</div></div>
+      <div class="prefix"><div class="p">ERP</div><div class="l">ERP / Finance</div></div>
+      <div class="prefix"><div class="p">CRM</div><div class="l">CRM / Sales</div></div>
+      <div class="prefix"><div class="p">BIL</div><div class="l">Billing</div></div>
+      <div class="prefix"><div class="p">INT</div><div class="l">Integration platform</div></div>
+      <div class="prefix"><div class="p">DW</div><div class="l">Data warehouse</div></div>
+      <div class="prefix"><div class="p">ITSM</div><div class="l">IT service mgmt</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DoR / DoD ─── -->
+<section id="dor-dod" data-search>
+  <div class="sec-head">
+    <div class="sec-num">04</div>
+    <div class="sec-title">
+      <div class="kicker">Quality gates · Entry &amp; exit</div>
+      <h2>Definition of Ready <em>/</em> Done.</h2>
+      <p class="stand">When does a requirement enter the BA's hands, and when does it leave? Both checklists must be true. No requirement crosses without a tick in every box.</p>
+    </div>
+  </div>
+
+  <div class="babok-strip">
+    <span class="babok-label">BABOK</span>
+    <span class="babok-tag"><span class="ka">RADD 7.5</span> <span class="desc">· Verify Requirements</span></span>
+    <span class="babok-tag"><span class="ka">RADD 7.6</span> <span class="desc">· Validate Requirements</span></span>
+    <span class="babok-tag"><span class="ka">RLCM 5.5</span> <span class="desc">· Approve Requirements</span></span>
+    <span class="babok-tag"><span class="ka">Tech</span> <span class="desc">· Acceptance &amp; Evaluation Criteria · Reviews</span></span>
+  </div>
+
+  <div class="dor-dod">
+
+    <div class="checklist">
+      <h4>Definition of Ready</h4>
+      <div class="sub">Before refinement begins</div>
+      <ul>
+        <li>Source identified (workshop, document, observation, regulation)</li>
+        <li>Single named requestor (not "the business")</li>
+        <li>Linked to an epic, phase, or business process</li>
+        <li>Type provisionally classified (FUN / DAT / INT / WFL / RPT / NFR / CMP / MIG / SEC)</li>
+        <li>Outcome it serves identified</li>
+        <li>No conflict with existing approved requirement</li>
+        <li>Pre-decision dependencies surfaced (decisions in Decision Log)</li>
+      </ul>
+    </div>
+
+    <div class="checklist">
+      <h4>Definition of Done</h4>
+      <div class="sub">Before handoff to build / test</div>
+      <ul>
+        <li>Description is testable — single behaviour, no compound conditions</li>
+        <li>Acceptance criteria written as Given / When / Then</li>
+        <li>Type confirmed and classification reviewed by peer</li>
+        <li>Linked to test case ID(s)</li>
+        <li>Linked to outcome in problem statement</li>
+        <li>Owner named (single person, not committee)</li>
+        <li>Reviewed in fortnightly practice forum if non-trivial</li>
+        <li>Status moved to Approved in register</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── DIAL-UPS ─── -->
+<section id="dialups" data-search>
+  <div class="sec-head">
+    <div class="sec-num">05</div>
+    <div class="sec-title">
+      <div class="kicker">Above the floor · Context-driven rigour</div>
+      <h2>Dial-ups <em>by Context.</em></h2>
+      <p class="stand">The minimum is the floor. Above it, the BA dials up rigour based on the project's risk, complexity, and stakes. Read the context, choose what to add. The skill of the senior BA is knowing what.</p>
+    </div>
+  </div>
+
+  <div class="babok-strip">
+    <span class="babok-label">BABOK</span>
+    <span class="babok-tag"><span class="ka">Persp.</span> <span class="desc">· Five perspectives applied by context</span></span>
+    <span class="babok-tag"><span class="ka">BAPM 3.1</span> <span class="desc">· Plan BA Approach</span></span>
+    <span class="babok-tag"><span class="ka">SA 6.3</span> <span class="desc">· Assess Risks</span></span>
+  </div>
+
+  <div class="dialups">
+
+    <div class="dial">
+      <div class="ctx"><div class="dot"></div><div class="label">Context A</div></div>
+      <h3>Regulatory / Compliance</h3>
+      <ul>
+        <li>Formal compliance traceability matrix mapped to regulator clauses</li>
+        <li>Audit-ready evidence trail for every requirement</li>
+        <li>Regulator-language alignment in acceptance criteria</li>
+        <li>Formal sign-off cadence with named approvers per regulation</li>
+        <li>Change control with regulator-impact assessment</li>
+      </ul>
+    </div>
+
+    <div class="dial">
+      <div class="ctx"><div class="dot"></div><div class="label">Context B</div></div>
+      <h3>Multi-vendor / Integration-heavy</h3>
+      <ul>
+        <li>Integration architecture register: interface inventory, payloads, error handling</li>
+        <li>Interface contracts owned jointly with Solution Architect</li>
+        <li>Paired BA / SA working pattern at requirement level</li>
+        <li>Integration routing rules documented at requirement level</li>
+        <li>Integration readiness checklist per interface; go-live dependency map</li>
+      </ul>
+    </div>
+
+    <div class="dial">
+      <div class="ctx"><div class="dot"></div><div class="label">Context C</div></div>
+      <h3>High-change / High-impact</h3>
+      <ul>
+        <li>Paired BA / Change Manager working pattern</li>
+        <li>Prosci 10-aspect Change Impact Assessment per requirement cluster</li>
+        <li>Readiness gates aligned to phase boundaries</li>
+        <li>Pilot group working with real data pre go-live</li>
+        <li>Formal training and support approach signed off</li>
+      </ul>
+    </div>
+
+    <div class="dial">
+      <div class="ctx"><div class="dot"></div><div class="label">Context D</div></div>
+      <h3>Data-heavy / Migration-led</h3>
+      <ul>
+        <li>Data class inventory with retention rules</li>
+        <li>Source-to-target field mapping with transformation logic</li>
+        <li>Data quality rules and exception thresholds</li>
+        <li>Migration load plan: sample → UAT → production</li>
+        <li>Validation and sign-off checklist per load</li>
+      </ul>
+    </div>
+
+    <div class="dial">
+      <div class="ctx"><div class="dot"></div><div class="label">Context E</div></div>
+      <h3>Strategic / Decision-led</h3>
+      <ul>
+        <li>Decision Pack as primary artefact (BRD becomes a sub-output)</li>
+        <li>Formal Options Paper for major trade-offs with NPV / risk modelling</li>
+        <li>Constraints map: regulatory, financial, capability, time</li>
+        <li>Kill criteria committed before requirements written</li>
+        <li>Outcome traceability dashboard from day one</li>
+      </ul>
+    </div>
+
+    <div class="dial">
+      <div class="ctx"><div class="dot"></div><div class="label">Context F</div></div>
+      <h3>Tactical / Small</h3>
+      <ul>
+        <li>Compress 7 artefacts into a one-page brief + register</li>
+        <li>Single-paragraph problem statement</li>
+        <li>Decision rights named in 3 lines</li>
+        <li>Don't add weight that doesn't earn its place</li>
+        <li>Floor still applies — but minimised, not abandoned</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── INDUSTRY CONTEXT ─── -->
+<section id="industry" data-search>
+  <div class="sec-head">
+    <div class="sec-num">06</div>
+    <div class="sec-title">
+      <div class="kicker">Calibration · By industry</div>
+      <h2>Dial-ups by <em>Industry.</em></h2>
+      <p class="stand">Project context (§05) tells you what shifts when the work is regulatory or multi-vendor. Industry context tells you what shifts when the work is in <em>this sector</em>. Both apply at once — a regulatory project in healthcare uses the Regulatory dial-up <strong>and</strong> the Healthcare industry shape. Each card opens to show what changes for the BA, which artefacts get heavier, and the traps to watch for. Click <em>Read</em> to expand.</p>
+    </div>
+  </div>
+
+  <div class="not-cbap" style="border-left-color:var(--brass);margin-bottom:32px">
+    <div class="not-cbap-label" style="color:var(--brass)">How to read these</div>
+    <p>Industry context is a layer <em>on top of</em> the dial-ups in §05, not a replacement for them. A regulatory project in healthcare uses both the Regulatory dial-up <strong>and</strong> the Healthcare industry shape. Where the two conflict, industry context wins — because the regulator, vocabulary, and evidence bar are non-negotiable.</p>
+  </div>
+
+  <div class="industries">
+
+    <details class="industry" data-search>
+      <summary>
+        <div class="num">01</div>
+        <div>
+          <div class="h">Utilities</div>
+          <div class="d">Regulated assets, slow change cycles, high audit weight.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+      <div class="ind-block">
+        <div class="ind-label">What changes for the BA</div>
+        <div class="ind-content">Regulators set the floor — pricing submissions, network performance, customer obligations. Evidence has to survive a regulatory audit, sometimes years later. Stakeholder shape is heavy on operations, asset management, and engineering. Vocabulary: <strong>SAIDI / SAIFI, RAB, price determination, network tariff</strong>. Decisions move at the pace of regulatory cycles, not sprints.</div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Artefacts that get heavier</div>
+        <div class="ind-pills">
+          <span class="ind-pill">Decision Log</span>
+          <span class="ind-pill">Traceability Matrix</span>
+          <span class="ind-pill">AC&amp;Q register</span>
+          <span class="ind-pill">Compliance (CMP) requirements</span>
+        </div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Common traps</div>
+        <div class="ind-content">Treating compliance as a tick-box instead of a design constraint. Letting the asset register become the requirements register (it's not). Underestimating change fatigue in operations teams who've already absorbed three modernisations.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="industry" data-search>
+      <summary>
+        <div class="num">02</div>
+        <div>
+          <div class="h">Financial Services</div>
+          <div class="d">Regulator-dense, control-heavy, evidence-as-currency.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+      <div class="ind-block">
+        <div class="ind-label">What changes for the BA</div>
+        <div class="ind-content">Multiple regulators (prudential, conduct, privacy, AML) each with their own evidence bar. The artefact <em>is</em> the audit defence. Three lines of defence baked into governance — first line operates, second line controls, third line audits. Vocabulary: <strong>BCBS, KYC, AML/CTF, capital, conduct risk, model risk</strong>. Stakeholders include risk &amp; compliance functions with veto rights.</div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Artefacts that get heavier</div>
+        <div class="ind-pills">
+          <span class="ind-pill">Decision Log</span>
+          <span class="ind-pill">Stakeholder &amp; Decision-rights Map</span>
+          <span class="ind-pill">CMP requirements</span>
+          <span class="ind-pill">SEC requirements</span>
+          <span class="ind-pill">Traceability</span>
+        </div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Common traps</div>
+        <div class="ind-content">Writing for the project, not for the auditor twelve months out. Letting "the policy already covers it" replace explicit requirements. Underestimating second-line review cycles — they take longer than the build.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="industry" data-search>
+      <summary>
+        <div class="num">03</div>
+        <div>
+          <div class="h">Healthcare</div>
+          <div class="d">Patient safety as the floor. Clinical workflow as the language.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+      <div class="ind-block">
+        <div class="ind-label">What changes for the BA</div>
+        <div class="ind-content">Patient safety overrides convenience. Clinicians are not "users" — they are accountable professionals whose workflow disruption can cause harm. Privacy regimes are unforgiving (HIPAA, GDPR, state-level health acts). Vocabulary: <strong>HL7 / FHIR, ePMA, EMR, clinical pathways, MDT, governance committees</strong>. Stakeholder shape spans clinicians, allied health, IT, and clinical informatics.</div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Artefacts that get heavier</div>
+        <div class="ind-pills">
+          <span class="ind-pill">Service / Process Inventory</span>
+          <span class="ind-pill">Stakeholder Map</span>
+          <span class="ind-pill">SEC requirements</span>
+          <span class="ind-pill">CMP requirements</span>
+          <span class="ind-pill">Clinical safety case</span>
+        </div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Common traps</div>
+        <div class="ind-content">Designing for the IT team, not the clinical team. Treating EMR integrations as standard interfaces (they aren't — they're clinical workflow). Skipping clinical informatics governance because it slows things down.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="industry" data-search>
+      <summary>
+        <div class="num">04</div>
+        <div>
+          <div class="h">Government</div>
+          <div class="d">Public accountability, procurement gravity, ministerial visibility.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+      <div class="ind-block">
+        <div class="ind-label">What changes for the BA</div>
+        <div class="ind-content">The ultimate stakeholder is the public, mediated by ministers and oversight bodies. FOI exposure means every decision could become public. Procurement frameworks shape what's possible (panels, schemes, value-for-money tests). Vocabulary: <strong>portfolio, business case methodology (e.g. 5-case model), gateway reviews, machinery of government, citizen-facing services</strong>. Governance is layered and time-consuming — but the mandate is real.</div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Artefacts that get heavier</div>
+        <div class="ind-pills">
+          <span class="ind-pill">Problem Statement</span>
+          <span class="ind-pill">Decision Log</span>
+          <span class="ind-pill">Stakeholder Map</span>
+          <span class="ind-pill">Business case</span>
+          <span class="ind-pill">Benefits map</span>
+        </div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Common traps</div>
+        <div class="ind-content">Mistaking ministerial interest for executive sponsorship — they're not the same. Designing for "the agency" without naming the citizen outcome. Underestimating the time procurement and assurance gates will absorb.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="industry" data-search>
+      <summary>
+        <div class="num">05</div>
+        <div>
+          <div class="h">Telco</div>
+          <div class="d">Network-economics, BSS/OSS complexity, churn-pressured product velocity.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+      <div class="ind-block">
+        <div class="ind-label">What changes for the BA</div>
+        <div class="ind-content">The product is the network plus the service wrapped around it. BSS and OSS layers are ageing, deeply integrated, and politically owned. Customer expectations are shaped by digital-first competitors. Vocabulary: <strong>BSS / OSS, fulfilment, assurance, charging, MVNO, SDN/NFV, plan / offer / product hierarchy</strong>. Speed-to-market matters, but so does network reliability — the trade-off is constant.</div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Artefacts that get heavier</div>
+        <div class="ind-pills">
+          <span class="ind-pill">Service / Process Inventory</span>
+          <span class="ind-pill">INT requirements</span>
+          <span class="ind-pill">DAT requirements</span>
+          <span class="ind-pill">NFR requirements</span>
+        </div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Common traps</div>
+        <div class="ind-content">Treating product as software when it's really a network capability. Letting BSS / OSS owners design the customer experience. Promising digital-first velocity on top of a fulfilment stack that can't move that fast.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="industry" data-search>
+      <summary>
+        <div class="num">06</div>
+        <div>
+          <div class="h">Retail</div>
+          <div class="d">Margin-thin, peak-season-driven, omnichannel as the unit of work.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+      <div class="ind-block">
+        <div class="ind-label">What changes for the BA</div>
+        <div class="ind-content">Decisions are made fast and in commercial terms. The peak season (whichever it is for that retailer) is the immovable date. Omnichannel — store, web, app, marketplace, fulfilment — has to behave as one. Vocabulary: <strong>SKU, gross margin, basket, conversion, omnichannel, OMS / WMS, drop-ship, last mile</strong>. Stakeholders are commercial buyers, store ops, supply chain, and digital — each with different rhythms.</div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Artefacts that get heavier</div>
+        <div class="ind-pills">
+          <span class="ind-pill">Service / Process Inventory</span>
+          <span class="ind-pill">DAT requirements</span>
+          <span class="ind-pill">INT requirements</span>
+          <span class="ind-pill">RPT requirements</span>
+        </div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Common traps</div>
+        <div class="ind-content">Building for "the customer" without naming which channel's customer. Underestimating peak. Treating store ops as a downstream consumer of decisions made in head office.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="industry" data-search>
+      <summary>
+        <div class="num">07</div>
+        <div>
+          <div class="h">Manufacturing</div>
+          <div class="d">Physical operations, OT/IT convergence, safety as a hard constraint.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+      <div class="ind-block">
+        <div class="ind-label">What changes for the BA</div>
+        <div class="ind-content">The plant doesn't stop because the project is delivering. Operational technology (OT) lives by different rules than IT — uptime, safety, decades-long asset lives. Quality and safety regimes (ISO 9001, OSHA-equivalents) are non-negotiable. Vocabulary: <strong>MES, SCADA, PLC, OEE, takt time, lean, kaizen, safety case</strong>. Stakeholders include plant managers, engineers, and union representation.</div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Artefacts that get heavier</div>
+        <div class="ind-pills">
+          <span class="ind-pill">Service / Process Inventory</span>
+          <span class="ind-pill">SEC requirements</span>
+          <span class="ind-pill">NFR requirements</span>
+          <span class="ind-pill">CMP requirements</span>
+          <span class="ind-pill">Cutover plan</span>
+        </div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Common traps</div>
+        <div class="ind-content">Treating OT as IT. Letting digital teams design changes that touch the plant floor without engineering sign-off. Underestimating the cost of a planned outage versus an unplanned one.</div>
+      </div>
+      </div>
+    </details>
+
+    <details class="industry" data-search>
+      <summary>
+        <div class="num">08</div>
+        <div>
+          <div class="h">Higher Education</div>
+          <div class="d">Federated decision-making, semester rhythm, student lifecycle as the spine.</div>
+        </div>
+        <div class="chev"><span class="label">Read</span> <span class="arrow">⌄</span></div>
+      </summary>
+      <div class="body">
+      <div class="ind-block">
+        <div class="ind-label">What changes for the BA</div>
+        <div class="ind-content">Decision-making is genuinely federated — faculties have real autonomy and competing priorities. The semester is the immovable rhythm. The student lifecycle (recruit, enrol, learn, graduate, alumni) is the dominant value stream. Vocabulary: <strong>SIS, LMS, CRM, academic calendar, governance committees, faculty, professional staff</strong>. Stakeholders include academics, students, professional staff, and central executive — with very different incentives.</div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Artefacts that get heavier</div>
+        <div class="ind-pills">
+          <span class="ind-pill">Stakeholder &amp; Decision-rights Map</span>
+          <span class="ind-pill">Service / Process Inventory</span>
+          <span class="ind-pill">Problem Statement</span>
+          <span class="ind-pill">Change impact</span>
+        </div>
+      </div>
+      <div class="ind-block">
+        <div class="ind-label">Common traps</div>
+        <div class="ind-content">Designing for central executive without faculty buy-in (it won't land). Treating academics as users. Trying to deliver into a teaching period instead of between them.</div>
+      </div>
+      </div>
+    </details>
+
+  </div>
+
+  <div class="pull" style="margin-top:32px">
+    The standards in this guide travel across industries. The shape of the work doesn't. A senior BA reads the industry first, then chooses how to apply the standard.
+    <cite>The relationship between practice and industry</cite>
+  </div>
+</section>
+
+<!-- ─── METHODS & SEQUENCE ─── -->
+<section id="methods" data-search>
+  <div class="sec-head">
+    <div class="sec-num">07</div>
+    <div class="sec-title">
+      <div class="kicker">How we do the work · Sequence + methods</div>
+      <h2>Methods <em>&amp;</em> Sequence.</h2>
+      <p class="stand">The standard operating sequence is non-negotiable. Depth flexes; order does not. Beneath the sequence, choose elicitation methods by suitability — not by habit.</p>
+    </div>
+  </div>
+
+  <div class="babok-strip">
+    <span class="babok-label">BABOK</span>
+    <span class="babok-tag"><span class="ka">EC</span> <span class="desc">· Elicitation &amp; Collaboration</span></span>
+    <span class="babok-tag"><span class="ka">EC 4.1</span> <span class="desc">· Prepare for Elicitation</span></span>
+    <span class="babok-tag"><span class="ka">EC 4.2</span> <span class="desc">· Conduct Elicitation</span></span>
+    <span class="babok-tag"><span class="ka">EC 4.3</span> <span class="desc">· Confirm Elicitation Results</span></span>
+    <span class="babok-tag"><span class="ka">Tech</span> <span class="desc">· Workshops · Interviews · Observation · Document Analysis · Survey</span></span>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:22px;margin-bottom:18px;font-weight:500">Standard operating sequence</h3>
+
+  <div class="sequence">
+    <div class="seq-step"><div class="n">01</div><div class="l">Frame problem</div></div>
+    <div class="seq-step"><div class="n">02</div><div class="l">Map decisions</div></div>
+    <div class="seq-step"><div class="n">03</div><div class="l">Define outcomes</div></div>
+    <div class="seq-step"><div class="n">04</div><div class="l">Inventory current state</div></div>
+    <div class="seq-step"><div class="n">05</div><div class="l">Classify &amp; elicit</div></div>
+    <div class="seq-step"><div class="n">06</div><div class="l">Trace to tests</div></div>
+    <div class="seq-step"><div class="n">07</div><div class="l">Validate with users</div></div>
+    <div class="seq-step"><div class="n">08</div><div class="l">Confirm in production</div></div>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:22px;margin:24px 0 18px;font-weight:500">Elicitation methods — when to use which</h3>
+
+  <div class="methods-grid">
+    <div class="method"><h4>Service journey decomposition</h4><div class="when">Best when…</div><p>The work is end-to-end and customer- or employee-facing. Proven on HR transformation programmes — 13 epics from journey-level down to acceptance criteria, written largely by stakeholders inside a structure the BA designed. <span class="babok-inline">BABOK · Process Modelling · Functional Decomposition</span></p></div>
+    <div class="method"><h4>Workshop facilitation</h4><div class="when">Best when…</div><p>Stakeholder consensus is the constraint. The room needs to make the decision — the BA designs the path to it. <span class="babok-inline">BABOK · Workshops · Brainstorming · Focus Groups</span></p></div>
+    <div class="method"><h4>Document &amp; system archaeology</h4><div class="when">Best when…</div><p>Current state is undocumented or contested. The BA reads the system, the data, the tickets — and reconstructs reality. <span class="babok-inline">BABOK · Document Analysis · Data Mining · Interface Analysis</span></p></div>
+    <div class="method"><h4>Observation / shadowing</h4><div class="when">Best when…</div><p>Stated process and actual process diverge. Operators describe the SOP; the BA watches what they actually do. <span class="babok-inline">BABOK · Observation · Process Analysis</span></p></div>
+    <div class="method"><h4>Survey + interview hybrid</h4><div class="when">Best when…</div><p>Stakeholder population is high-volume and distributed. Survey for breadth, interview for depth on outliers. <span class="babok-inline">BABOK · Survey/Questionnaire · Interviews</span></p></div>
+    <div class="method"><h4>AI-assisted requirement generation</h4><div class="when">Best when…</div><p>The structure exists and stakeholders need scaffolding. The pattern: stakeholders writing BA-quality requirements inside a system the BA designed, with AI tooling (e.g. Atlassian Rovo, Microsoft Copilot) embedded in the requirements stack. <span class="babok-inline">BABOK · Collaborative Games · Reviews — applied with AI tooling</span></p></div>
+  </div>
+</section>
+
+<!-- ─── PROMPT LIBRARY ─── -->
+<section id="prompts" data-search>
+  <div class="sec-head">
+    <div class="sec-num">08</div>
+    <div class="sec-title">
+      <div class="kicker">AI-augmented BA · Built into the requirements stack</div>
+      <h2>The Prompt <em>Library.</em></h2>
+      <p class="stand">Codified from real transformation programmes. Versioned. Reviewed quarterly. These prompts run inside the requirements stack (for example in Confluence) with AI tooling (for example Atlassian Rovo, Microsoft Copilot), with guardrails baked in — no invented scope, evidence-only requirements, ID preservation, classification discipline. Click any prompt to copy.</p>
+    </div>
+  </div>
+
+  <details class="prompt" data-search>
+    <summary>
+      <div>
+        <div class="meta-line"><span class="ptag">elicitation</span><span class="ptag">v1.2</span></div>
+        <div class="pname">Service journey → epics</div>
+        <div class="pdesc">Take a service journey description and produce candidate epics with phases.</div>
+      </div>
+      <div class="chev"><span class="label">Open</span> <span class="arrow">⌄</span></div>
+    </summary>
+    <div class="pbody">
+      <h5>Use when</h5>
+      <p>Starting a new workstream from a journey description (e.g. "Higher Duties" or "Onboarding"). Output feeds the requirements register's Epic and Phase columns.</p>
+      <h5>Prompt</h5>
+      <div class="prompt-text"><button class="copy-btn" data-copy>Copy</button>You are a senior business analyst working in a structured requirements architecture.
+
+Service journey: [PASTE JOURNEY NAME + DESCRIPTION]
+Linked artefacts: [LINK TO CONFLUENCE PAGES]
+
+Decompose this journey into:
+1. Epics (3–7 maximum) — each epic represents a coherent body of capability
+2. Phases per epic (2–5) — each phase represents a logical sequencing of work
+3. For each phase, the candidate business processes it contains (no requirements yet)
+
+Rules:
+— Use only information present in the linked artefacts. Do not invent scope.
+— If information is missing for a phase, label it "EVIDENCE GAP" with what is needed.
+— Preserve any IDs already present in source documents.
+— Output as a Confluence-ready table: Epic | Phase | Business Processes | Evidence Source | Gaps.
+
+Do NOT yet write requirements. Stop at the business process level.</div>
+    </div>
+  </details>
+
+  <details class="prompt" data-search>
+    <summary>
+      <div>
+        <div class="meta-line"><span class="ptag">elicitation</span><span class="ptag">v1.4</span></div>
+        <div class="pname">Business process → requirements (classified)</div>
+        <div class="pdesc">For a given business process, generate classified requirements with full traceability.</div>
+      </div>
+      <div class="chev"><span class="label">Open</span> <span class="arrow">⌄</span></div>
+    </summary>
+    <div class="pbody">
+      <h5>Use when</h5>
+      <p>The journey/epic/phase structure is in place and you're ready to write requirements per process. This is the workhorse prompt — most BA prompt libraries are built around variants of this.</p>
+      <h5>Prompt</h5>
+      <div class="prompt-text"><button class="copy-btn" data-copy>Copy</button>You are a senior business analyst working to a defined practice standard.
+
+Context:
+— Epic: [EPIC]
+— Phase: [PHASE]
+— Business Process: [PROCESS]
+— Linked artefacts: [LINKS]
+— Naming prefix: [SYSTEM] (e.g. HR, PPM, EAM, ERP)
+
+Generate requirements for this business process. For each requirement:
+
+ID format: [PREFIX]-[TYPE]-[SCENARIO]-[USE-CASE]-[NNN]
+Types allowed: FUN, DAT, INT, WFL, RPT, NFR, CMP, MIG, SEC
+
+Required fields per requirement:
+— ID
+— Type (one of the above)
+— Description (single behaviour, testable, present tense)
+— Acceptance criteria (Given / When / Then)
+— Source (which artefact, which paragraph or workshop)
+— Owner (named person — if not known, write "OWNER GAP")
+— Outcome served (link to outcome in problem statement)
+— Linked test case ID (placeholder if not yet written)
+
+Rules — strict:
+— Evidence-only. If you cannot point to a source, do not write the requirement.
+— One behaviour per requirement. Compound conditions split into separate requirements.
+— Use the organisation's vocabulary correctly — no invented terms.
+— No "the system shall" boilerplate. Write in plain English.
+— Flag any ambiguity as an OPEN QUESTION rather than guessing.
+
+Output as a Confluence table.</div>
+    </div>
+  </details>
+
+  <details class="prompt" data-search>
+    <summary>
+      <div>
+        <div class="meta-line"><span class="ptag">refinement</span><span class="ptag">v1.1</span></div>
+        <div class="pname">Requirement quality review</div>
+        <div class="pdesc">Critique and refine an existing requirement against the practice's quality bar.</div>
+      </div>
+      <div class="chev"><span class="label">Open</span> <span class="arrow">⌄</span></div>
+    </summary>
+    <div class="pbody">
+      <h5>Use when</h5>
+      <p>A requirement is in Draft and needs to move to Refined. Use as the BA's first reviewer before peer review.</p>
+      <h5>Prompt</h5>
+      <div class="prompt-text"><button class="copy-btn" data-copy>Copy</button>You are reviewing a draft requirement against a defined practice quality bar.
+
+Requirement:
+[PASTE REQUIREMENT]
+
+Critique against the following:
+
+1. Single behaviour? (One thing, not a compound)
+2. Testable? (Could a tester verify pass/fail without ambiguity?)
+3. Source traceable? (Is the evidence named?)
+4. Outcome traced? (Does it link to a documented outcome?)
+5. Classification correct? (Is the type the most accurate one?)
+6. Owner named? (Single person, not "the business")
+7. Organisation vocabulary used correctly? (No invented terms.)
+8. Acceptance criteria in Given/When/Then?
+9. Any hidden assumption that should be in the assumption log instead?
+
+For each, mark PASS / GAP / FAIL with one-line reason.
+Then propose a rewritten version that resolves all GAP/FAIL items.
+If FAIL is unresolvable without more information, propose the open question that needs to be raised.</div>
+    </div>
+  </details>
+
+  <details class="prompt" data-search>
+    <summary>
+      <div>
+        <div class="meta-line"><span class="ptag">classification</span><span class="ptag">v1.0</span></div>
+        <div class="pname">Type classifier</div>
+        <div class="pdesc">Classify a requirement into the correct type — FUN, DAT, INT, WFL, RPT, NFR, CMP, MIG, SEC.</div>
+      </div>
+      <div class="chev"><span class="label">Open</span> <span class="arrow">⌄</span></div>
+    </summary>
+    <div class="pbody">
+      <h5>Use when</h5>
+      <p>A requirement is unclassified or classification is being challenged in review.</p>
+      <h5>Prompt</h5>
+      <div class="prompt-text"><button class="copy-btn" data-copy>Copy</button>Classify the following requirement into one of the practice types. Pick the single best fit.
+
+FUN — Functional: what the system does
+DAT — Data: what is captured/stored/retained
+INT — Integration: interface to/from another system
+WFL — Workflow: process logic, routing, stage gates
+RPT — Reporting: outputs, dashboards, returns
+NFR — Non-functional: performance, availability, scalability
+CMP — Compliance: regulatory, audit, ISO/SOC
+MIG — Migration: one-time data transition
+SEC — Security: auth, access, data protection
+
+Requirement:
+[PASTE]
+
+Output:
+1. Best type (one of the above)
+2. One-line justification
+3. Second-best type if borderline (and why not first)
+4. Whether this should actually be split into multiple requirements (Y/N + rationale)</div>
+    </div>
+  </details>
+
+  <details class="prompt" data-search>
+    <summary>
+      <div>
+        <div class="meta-line"><span class="ptag">jira</span><span class="ptag">v1.3</span></div>
+        <div class="pname">Confluence row → Jira ticket</div>
+        <div class="pdesc">Convert a refined requirement row into a Jira-ready ticket structure (full-field).</div>
+      </div>
+      <div class="chev"><span class="label">Open</span> <span class="arrow">⌄</span></div>
+    </summary>
+    <div class="pbody">
+      <h5>Use when</h5>
+      <p>Requirements are approved in Confluence and ready to be created as Jira tickets. Output is structured for paste into Jira fields (no API access needed).</p>
+      <h5>Prompt</h5>
+      <div class="prompt-text"><button class="copy-btn" data-copy>Copy</button>Convert the following Confluence requirement row into a Jira ticket structure ready for paste.
+
+Source row:
+[PASTE ROW WITH ID, TYPE, DESCRIPTION, ACCEPTANCE CRITERIA, SOURCE, OWNER, OUTCOME, LINKED ARTEFACTS]
+
+Generate the following Jira fields verbatim — labelled and ready to paste:
+
+Summary: [from ID + short description]
+Issue type: Story
+Requirement Type: [FUN / DAT / INT / WFL / RPT / NFR / CMP / MIG / SEC]
+Value Stream: [from source]
+Workstream: [from source]
+Description: [expanded narrative — 2 paragraphs max]
+Acceptance Criteria:
+   Given [...]
+   When  [...]
+   Then  [...]
+Definition of Ready: [paste from practice DoR]
+Definition of Done: [paste from practice DoD]
+Traceability:
+   Epic: [link]
+   Phase: [link]
+   Business Process: [link]
+   Test Case: [placeholder if none yet]
+   Outcome: [link]
+Systems Impacted: [list]
+Subtasks:
+   - [build subtask]
+   - [test subtask]
+   - [migration / data subtask if applicable]
+
+Preserve the original ID exactly. Do not reformat or shorten the ID.</div>
+    </div>
+  </details>
+
+  <details class="prompt" data-search>
+    <summary>
+      <div>
+        <div class="meta-line"><span class="ptag">change</span><span class="ptag">v1.0</span></div>
+        <div class="pname">Change impact assessment (Prosci 10)</div>
+        <div class="pdesc">For a requirement cluster, produce a Prosci 10-aspect change impact assessment.</div>
+      </div>
+      <div class="chev"><span class="label">Open</span> <span class="arrow">⌄</span></div>
+    </summary>
+    <div class="pbody">
+      <h5>Use when</h5>
+      <p>Working on a high-change project (Context C). Pairs with a Change Manager to produce a CIA per requirement cluster.</p>
+      <h5>Prompt</h5>
+      <div class="prompt-text"><button class="copy-btn" data-copy>Copy</button>Produce a Change Impact Assessment using Prosci's 10 aspects of change impact for the following requirement cluster.
+
+Cluster: [NAME]
+Requirements: [LIST OR LINK]
+Affected stakeholders / groups: [LIST]
+
+For each of the 10 aspects, score impact LOW / MED / HIGH and write 2–3 sentences:
+
+1. Processes
+2. Systems
+3. Tools
+4. Job roles
+5. Critical behaviours
+6. Mindset, attitudes, beliefs
+7. Reporting structure
+8. Performance reviews
+9. Compensation
+10. Location
+
+Then summarise:
+— Top 3 highest-impact aspects
+— Recommended mitigation per top-3 aspect
+— Required readiness gates before go-live for this cluster
+— Comms and training implications</div>
+    </div>
+  </details>
+
+  <details class="prompt" data-search>
+    <summary>
+      <div>
+        <div class="meta-line"><span class="ptag">decision</span><span class="ptag">v1.1</span></div>
+        <div class="pname">Decision pack drafter</div>
+        <div class="pdesc">Frame a binding decision into a one-page decision pack — options, trade-offs, recommendation.</div>
+      </div>
+      <div class="chev"><span class="label">Open</span> <span class="arrow">⌄</span></div>
+    </summary>
+    <div class="pbody">
+      <h5>Use when</h5>
+      <p>A decision is blocking requirements progress. Strategic / decision-led projects (Context E) use this as a primary artefact.</p>
+      <h5>Prompt</h5>
+      <div class="prompt-text"><button class="copy-btn" data-copy>Copy</button>Frame the following as a one-page decision pack for senior leadership.
+
+Decision question: [SINGLE QUESTION REQUIRING A YES/NO OR PICK-ONE]
+Decision owner: [NAMED PERSON]
+Linked artefacts: [LINKS]
+
+Structure:
+
+1. THE DECISION
+   One sentence. The exact question requiring a choice.
+
+2. WHY NOW
+   What forces this decision? What happens if we delay?
+
+3. CONSTRAINTS BINDING THE DECISION
+   Regulatory / financial / capability / time / data — list them.
+
+4. OPTIONS (2–4)
+   For each option:
+   — One-line summary
+   — Pros (3 max)
+   — Cons (3 max)
+   — Cost (rough order of magnitude)
+   — Risk (one-line)
+   — Trade-offs (what we give up)
+
+5. RECOMMENDATION
+   Single option with rationale. If genuinely uncertain, say so.
+
+6. KILL CRITERIA
+   Conditions that would trigger reset.
+
+7. NEXT DECISION REQUIRED
+   What's the next decision this unlocks?
+
+Total length: under one page.</div>
+    </div>
+  </details>
+
+  <details class="prompt" data-search>
+    <summary>
+      <div>
+        <div class="meta-line"><span class="ptag">test</span><span class="ptag">v1.0</span></div>
+        <div class="pname">Acceptance criteria → test cases</div>
+        <div class="pdesc">Generate testable test cases from a requirement's acceptance criteria.</div>
+      </div>
+      <div class="chev"><span class="label">Open</span> <span class="arrow">⌄</span></div>
+    </summary>
+    <div class="pbody">
+      <h5>Use when</h5>
+      <p>Closing the traceability loop. Output gives testers a head-start and is the basis for the RTM.</p>
+      <h5>Prompt</h5>
+      <div class="prompt-text"><button class="copy-btn" data-copy>Copy</button>Generate test cases from the following requirement and acceptance criteria.
+
+Requirement ID: [ID]
+Description: [DESCRIPTION]
+Acceptance criteria:
+[PASTE GIVEN / WHEN / THEN]
+
+For each acceptance criterion, generate:
+— A positive test case (the criterion holds)
+— At least one negative test case (boundary / failure)
+— Test data needed (list)
+— Pre-conditions
+— Expected result
+
+Test case ID format: TC-[REQ-ID]-[NN]
+Output as a table: Test ID | Type (Pos/Neg) | Pre-conditions | Steps | Test Data | Expected Result | Linked Req</div>
+    </div>
+  </details>
+
+  <details class="prompt" data-search>
+    <summary>
+      <div>
+        <div class="meta-line"><span class="ptag">discovery</span><span class="ptag">v1.0</span></div>
+        <div class="pname">Workshop synthesis</div>
+        <div class="pdesc">Turn raw workshop notes into structured outputs — decisions, requirements candidates, open questions, actions.</div>
+      </div>
+      <div class="chev"><span class="label">Open</span> <span class="arrow">⌄</span></div>
+    </summary>
+    <div class="pbody">
+      <h5>Use when</h5>
+      <p>Post-workshop. Replaces the BA spending half a day organising notes manually.</p>
+      <h5>Prompt</h5>
+      <div class="prompt-text"><button class="copy-btn" data-copy>Copy</button>You are synthesising raw workshop notes into structured BA outputs.
+
+Workshop name: [NAME]
+Date: [DATE]
+Attendees: [LIST]
+Raw notes:
+[PASTE NOTES OR TRANSCRIPT]
+
+Produce four outputs:
+
+1. DECISIONS MADE (for the Decision Log)
+   — Decision · Owner · Rationale · Constraints binding · Revisit Y/N
+
+2. REQUIREMENTS CANDIDATES (for the requirements register)
+   — Description · Type (best guess) · Source (which workshop moment) · Status: Draft
+
+3. OPEN QUESTIONS (for the AC&Q log)
+   — Question · Owner · Due · Blocking what?
+
+4. ACTIONS (for the action register)
+   — Action · Owner · Due · Linked to which decision/requirement?
+
+Rules:
+— Don't invent. If something wasn't said, don't write it.
+— If a decision was implied but not made, log it as an OPEN QUESTION.
+— Use the organisation's vocabulary correctly.
+— Flag any contradictions in the notes.</div>
+    </div>
+  </details>
+
+  <details class="prompt" data-search>
+    <summary>
+      <div>
+        <div class="meta-line"><span class="ptag">stakeholder</span><span class="ptag">v1.0</span></div>
+        <div class="pname">Stakeholder map drafter</div>
+        <div class="pdesc">Build a stakeholder &amp; decision-rights map from project context.</div>
+      </div>
+      <div class="chev"><span class="label">Open</span> <span class="arrow">⌄</span></div>
+    </summary>
+    <div class="pbody">
+      <h5>Use when</h5>
+      <p>Project kick-off, or when decision rights are vague and the project is drifting.</p>
+      <h5>Prompt</h5>
+      <div class="prompt-text"><button class="copy-btn" data-copy>Copy</button>Build a stakeholder and decision-rights map for the following project.
+
+Project: [NAME]
+Sponsor: [NAME]
+Domain(s): [HR / Finance / Asset Services / etc.]
+Linked artefacts: [LINKS — org chart, charter, prior projects]
+
+Output two tables:
+
+TABLE 1 — Stakeholder map
+Name · Role · Domain · Influence (H/M/L) · Interest (H/M/L) · Constraint they represent
+
+TABLE 2 — Decision rights
+Decision class · Accountable · Consulted · Informed · Escalation
+Decision classes (default): Scope · Schedule · Budget · Solution design · Data &amp; integration · Change &amp; adoption · Sign-off / UAT · Go-live
+
+Then summarise:
+— The 3 most powerful stakeholders and what they're optimising for
+— The 3 highest-risk gaps (where decision rights are unclear)
+— Recommended escalation path for unresolved disputes
+
+Rules:
+— Name people, not roles, wherever the artefacts allow it.
+— If an artefact is missing data, flag it rather than inventing.</div>
+    </div>
+  </details>
+
+  <details class="prompt" data-search>
+    <summary>
+      <div>
+        <div class="meta-line"><span class="ptag">data</span><span class="ptag">v1.0</span></div>
+        <div class="pname">Data class definition</div>
+        <div class="pdesc">Define a data class — fields, retention, source, owner — for migration or master data work.</div>
+      </div>
+      <div class="chev"><span class="label">Open</span> <span class="arrow">⌄</span></div>
+    </summary>
+    <div class="pbody">
+      <h5>Use when</h5>
+      <p>Data-led / migration projects (Context D). Used on PPM for the Forecast data class definition.</p>
+      <h5>Prompt</h5>
+      <div class="prompt-text"><button class="copy-btn" data-copy>Copy</button>Define the following data class for use in a migration / master data context.
+
+Data class name: [e.g. Forecast, Project, Team, Posting Account]
+Source system(s): [e.g. data warehouse, finance system, scheduler]
+Target system: [e.g. new PPM platform]
+Linked artefacts: [LINKS]
+
+Output:
+
+1. DEFINITION
+   What is this data class? One paragraph.
+
+2. ATTRIBUTES
+   Field · Type · Mandatory? · Source field · Target field · Transformation rule · Validation rule
+
+3. RETENTION
+   How long? Why? Regulator/audit basis?
+
+4. OWNER
+   Business owner (decisions) and steward (operational).
+
+5. KEY BEHAVIOUR
+   Is this mastered in source or target? What happens on update?
+   Unique key? Composite key? Reuse rules?
+
+6. KNOWN ISSUES
+   Inconsistencies, gaps, integration limitations (e.g. legacy code-length restrictions, finite key spaces).
+
+7. MIGRATION APPROACH
+   Initial load · Delta · Validation gates · Sign-off owner</div>
+    </div>
+  </details>
+
+  <details class="prompt" data-search>
+    <summary>
+      <div>
+        <div class="meta-line"><span class="ptag">review</span><span class="ptag">v1.0</span></div>
+        <div class="pname">Requirements register audit</div>
+        <div class="pdesc">Audit a full requirements register for gaps, drift, and quality issues.</div>
+      </div>
+      <div class="chev"><span class="label">Open</span> <span class="arrow">⌄</span></div>
+    </summary>
+    <div class="pbody">
+      <h5>Use when</h5>
+      <p>Mid-project health check or pre-handover audit. Sets the agenda for the practice forum.</p>
+      <h5>Prompt</h5>
+      <div class="prompt-text"><button class="copy-btn" data-copy>Copy</button>Audit the following requirements register against a world-class BA practice floor.
+
+Register: [PASTE OR LINK]
+
+Check and report on:
+
+1. COMPLETENESS
+   — Are all 9 requirement types represented where the project would warrant them?
+   — Any obvious coverage gaps (e.g. no NFRs, no migration requirements for a data project)?
+
+2. CLASSIFICATION HEALTH
+   — Distribution of types — is one type over-used (e.g. everything labelled FUN)?
+   — Misclassifications visible in samples?
+
+3. TRACEABILITY
+   — % of requirements with named source
+   — % with linked test case
+   — % with linked outcome
+   — Orphan requirements (no epic/phase)
+
+4. QUALITY BAR
+   — Sample 10 requirements at random — score against the DoD checklist
+   — Flag any compound requirements
+   — Flag any unowned requirements
+
+5. RISK CALL
+   What are the top 3 risks this register represents to delivery?
+   What should the BA fix this week?
+
+Output: a 1-page audit summary plus a sortable issue list (Severity · Item · Fix).</div>
+    </div>
+  </details>
+
+</section>
+
+<!-- ─── OPERATING RHYTHM ─── -->
+<section id="rhythm" data-search>
+  <div class="sec-head">
+    <div class="sec-num">09</div>
+    <div class="sec-title">
+      <div class="kicker">How the practice runs · Cadence</div>
+      <h2>The Operating <em>Rhythm.</em></h2>
+      <p class="stand">Standards stay alive only if the practice runs them. Four cadences carry the floor — each owned by named people, each with a clear purpose. Without these, the library is just a page no one opens.</p>
+    </div>
+  </div>
+
+  <div class="babok-strip">
+    <span class="babok-label">BABOK</span>
+    <span class="babok-tag"><span class="ka">BAPM 3.5</span> <span class="desc">· Identify BA Performance Improvements</span></span>
+    <span class="babok-tag"><span class="ka">SE 8.5</span> <span class="desc">· Recommend Actions</span></span>
+    <span class="babok-tag"><span class="ka">UC 9</span> <span class="desc">· Underlying Competencies — practice development</span></span>
+  </div>
+
+  <div class="rhythm">
+    <div class="beat">
+      <div class="cad">Fortnightly · 60 min</div>
+      <h4>Practice forum</h4>
+      <div class="who">All BAs · led by senior BA</div>
+      <p>One BA presents one artefact, the practice critiques against the floor. Where standards are taught, refined, and made public. Quality becomes a craft conversation, not an opinion contest.</p>
+    </div>
+    <div class="beat">
+      <div class="cad">Weekly · 30 min</div>
+      <h4>BA-pair clinic</h4>
+      <div class="who">Senior + junior BA · per pilot</div>
+      <p>Pairing, not policing. Senior BAs teach the standard at the artefact during real work. The strongest mechanism for transferring craft.</p>
+    </div>
+    <div class="beat">
+      <div class="cad">Monthly · 90 min</div>
+      <h4>Standards review</h4>
+      <div class="who">Two senior BAs + Lead BA</div>
+      <p>What's working in the floor? What's drifting? What dial-up is being added on the ground? Updates flow into the next quarterly version.</p>
+    </div>
+    <div class="beat">
+      <div class="cad">Quarterly · half day</div>
+      <h4>Library release</h4>
+      <div class="who">Whole practice + Head of Delivery</div>
+      <p>Floor v[next], dial-ups updated, prompt library refreshed, outcome dashboard reviewed. The library is a living thing — never a 2026 artefact.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:24px" data-search>
+    <h3>What gets reviewed in the practice forum</h3>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:14px">A rotating rota — not a recurring lecture. Every BA presents work in progress. Reviews are against the floor, dial-ups, and DoD — never against personal preference.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">
+      <div class="ex"><div class="label">Week 1</div>Problem statement walkthrough</div>
+      <div class="ex"><div class="label">Week 3</div>Requirement quality drill — DoD audit</div>
+      <div class="ex"><div class="label">Week 5</div>Decision log + four-tests check</div>
+      <div class="ex"><div class="label">Week 7</div>Traceability matrix tour</div>
+      <div class="ex"><div class="label">Week 9</div>Prompt library improvements</div>
+      <div class="ex"><div class="label">Week 11</div>Cross-project standards drift</div>
+    </div>
+  </div>
+
+  <div class="pull">
+    A practice that doesn't review its own work in public is a team. A team that does, is a practice.
+    <cite>Operating principle</cite>
+  </div>
+</section>
+
+<footer>
+  <div class="col-grid">
+
+    <div class="col-left">
+      <div class="col-eyebrow">A note from the author</div>
+      <h3>If your BA practice <em>doesn't look like this,</em> there's room to elevate it.</h3>
+      <p class="col-lede">This guide describes the floor of a world-class BA practice — the standards, templates, methods, and operating rhythm that turn analysis output into decision quality. Bringing a practice up to the floor is rarely a tooling problem. It's an operating discipline problem. The work is in the structure.</p>
+      <div class="col-cta-row">
+        <a class="col-cta" href="https://www.linkedin.com/in/trev1n/" target="_blank" rel="noopener">Connect on LinkedIn</a>
+      </div>
+    </div>
+
+    <div class="col-right">
+      <div class="col-block">
+        <div class="label">Author</div>
+        <div class="col-value">Trevin Nimaladasa<br><em>Senior business analyst &amp; transformation advisor</em></div>
+      </div>
+      <div class="col-block">
+        <div class="label">Edition</div>
+        <div class="col-value">Field Guide No. 01 · First Edition · 2026<br><em>Reviewed quarterly. Updates published with version notes.</em></div>
+      </div>
+      <div class="col-block">
+        <div class="label">Standard</div>
+        <div class="col-value">Aligned to the IIBA BABOK<sup>®</sup> Guide v3<br><em>Six knowledge areas · fifty techniques · five perspectives.</em></div>
+      </div>
+      <div class="col-block">
+        <div class="label">Rights</div>
+        <div class="col-value">© 2026 Trevin Nimaladasa. The frameworks, templates, and prompts in this guide are intended for use inside the reader's own practice. Attribution appreciated.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-baseline">
+    <div class="seal-mini">
+      <div class="seal-mini-mark">T</div>
+      <span>The Minimum Viable BA Practice</span>
+    </div>
+    <div>Vol. I · First Edition · 2026</div>
+  </div>
+</footer>
+
+</main>
+</div>
+
+<script>
+  /* ─── Active section highlight on scroll ────────────────── */
+  const navLinks = document.querySelectorAll('#nav a');
+  const sections = document.querySelectorAll('section[id], header.masthead');
+
+  /* ─── In-page nav: prevent iframe link interception ─────── */
+  /* Catch ALL anchor links in the document (sidebar nav + masthead stats + any inline) */
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      if (!href || !href.startsWith('#') || href === '#') return;
+      const target = document.getElementById(href.slice(1));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Update sidebar active state if this link maps to a nav entry
+        navLinks.forEach(a => a.classList.toggle(
+          'active',
+          a.getAttribute('href') === href
+        ));
+      }
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0% -55% 0%', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+
+  /* ─── Search filter ─────────────────────────────────────── */
+  const search = document.getElementById('search');
+  const searchables = document.querySelectorAll('[data-search]');
+
+  search.addEventListener('input', e => {
+    const q = e.target.value.toLowerCase().trim();
+
+    if (!q) {
+      searchables.forEach(el => el.classList.remove('hidden'));
+      document.querySelectorAll('section').forEach(s => s.classList.remove('hidden'));
+      return;
+    }
+
+    // Filter individual searchable items
+    searchables.forEach(el => {
+      const text = el.textContent.toLowerCase();
+      el.classList.toggle('hidden', !text.includes(q));
+    });
+
+    // Hide whole sections if every searchable inside is hidden
+    document.querySelectorAll('section').forEach(sec => {
+      const items = sec.querySelectorAll('[data-search]');
+      if (items.length === 0) return;
+      const anyVisible = Array.from(items).some(i => !i.classList.contains('hidden'));
+      sec.classList.toggle('hidden', !anyVisible);
+    });
+  });
+
+  /* ─── Copy buttons on prompt blocks ─────────────────────── */
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const block = btn.parentElement;
+      const text = block.textContent.replace(/^Copy\s*/, '').trim();
+      try {
+        await navigator.clipboard.writeText(text);
+        const original = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.classList.add('ok');
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('ok');
+        }, 1500);
+      } catch (err) {
+        btn.textContent = 'Copy failed';
+      }
+    });
+  });
+
+  /* ─── Smooth scroll with offset ─────────────────────────── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
