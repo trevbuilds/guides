@@ -97,6 +97,7 @@ button.tog:focus-visible, .it:focus-visible { outline: 2px solid var(--accent); 
 .tag.d { background: var(--ok-soft); color: var(--ok); }
 .tag.mv { background: var(--accent-soft); color: var(--accent); }
 .tag.r { background: var(--plum-soft); color: var(--plum); }
+.tag.nx { background: transparent; color: var(--accent); border: 1px dashed var(--accent); }
 .tag.s { background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line); }
 .det { display: none; margin-top: 7px; padding-top: 7px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
 .it.open .det, .all .it .det { display: block; }
@@ -123,7 +124,7 @@ footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--line);
 <div class="wrap" id="ezm">
   <p class="eyebrow">The Enterprise That Moves · v0.7 rewrite</p>
   <h1>How the book changes from v0.6 to v0.7</h1>
-  <p class="lede">Outline locked 29 September 2026. The beta manuscript’s twenty-six chapters in six parts become sixteen in four, the method is renamed DECIDE, and every chapter below traces back to the v0.6 material it is built from.</p>
+  <p class="lede">Outline locked 29 September 2026. The beta manuscript’s twenty-six chapters in six parts become sixteen in four, the method is renamed DECIDE, and every chapter below traces back to the v0.6 material it is built from. Status updated 2 October 2026: Part I drafted.</p>
 
   <div class="metrics">
     <div class="m"><b>26 → 16</b><span>chapters</span></div>
@@ -198,11 +199,11 @@ footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--line);
           <div class="det"><p><b>Argues:</b> transformation fails at the leadership layer before it fails anywhere else.</p><p><b>Inside:</b> the PIR scene · theatre vs reality · governance theatre · “negligent, not ambitious” · the first “No.” · AI as amplifier, one paragraph.</p><p><b>Tool:</b> Clarity Test. <b>Voice:</b> none. <b>From:</b> Ch 1.</p></div></div>
         <div class="it" tabindex="0" data-id="n2"><span class="n">2</span><span class="t">Strategy Is What You Fund</span><span class="tag d">drafted</span>
           <div class="det"><p><b>Argues:</b> a strategy is what you fund at the expense of something else; most transformation strategies aren’t.</p><p><b>Inside:</b> the forty-one-page strategy · roadmaps are wish lists · the pillar argument · target state first, then resources · best practices are past practices.</p><p><b>Tool:</b> Stop Test. <b>Voice:</b> Sullivan &amp; Hardy — 10x is simpler than 2x. <b>From:</b> Ch 2 + Ch 5.</p></div></div>
-        <div class="it" tabindex="0" data-id="n3"><span class="n">3</span><span class="t">Delivery Is Not Value</span><span class="tag s">merged</span>
-          <div class="det"><p><b>Argues:</b> delivery is a cost; value is a resource outcome; the gap between them is where the money goes.</p><p><b>Inside:</b> the go-live party and the quarter after · value realised vs change-in-progress vs cost of change · transformation debt, the compounded cost of deferred decisions, and what it looks like (exceptions, workarounds, shadow tools) · results, not effort.</p><p><b>Tool:</b> Illusion Audit. <b>Voice:</b> none. <b>From:</b> Ch 20 + Ch 22.</p></div></div>
+        <div class="it" tabindex="0" data-id="n3"><span class="n">3</span><span class="t">Delivery Is Not Value</span><span class="tag d">drafted</span>
+          <div class="det"><p><b>Argues:</b> delivery is a cost; value is a resource outcome; the gap between them is where the money goes.</p><p><b>Inside:</b> the go-live email and the quarter after · Elena’s small number, told in full · three numbers: value realised, change-in-progress, cost of change — half-finished initiatives are inventory · results, not effort (the program director’s fair hearing) · the illusion stack and the as-is replica · transformation debt, the compounded cost of deferred decisions, and the tolerance register · the six sentences of deferral · closes Part I: underneath all three failures sits a decision nobody is making.</p><p><b>Tool:</b> Illusion Audit. <b>Voice:</b> none. <b>From:</b> Ch 20 + Ch 22; Ch 21 → Ch 13.</p></div></div>
       </div>
       <div class="part"><div class="ph">Part II · What Leaders Must Own</div>
-        <div class="it scene" tabindex="0" data-id="p2"><span class="t">Scene 2 · Year One</span>
+        <div class="it scene" tabindex="0" data-id="p2"><span class="t">Scene 2 · Year One</span><span class="tag nx">next</span>
           <div class="det"><p>Twelve months in: what went live, what stalled, which resource ran out first. <b>Rule for the part:</b> what a resource is, why it’s finite, what you own. Nothing about how.</p></div></div>
         <div class="it" tabindex="0" data-id="n4"><span class="n">4</span><span class="t">Six Resources, One Decision</span><span class="tag s">merged</span>
           <div class="det"><p><b>Argues:</b> every transformation draws on six resources — capital, capacity, attention, data, architecture, risk — and at any moment one of them is the decision nobody is making.</p><p><b>Inside:</b> the resource radar as a scene · a page per resource: what it is, why it’s finite, what can’t be delegated (capital’s “what you own” lands here; its method waits for Ch 11) · the resources live in systems that don’t talk to each other, one section pointing to Ch 14.</p><p><b>Tool:</b> The Decision You’re Avoiding. <b>Voice:</b> Goldratt, once — the constraint moves. <b>From:</b> Ch 3 + the Final chapter’s model + Ch 6/7 “what you own”.</p></div></div>
@@ -246,9 +247,9 @@ footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--line);
     </div>
   </div>
 
-  <div class="legend"><span><i></i>main source</span><span><i class="dash"></i>contributes a section</span><span class="tag d">drafted</span><span class="tag mv">moved in the last council</span><span class="tag r">restored from v0.6 as its own chapter</span><span class="tag s">merged</span></div>
+  <div class="legend"><span><i></i>main source</span><span><i class="dash"></i>contributes a section</span><span class="tag d">drafted</span><span class="tag mv">moved in the last council</span><span class="tag r">restored from v0.6 as its own chapter</span><span class="tag s">merged</span><span class="tag nx">next up</span></div>
 
-  <footer>Working document for the v0.7 rewrite of <em>Easy Resource Planning</em> (beta v0.6) as <em>The Enterprise That Moves</em>. Chapter contents describe the plan, not finished text; four chapters and the preface are drafted, the rest are briefs.</footer>
+  <footer>Working document for the v0.7 rewrite of <em>Easy Resource Planning</em> (beta v0.6) as <em>The Enterprise That Moves</em>. Chapter contents describe the plan, not finished text; the preface, the Part I opening scene and Chapters 1–3 are drafted; the rest are briefs.</footer>
 </div>
 
 <script>
