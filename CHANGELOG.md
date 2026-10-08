@@ -13,7 +13,8 @@ Versioning conventions for this library:
 
 ## [Unreleased]
 
-Nothing pending.
+### Changed
+- **The library moved to trevin.co.** Every page redirects to its new address (`trevin.co/library/<guide>.html`, `/tools/mvba-score`, `/tools/core-hr-explorer.html`, `/book/chapter-map.html`, `/guides` for the index). The MVBA drafts redirect to the published guide.
 
 ---
 

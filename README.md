@@ -1,5 +1,8 @@
 # Field Guides & Working Papers
 
+> **Moved.** The library now lives on [trevin.co](https://trevin.co/guides). The pages here redirect to their new addresses, and the original files are in this repo's history (the last full version is the commit before the redirects). Source for the hosted copies: `scripts/host-library.ts` in [trevbuilds/trevin.co](https://github.com/trevbuilds/trevin.co).
+
+
 > A small, evolving library of practitioner notes — written to be used in real work, not admired on a shelf.
 
 A working library of long-form field guides on business analysis, transformation leadership, ERP, and requirements engineering. Each guide is a self-contained static HTML page; each is aligned to an industry standard and reads as a working reference, not a textbook.
