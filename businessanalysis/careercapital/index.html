@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Three tools from the FOBA 2026 talk Career Capital 2.0: the Mirror Test, three lines that hold the line, and a score for the individual BA and the practice around them.">
+<style>html{color-scheme:light dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Career Capital 2.0 Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column, 760px measure, paper ground. Questions in two numbered groups (You / Your practice), result pinned under them. */
+:root {
+  --paper: #F6F1E7; --paper-warm: #EFE7D6; --paper-edge: #E4D9C0;
+  --ink: #1A1814; --ink-soft: #2E2A22; --ink-mute: rgba(26,24,20,.62); --ink-faint: rgba(26,24,20,.35);
+  --rule: rgba(26,24,20,.14);
+  --brass: #B8893D; --brass-deep: #8E6529; --brass-tint: rgba(184,137,61,.10);
+  --crimson: #9B2C2C; --forest: #3D5A3D;
+  --serif: "Fraunces", Georgia, serif; --sans: "Inter Tight", -apple-system, "Segoe UI", sans-serif; --mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #1A1814; --paper-warm: #251F15; --paper-edge: #3A3228;
+  --ink: #F6F1E7; --ink-soft: #E8E0D0; --ink-mute: rgba(246,241,231,.58); --ink-faint: rgba(246,241,231,.32);
+  --rule: rgba(246,241,231,.14);
+  --brass: #D4A574; --brass-deep: #E8B88D; --brass-tint: rgba(212,165,116,.12);
+  --crimson: #E07A7A; --forest: #8FB58F; color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --paper: #1A1814; --paper-warm: #251F15; --paper-edge: #3A3228;
+  --ink: #F6F1E7; --ink-soft: #E8E0D0; --ink-mute: rgba(246,241,231,.58); --ink-faint: rgba(246,241,231,.32);
+  --rule: rgba(246,241,231,.14);
+  --brass: #D4A574; --brass-deep: #E8B88D; --brass-tint: rgba(212,165,116,.12);
+  --crimson: #E07A7A; --forest: #8FB58F; color-scheme: dark;
+}
+* { box-sizing: border-box }
+body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.5; margin: 0; padding-block: 0 64px; padding-inline: clamp(20px, 4vw, 48px); -webkit-font-smoothing: antialiased }
+.wrap { max-width: 760px; margin: 0 auto }
+a { color: inherit }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-mute) }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 20px; border-bottom: 1px solid var(--rule); flex-wrap: wrap }
+.topbar .t { width: 32px; height: 32px; border: 1.5px solid var(--ink); display: grid; place-items: center; font-family: var(--serif); font-weight: 600; font-size: 17px }
+.topbar .l { display: flex; align-items: center; gap: 12px }
+.hero { padding-block: 56px 36px }
+h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(44px, 8vw, 72px); line-height: .98; letter-spacing: -.02em; margin: 0 0 20px; text-wrap: balance }
+h1 i { font-style: italic; color: var(--brass-deep) }
+.stand { font-size: 19px; line-height: 1.5; color: var(--ink-soft); max-width: 60ch; margin: 0 }
+.meta { display: flex; flex-wrap: wrap; gap: 24px 40px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--rule) }
+.meta div { display: grid; gap: 4px }
+.meta b { font-family: var(--sans); font-weight: 500; font-size: 15px }
+.note { background: var(--paper-warm); border: 1px solid var(--paper-edge); padding: 20px 22px; font-size: 15.5px; line-height: 1.55; color: var(--ink-soft); margin: 8px 0 40px }
+.note b { color: var(--ink) }
+.group { margin-top: 48px }
+.group-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-bottom: 8px }
+.group-head h2 { font-family: var(--serif); font-weight: 500; font-size: 32px; margin: 0; letter-spacing: -.01em }
+.group-head .count { font-family: var(--mono); font-size: 12px; color: var(--ink-mute); letter-spacing: .08em }
+.q { padding-block: 28px; border-bottom: 1px solid var(--rule) }
+.q-head { display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: baseline; margin-bottom: 16px }
+.q-num { font-family: var(--mono); font-size: 13px; color: var(--brass-deep); letter-spacing: .08em }
+.q-dim { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 6px }
+.q-text { font-family: var(--serif); font-size: 23px; line-height: 1.25; font-weight: 500; margin: 0; text-wrap: balance }
+.opts { display: grid; gap: 8px; grid-column: 2 }
+.opt { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; text-align: left; width: 100%; background: transparent; border: 1px solid var(--paper-edge); padding: 12px 14px; font: inherit; color: var(--ink); cursor: pointer; line-height: 1.4; border-radius: 2px }
+.opt:hover { background: var(--brass-tint) }
+.opt:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px }
+.opt .k { font-family: var(--mono); font-size: 12px; color: var(--ink-mute); padding-top: 4px }
+.opt[aria-pressed="true"] { border-color: var(--ink); background: var(--paper-warm) }
+.opt[aria-pressed="true"] .k { color: var(--brass-deep) }
+.bar { position: sticky; bottom: 0; padding: 12px 0 calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--paper); border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 8px }
+.bar .p { font-family: var(--mono); font-size: 13px; color: var(--ink-mute) }
+.btn { font: 500 15px var(--sans); background: var(--ink); color: var(--paper); border: 1.5px solid var(--ink); padding: 12px 20px; cursor: pointer; border-radius: 2px; letter-spacing: .01em }
+.btn[disabled] { opacity: .4; cursor: default }
+.btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px }
+.btn.ghost { background: transparent; color: var(--ink) }
+.result { margin-top: 64px; padding-top: 24px; border-top: 2px solid var(--ink) }
+.tag { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--brass-deep); margin: 12px 0 10px }
+.tag .letter { display: inline-grid; place-items: center; width: 34px; height: 34px; border: 1.5px solid var(--brass); font-size: 16px; color: var(--ink) }
+.arch { font-family: var(--serif); font-weight: 500; font-size: clamp(38px, 7vw, 60px); line-height: 1; letter-spacing: -.02em; margin: 0 0 18px; text-wrap: balance }
+.read { font-size: 19px; line-height: 1.5; color: var(--ink-soft); max-width: 58ch; margin: 0 }
+.scores { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px }
+.score { border: 1px solid var(--paper-edge); padding: 18px 20px; display: grid; gap: 4px }
+.score .n { font-family: var(--serif); font-size: 44px; line-height: 1; font-weight: 500; font-variant-numeric: tabular-nums }
+.score .n small { font-size: 18px; color: var(--ink-mute); font-family: var(--mono) }
+.map { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start }
+.map svg { width: 100%; height: auto; max-width: 100% }
+.legend { display: grid; gap: 10px; font-size: 15px; line-height: 1.4 }
+.legend div { display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: baseline }
+.legend .lk { font-family: var(--mono); font-size: 12px; color: var(--ink-mute); padding-top: 2px }
+.legend .me { color: var(--ink); font-weight: 500 }
+.strip { margin-top: 40px; display: grid; gap: 10px }
+.row { display: grid; grid-template-columns: 110px 1fr 36px; gap: 12px; align-items: center; font-size: 14px }
+.row .nm { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-mute) }
+.row .tr { height: 10px; background: var(--paper-warm); border: 1px solid var(--paper-edge); position: relative }
+.row .fl { position: absolute; left: 0; top: 0; bottom: 0; background: var(--brass) }
+.row .v { font-family: var(--mono); font-size: 13px; text-align: right; font-variant-numeric: tabular-nums }
+.row.low .fl { background: var(--crimson) }
+.fix { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px }
+.card { border-top: 2px solid var(--ink); padding-top: 14px }
+.card h3 { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 10px; color: var(--ink-mute) }
+.card p { margin: 0 0 8px; font-size: 16px; line-height: 1.5 }
+.card .big { font-family: var(--serif); font-size: 26px; line-height: 1.15; font-weight: 500; margin-bottom: 10px }
+.card.fixcard h3 { color: var(--crimson) }
+.chat { margin-top: 40px; background: var(--ink); color: var(--paper); padding: 22px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap }
+.chat .c1 { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; opacity: .7 }
+.chat .c2 { font-family: var(--serif); font-size: 30px; font-weight: 500; line-height: 1.1 }
+.chat .c2 b { color: var(--brass-deep) }
+.actions { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center }
+.copytext { font-family: var(--mono); font-size: 13px; color: var(--ink-mute); user-select: all; word-break: break-word }
+.links { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--rule); display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 32px }
+.links a { text-decoration: none; display: grid; gap: 4px }
+.links a:hover .lt { text-decoration: underline }
+.links .lk2 { font-family: var(--mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-mute) }
+.links .lt { font-family: var(--serif); font-size: 20px; font-weight: 500 }
+.foot { margin-top: 48px; font-family: var(--mono); font-size: 12px; color: var(--ink-mute); letter-spacing: .04em }
+.tools-nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 8px 0 24px }
+.tools-nav a { text-decoration: none; border: 1px solid var(--paper-edge); padding: 14px 16px; font-weight: 500; font-size: 15px; display: flex; gap: 10px; align-items: baseline }
+.tools-nav a:hover { background: var(--brass-tint) }
+.tools-nav .k { font-family: var(--mono); font-size: 12px; color: var(--brass-deep) }
+.tool { margin-top: 56px }
+.tool-lead { font-size: 17px; line-height: 1.5; color: var(--ink-soft); max-width: 62ch; margin: 18px 0 20px }
+.checks { display: grid; gap: 8px }
+.chk { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; border: 1px solid var(--paper-edge); padding: 14px 16px; cursor: pointer; font-size: 16px; line-height: 1.45 }
+.chk:has(input:checked) { border-color: var(--ink); background: var(--paper-warm) }
+.chk input { width: 20px; height: 20px; margin: 3px 0 0; accent-color: var(--brass-deep) }
+.verdict { font-family: var(--serif); font-size: 22px; font-weight: 500; margin: 18px 0 0; color: var(--ink) }
+.verdict.fail { color: var(--crimson) } .verdict.pass { color: var(--forest) }
+.line { display: grid; grid-template-columns: 1fr auto; gap: 8px 20px; align-items: center; border-top: 1px solid var(--rule); padding: 18px 0 }
+.line:last-child { border-bottom: 1px solid var(--rule) }
+.line .when { grid-column: 1 / -1; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-mute) }
+.line .say { font-family: var(--serif); font-size: 21px; line-height: 1.3; margin: 0; font-weight: 500 }
+.btn.small { padding: 8px 14px; font-size: 13px }
+.give { margin-top: 40px; border-top: 2px solid var(--ink); padding-top: 14px }
+.give h3 { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 10px; color: var(--ink-mute) }
+.give .big { font-family: var(--serif); font-size: 26px; line-height: 1.15; font-weight: 500; margin: 0 0 10px }
+.give p { margin: 0; font-size: 16px; line-height: 1.5; max-width: 62ch }
+@media (max-width: 640px) { .tools-nav { grid-template-columns: 1fr } .line { grid-template-columns: 1fr } }
+@media (max-width: 640px) {
+  .q-head { grid-template-columns: 1fr } .q-num { margin-bottom: -4px } .opts { grid-column: 1 }
+  .map, .fix, .scores, .links { grid-template-columns: 1fr }
+  .row { grid-template-columns: 90px 1fr 36px }
+}
+@media (prefers-reduced-motion: no-preference) { .opt { transition: background .12s, border-color .12s } }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="l"><div class="t">T</div><span class="eyebrow">Field Guide 1 · Companion diagnostic</span></div>
+    <span class="eyebrow">2026 · Trevin Nimaladasa</span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow" style="margin:0 0 18px">For the individual BA, and the practice around them</p>
+    <h1>Career Capital 2.0 <i>Toolkit.</i></h1>
+    <p class="stand">Three tools from the FOBA 2026 talk. A test for any requirement, three lines for any meeting, and a score that places you and your practice on the climb from clerk to architect.</p>
+    <div class="meta">
+      <div><span class="eyebrow">Companion to</span><b>Career Capital 2.0 · FOBA 2026</b></div>
+      <div><span class="eyebrow">Built on</span><b>The Minimum Viable BA Practice</b></div>
+      <div><span class="eyebrow">Duration</span><b>Score: about 2 minutes</b></div>
+    </div>
+  </header>
+
+  <nav class="tools-nav" aria-label="Tools">
+    <a href="#mirror"><span class="k">01</span>The Mirror Test</a>
+    <a href="#lines"><span class="k">02</span>Three lines</a>
+    <a href="#score"><span class="k">03</span>The Score</a>
+  </nav>
+
+  <section class="tool" id="mirror">
+    <div class="group-head"><h2>Tool 01 · The Mirror Test</h2><span class="count">For any requirement</span></div>
+    <p class="tool-lead">Hold it up to the last requirement you wrote. Tick what is true. Fail one, and it only looks like a requirement.</p>
+    <div class="checks" id="checks">
+      <label class="chk"><input type="checkbox" id="m1"><span><b>Atomic.</b> One behaviour, one rule, one outcome. No "and", "or" or "except" in the behaviour.</span></label>
+      <label class="chk"><input type="checkbox" id="m2"><span><b>Testable.</b> I could write a Given / When / Then for it today, with numbers where they matter.</span></label>
+      <label class="chk"><input type="checkbox" id="m3"><span><b>Traceable.</b> I can name the need or decision it serves, and the test that proves it.</span></label>
+      <label class="chk"><input type="checkbox" id="m4"><span><b>Owned.</b> A named person can approve it and answer for it. Not "the business".</span></label>
+    </div>
+    <p class="verdict" id="verdict">Tick the ones that hold.</p>
+  </section>
+
+  <section class="tool" id="lines">
+    <div class="group-head"><h2>Tool 02 · Three lines that hold the line</h2><span class="count">For any meeting</span></div>
+    <p class="tool-lead">Calm, not confrontational. Each one puts the decision back with the person who owns it. Copy the one you need.</p>
+    <div class="line"><div class="when">When the trade-offs are fuzzy and someone wants you to just start writing</div><p class="say" id="l1">"I can document the requirements. First I need the decision rules: what do we optimise for when trade-offs appear?"</p><button class="btn ghost small" type="button" data-copy="l1">Copy</button></div>
+    <div class="line"><div class="when">When nobody owns the benefit</div><p class="say" id="l2">"If we can't name an owner for the benefit, I'll write 'unassigned' and flag it as a risk."</p><button class="btn ghost small" type="button" data-copy="l2">Copy</button></div>
+    <div class="line"><div class="when">When scope starts drifting</div><p class="say" id="l3">"I'm not blocking this. I'm asking us to re-open the decision it sits inside."</p><button class="btn ghost small" type="button" data-copy="l3">Copy</button></div>
+  </section>
+
+  <section class="tool" id="score">
+    <div class="group-head"><h2>Tool 03 · The Score</h2><span class="count">You, and your practice</span></div>
+    <p class="tool-lead">Eight questions. Four about you, four about the practice you work in. Scored separately on purpose: a strong BA in a weak practice needs a different move from a weak BA in a strong one.</p>
+    <div class="note"><b>Pick the answer that is true today,</b> not the one you'd like to be true. Each answer describes a concrete picture.</div>
+  </section>
+
+  <div id="groups"></div>
+
+  <div class="bar">
+    <span class="p" id="progress">0 of 8 answered</span>
+    <button class="btn" id="show" disabled type="button">Show my result</button>
+  </div>
+
+  <section class="result" id="result" hidden aria-live="polite">
+    <span class="eyebrow">Your result</span>
+    <div class="tag"><span class="letter" id="r-letter">A</span><span id="r-tagline">Where you sit</span></div>
+    <h2 class="arch" id="r-name"></h2>
+    <p class="read" id="r-read"></p>
+
+    <div class="scores">
+      <div class="score"><span class="eyebrow">You</span><span class="n"><span id="r-you">0</span><small> / 4</small></span><span id="r-you-l" style="font-size:14px;color:var(--ink-mute)"></span></div>
+      <div class="score"><span class="eyebrow">Your practice</span><span class="n"><span id="r-prac">0</span><small> / 4</small></span><span id="r-prac-l" style="font-size:14px;color:var(--ink-mute)"></span></div>
+    </div>
+
+    <div class="map">
+      <svg id="map" viewBox="0 0 400 400" role="img" aria-label="Map of you against your practice, with your position marked"></svg>
+      <div class="legend" id="legend"></div>
+    </div>
+
+    <div class="strip" id="strip"></div>
+
+    <div class="fix">
+      <div class="card fixcard">
+        <h3>Fix first</h3>
+        <p class="big" id="f-dim"></p>
+        <p id="f-now"></p>
+        <p id="f-next"></p>
+      </div>
+      <div class="card">
+        <h3>Your move this week</h3>
+        <p class="big" id="m-move"></p>
+        <p id="m-why"></p>
+      </div>
+    </div>
+
+    <div class="give">
+      <h3>What you give back</h3>
+      <p class="big" id="g-big"></p>
+      <p id="g-text"></p>
+    </div>
+
+    <div class="chat">
+      <div><div class="c1">In the session</div><div class="c2">Type <b id="c-letter">A</b> in the chat.</div></div>
+      <div class="c1" id="c-name"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn ghost" id="copy" type="button">Copy my result</button>
+      <button class="btn ghost" id="retake" type="button">Start again</button>
+      <span class="copytext" id="copytext"></span>
+    </div>
+  </section>
+
+  <div class="links">
+    <a href="https://trevbuilds.github.io/guides/businessanalysis/MVBA/"><span class="lk2">Field Guide 1</span><span class="lt">The Minimum Viable BA Practice</span></a>
+    <a href="https://trevbuilds.github.io/guides/businessanalysis/Requirements/"><span class="lk2">Field Guide 4</span><span class="lt">Requirements Engineering</span></a>
+    <a href="https://trevbuilds.github.io/guides/businessanalysis/score/"><span class="lk2">For practice leaders</span><span class="lt">The MVBA Practice Score</span></a>
+    <a href="https://trevbuilds.github.io/guides/businessanalysis/scale/"><span class="lk2">Maturity model</span><span class="lt">The Scalable BA Practice</span></a>
+  </div>
+  <p class="foot">Career Capital 2.0 Toolkit · 2026 · Trevin Nimaladasa · <a href="https://www.linkedin.com/in/trev1n/">linkedin.com/in/trev1n</a></p>
+</div>
+
+<script>
+(function () {
+  var RUNG = ["Author", "Document", "Hybrid", "Architect"];
+  var Q = [
+    { g: "you", dim: "Domain", text: "A new piece of work lands in your domain. What can you do with it?",
+      opts: ["Explain how the domain works.", "Map the current process and who does what.", "Break a journey into processes and testable requirements.", "Break it from outcome to test, and other people use my breakdown."] },
+    { g: "you", dim: "Delivery", text: "You're away for three weeks. What happens to your work?",
+      opts: ["It waits for me.", "Someone picks it up, with a lot of questions.", "It keeps going, slower.", "It keeps producing. Nobody notices I'm gone."] },
+    { g: "you", dim: "Influence", text: "When you set out how something should be done, what happens?",
+      opts: ["People nod, then do it their own way.", "People follow while I'm in the room.", "People mostly follow the way I set up.", "People follow the system I designed, even when I'm not there."] },
+    { g: "you", dim: "IP", text: "What have you built that other people work inside?",
+      opts: ["Nothing yet. My know-how is in my head.", "Templates and checklists only I use.", "A template or method my team uses.", "A structure other teams run without me."] },
+    { g: "prac", dim: "System of work", text: "On a typical project, how do requirements get written?",
+      opts: ["Each BA does it their own way.", "A shared template, used unevenly.", "One shared structure. Most projects follow it.", "Stakeholders write inside the structure. BAs design it."] },
+    { g: "prac", dim: "Traceability", text: "Pick a requirement at random. Can you name the decision it serves and the test that proves it?",
+      opts: ["No.", "Sometimes, after some digging.", "Usually. The links are there.", "Always. The links are live and queryable."] },
+    { g: "prac", dim: "Ownership", text: "Who owns a requirement?",
+      opts: ["“The business.”", "The BA who wrote it.", "A named person, on paper.", "A named owner who approved it at a gate."] },
+    { g: "prac", dim: "AI", text: "How does your practice use AI for requirements?",
+      opts: ["It doesn't, or people use it quietly.", "Individuals draft with it. No shared prompts.", "Shared prompts, with a review step.", "AI drafts inside the structure. A person approves every line."] }
+  ];
+  var ARCH = {
+    A: { give: "Share the Mirror Test with one colleague.", giveText: "You don't need a system to raise the floor. Run the four questions together on each other's work for a fortnight. That is how a practice starts: two people with one standard.", name: "Clerk in a factory", read: "Nothing around you compounds yet, and neither does your work. That is where most BAs start. The first move is also the cheapest: hold your own requirements up to the Mirror Test.", move: "Mirror-test five of your own requirements.", why: "Atomic, testable, traceable, owned. Fix what fails. One hour, this week." },
+    B: { give: "Give your template to the practice, not just your project.", giveText: "The structure you built is worth more in other people's hands than in yours. Put it where the practice can find it, show one other BA how to run it, and let it change without you.", name: "Architect in a factory", read: "You're ahead of the practice you're in. Your work holds up; the system around it doesn't. Nobody else is going to build that system. You are.", move: "Turn one document into a template someone else fills in.", why: "Then show it to whoever runs the practice. That is your first piece of architect IP, and the first rung for the practice." },
+    C: { give: "Document the system you inherited, for the next person.", giveText: "You know what a good practice feels like from the inside. Write down how it works for someone joining next month. Then take one decision inside it yourself.", name: "Clerk in a system", read: "The practice around you is good, and it is carrying you. Learn how the system works, then step into the decisions inside it instead of transcribing them.", move: "Use one of the three lines in a real meeting.", why: "“First I need the decision rules.” “I'll write unassigned and flag it as a risk.” “I'm asking us to re-open the decision.” Pick one." },
+    D: { give: "Take it outside the building.", giveText: "A practice that compounds is rare. Write it up, speak about it, hand a piece of it to the BA community. The profession moves when the people who have it share it.", name: "Architect in a system", read: "You and your practice both compound. The next layer is leverage: hand the structure to one more person, and let AI do the drafting inside it.", move: "Run the chain on one journey with a stakeholder writing, not you.", why: "Your value is now the structure and the sign-off. Prove it by taking yourself out of the writing." }
+  };
+  var answers = []; try { answers = JSON.parse(localStorage.getItem("cc2-answers") || "[]") || []; } catch (e) { answers = []; }
+  if (!Array.isArray(answers) || answers.length !== Q.length) answers = Q.map(function () { return null; });
+
+  var groups = document.getElementById("groups");
+  var meta = { you: { title: "You", lead: "Career Capital 2.0. The architect's question on each capital." }, prac: { title: "Your practice", lead: "Four MVBA dimensions, scored at the floor, not the mean." } };
+  ["you", "prac"].forEach(function (g) {
+    var sec = document.createElement("section"); sec.className = "group";
+    var head = document.createElement("div"); head.className = "group-head";
+    head.innerHTML = '<h2>' + meta[g].title + '</h2><span class="count">' + meta[g].lead + '</span>';
+    sec.appendChild(head);
+    Q.forEach(function (q, i) {
+      if (q.g !== g) return;
+      var d = document.createElement("div"); d.className = "q"; d.id = "q" + i;
+      var h = document.createElement("div"); h.className = "q-head";
+      h.innerHTML = '<span class="q-num">' + String(i + 1).padStart(2, "0") + '</span><div><div class="q-dim">' + q.dim + '</div><p class="q-text">' + q.text + '</p></div>';
+      d.appendChild(h);
+      var o = document.createElement("div"); o.className = "opts"; o.setAttribute("role", "group"); o.setAttribute("aria-label", q.dim);
+      q.opts.forEach(function (t, k) {
+        var b = document.createElement("button"); b.type = "button"; b.className = "opt"; b.id = "q" + i + "o" + k;
+        b.setAttribute("aria-pressed", answers[i] === k ? "true" : "false");
+        b.innerHTML = '<span class="k">' + (k + 1) + '</span><span>' + t + '</span>';
+        b.addEventListener("click", function () { answers[i] = k; save(); paint(); });
+        o.appendChild(b);
+      });
+      d.appendChild(o); sec.appendChild(d);
+    });
+    groups.appendChild(sec);
+  });
+
+  function save() { try { localStorage.setItem("cc2-answers", JSON.stringify(answers)); } catch (e) {} }
+  function paint() {
+    Q.forEach(function (q, i) { q.opts.forEach(function (_, k) { document.getElementById("q" + i + "o" + k).setAttribute("aria-pressed", answers[i] === k ? "true" : "false"); }); });
+    var n = answers.filter(function (a) { return a !== null; }).length;
+    document.getElementById("progress").textContent = n + " of " + Q.length + " answered";
+    document.getElementById("show").disabled = n < Q.length;
+    if (n < Q.length) document.getElementById("result").hidden = true;
+  }
+  function mean(g) { var s = 0, c = 0; Q.forEach(function (q, i) { if (q.g === g) { s += answers[i] + 1; c++; } }); return s / c; }
+  function fmt(x) { return (Math.round(x * 10) / 10).toFixed(1); }
+  function level(x) { return x >= 3.5 ? "Architect" : x >= 2.5 ? "Hybrid" : x >= 1.75 ? "Document factory" : "Author factory"; }
+
+  document.getElementById("show").addEventListener("click", function () {
+    var you = mean("you"), prac = mean("prac");
+    var L = you >= 2.5 ? (prac >= 2.5 ? "D" : "B") : (prac >= 2.5 ? "C" : "A");
+    var a = ARCH[L];
+    document.getElementById("r-letter").textContent = L; document.getElementById("c-letter").textContent = L;
+    document.getElementById("r-name").textContent = a.name; document.getElementById("c-name").textContent = a.name;
+    document.getElementById("r-read").textContent = a.read;
+    document.getElementById("r-you").textContent = fmt(you); document.getElementById("r-prac").textContent = fmt(prac);
+    document.getElementById("r-you-l").textContent = level(you); document.getElementById("r-prac-l").textContent = level(prac);
+    document.getElementById("m-move").textContent = a.move; document.getElementById("m-why").textContent = a.why;
+    document.getElementById("g-big").textContent = a.give; document.getElementById("g-text").textContent = a.giveText;
+
+    var low = 0; Q.forEach(function (q, i) { if (answers[i] < answers[low]) low = i; });
+    var lq = Q[low], ls = answers[low];
+    document.getElementById("f-dim").textContent = lq.dim + " (" + (lq.g === "you" ? "you" : "your practice") + ")";
+    document.getElementById("f-now").textContent = "Today: “" + lq.opts[ls] + "”";
+    document.getElementById("f-next").textContent = ls < 3 ? "Next rung: “" + lq.opts[ls + 1] + "”" : "Top rung. Hold it, and teach it.";
+
+    var strip = document.getElementById("strip"); strip.innerHTML = "";
+    Q.forEach(function (q, i) {
+      var v = answers[i] + 1;
+      var r = document.createElement("div"); r.className = "row" + (i === low ? " low" : "");
+      r.innerHTML = '<span class="nm">' + q.dim + '</span><div class="tr"><div class="fl" style="width:' + (v / 4 * 100) + '%"></div></div><span class="v">' + v + '</span>';
+      strip.appendChild(r);
+    });
+
+    drawMap(you, prac, L);
+    var leg = document.getElementById("legend"); leg.innerHTML = "";
+    ["A", "B", "C", "D"].forEach(function (k) {
+      var d = document.createElement("div"); d.innerHTML = '<span class="lk">' + k + '</span><span class="' + (k === L ? "me" : "") + '">' + ARCH[k].name + (k === L ? " — you" : "") + '</span>'; leg.appendChild(d);
+    });
+    document.getElementById("copytext").textContent = "Career Capital 2.0 Score · You " + fmt(you) + " · Practice " + fmt(prac) + " · " + L + " · " + a.name;
+    var res = document.getElementById("result"); res.hidden = false; res.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  function drawMap(you, prac, L) {
+    var cs = getComputedStyle(document.documentElement);
+    var ink = cs.getPropertyValue("--ink").trim(), mute = cs.getPropertyValue("--ink-faint").trim(), brass = cs.getPropertyValue("--brass").trim(), warm = cs.getPropertyValue("--paper-warm").trim(), edge = cs.getPropertyValue("--paper-edge").trim();
+    var p = 44, w = 400 - p - 16, h = 400 - p - 16, x0 = p, y0 = 16;
+    function X(v) { return x0 + (v - 1) / 3 * w; } function Y(v) { return y0 + h - (v - 1) / 3 * h; }
+    var mx = X(2.5), my = Y(2.5);
+    var quads = [["A", x0, my], ["B", mx, my], ["C", x0, y0], ["D", mx, y0]];
+    var s = '<rect x="' + x0 + '" y="' + y0 + '" width="' + w + '" height="' + h + '" fill="' + warm + '" stroke="' + edge + '"/>';
+    quads.forEach(function (q) { var on = q[0] === L; s += '<rect x="' + q[1] + '" y="' + q[2] + '" width="' + (w / 2) + '" height="' + (h / 2) + '" fill="' + (on ? brass : "none") + '" fill-opacity="' + (on ? ".18" : "0") + '"/>'; s += '<text x="' + (q[1] + 10) + '" y="' + (q[2] + 20) + '" font-family="JetBrains Mono, monospace" font-size="12" fill="' + (on ? ink : mute) + '">' + q[0] + '</text>'; });
+    s += '<line x1="' + mx + '" y1="' + y0 + '" x2="' + mx + '" y2="' + (y0 + h) + '" stroke="' + mute + '" stroke-dasharray="3 4"/>';
+    s += '<line x1="' + x0 + '" y1="' + my + '" x2="' + (x0 + w) + '" y2="' + my + '" stroke="' + mute + '" stroke-dasharray="3 4"/>';
+    [1, 2, 3, 4].forEach(function (v) { s += '<text x="' + X(v) + '" y="' + (y0 + h + 16) + '" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="' + mute + '">' + v + '</text>'; s += '<text x="' + (x0 - 8) + '" y="' + (Y(v) + 4) + '" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="' + mute + '">' + v + '</text>'; });
+    s += '<text x="' + (x0 + w / 2) + '" y="' + (y0 + h + 34) + '" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="1.5" fill="' + ink + '">YOU →</text>';
+    s += '<text transform="translate(12 ' + (y0 + h / 2) + ') rotate(-90)" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="1.5" fill="' + ink + '">YOUR PRACTICE →</text>';
+    s += '<circle cx="' + X(you) + '" cy="' + Y(prac) + '" r="9" fill="' + ink + '" stroke="' + warm + '" stroke-width="3"/>';
+    document.getElementById("map").innerHTML = s;
+  }
+
+  document.getElementById("copy").addEventListener("click", function () {
+    var t = document.getElementById("copytext").textContent, b = this;
+    function done() { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy my result"; }, 1600); }
+    function fallback() { var r = document.createRange(); r.selectNodeContents(document.getElementById("copytext")); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = "Select and copy"; }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, fallback); else fallback();
+  });
+  document.getElementById("retake").addEventListener("click", function () {
+    answers = Q.map(function () { return null; }); save(); paint();
+    document.getElementById("result").hidden = true; document.getElementById("q0").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  // Tool 1: Mirror Test
+  var boxes = ["m1", "m2", "m3", "m4"].map(function (id) { return document.getElementById(id); });
+  function mirror() {
+    var n = boxes.filter(function (b) { return b.checked; }).length, v = document.getElementById("verdict");
+    v.className = "verdict" + (n === 4 ? " pass" : n > 0 ? " fail" : "");
+    v.textContent = n === 0 ? "Tick the ones that hold." : n === 4 ? "4 of 4. That is a requirement." : n + " of 4. It looks like a requirement. It isn't one yet.";
+  }
+  boxes.forEach(function (b) { b.addEventListener("change", mirror); });
+  // Tool 2: copy a line
+  Array.prototype.forEach.call(document.querySelectorAll("[data-copy]"), function (btn) {
+    btn.addEventListener("click", function () {
+      var el = document.getElementById(btn.getAttribute("data-copy")), t = el.textContent, b = btn;
+      function done() { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1600); }
+      function fallback() { var r = document.createRange(); r.selectNodeContents(el); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = "Select and copy"; }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, fallback); else fallback();
+    });
+  });
+  paint();
+})();
+</script>
+
+</body>
+</html>
